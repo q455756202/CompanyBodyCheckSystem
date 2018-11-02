@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.TempleteMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Templete" >
+    <id column="TEMPLETEID" property="templeteid" jdbcType="DECIMAL" />
+    <result column="DOCTORID" property="doctorid" jdbcType="DECIMAL" />
+    <result column="TEMPLETENAME" property="templetename" jdbcType="VARCHAR" />
+    <result column="TEMPLETECREATEDATE" property="templetecreatedate" jdbcType="TIMESTAMP" />
+    <result column="TEMPLETESTATE" property="templetestate" jdbcType="DECIMAL" />
+    <result column="TEMPLETEPATH" property="templetepath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TEMPLETEID, DOCTORID, TEMPLETENAME, TEMPLETECREATEDATE, TEMPLETESTATE, TEMPLETEPATH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TEMPLETE_TABLE
+    where TEMPLETEID = #{templeteid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TEMPLETE_TABLE
+    where TEMPLETEID = #{templeteid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Templete" >
+    insert into TEMPLETE_TABLE (TEMPLETEID, DOCTORID, TEMPLETENAME, 
+      TEMPLETECREATEDATE, TEMPLETESTATE, TEMPLETEPATH
+      )
+    values (#{templeteid,jdbcType=DECIMAL}, #{doctorid,jdbcType=DECIMAL}, #{templetename,jdbcType=VARCHAR}, 
+      #{templetecreatedate,jdbcType=TIMESTAMP}, #{templetestate,jdbcType=DECIMAL}, #{templetepath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Templete" >
+    insert into TEMPLETE_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="templeteid != null" >
+        TEMPLETEID,
+      </if>
+      <if test="doctorid != null" >
+        DOCTORID,
+      </if>
+      <if test="templetename != null" >
+        TEMPLETENAME,
+      </if>
+      <if test="templetecreatedate != null" >
+        TEMPLETECREATEDATE,
+      </if>
+      <if test="templetestate != null" >
+        TEMPLETESTATE,
+      </if>
+      <if test="templetepath != null" >
+        TEMPLETEPATH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="templeteid != null" >
+        #{templeteid,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorid != null" >
+        #{doctorid,jdbcType=DECIMAL},
+      </if>
+      <if test="templetename != null" >
+        #{templetename,jdbcType=VARCHAR},
+      </if>
+      <if test="templetecreatedate != null" >
+        #{templetecreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="templetestate != null" >
+        #{templetestate,jdbcType=DECIMAL},
+      </if>
+      <if test="templetepath != null" >
+        #{templetepath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Templete" >
+    update TEMPLETE_TABLE
+    <set >
+      <if test="doctorid != null" >
+        DOCTORID = #{doctorid,jdbcType=DECIMAL},
+      </if>
+      <if test="templetename != null" >
+        TEMPLETENAME = #{templetename,jdbcType=VARCHAR},
+      </if>
+      <if test="templetecreatedate != null" >
+        TEMPLETECREATEDATE = #{templetecreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="templetestate != null" >
+        TEMPLETESTATE = #{templetestate,jdbcType=DECIMAL},
+      </if>
+      <if test="templetepath != null" >
+        TEMPLETEPATH = #{templetepath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TEMPLETEID = #{templeteid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Templete" >
+    update TEMPLETE_TABLE
+    set DOCTORID = #{doctorid,jdbcType=DECIMAL},
+      TEMPLETENAME = #{templetename,jdbcType=VARCHAR},
+      TEMPLETECREATEDATE = #{templetecreatedate,jdbcType=TIMESTAMP},
+      TEMPLETESTATE = #{templetestate,jdbcType=DECIMAL},
+      TEMPLETEPATH = #{templetepath,jdbcType=VARCHAR}
+    where TEMPLETEID = #{templeteid,jdbcType=DECIMAL}
+  </update>
+</mapper>

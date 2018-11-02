@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.BillMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Bill" >
+    <id column="BILLID" property="billid" jdbcType="DECIMAL" />
+    <result column="USERCHECKID" property="usercheckid" jdbcType="DECIMAL" />
+    <result column="CHECKID" property="checkid" jdbcType="DECIMAL" />
+    <result column="BILLSTATE" property="billstate" jdbcType="DECIMAL" />
+    <result column="BILLDATE" property="billdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BILLID, USERCHECKID, CHECKID, BILLSTATE, BILLDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BILL_TABLE
+    where BILLID = #{billid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from BILL_TABLE
+    where BILLID = #{billid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Bill" >
+    insert into BILL_TABLE (BILLID, USERCHECKID, CHECKID, 
+      BILLSTATE, BILLDATE)
+    values (#{billid,jdbcType=DECIMAL}, #{usercheckid,jdbcType=DECIMAL}, #{checkid,jdbcType=DECIMAL}, 
+      #{billstate,jdbcType=DECIMAL}, #{billdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Bill" >
+    insert into BILL_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billid != null" >
+        BILLID,
+      </if>
+      <if test="usercheckid != null" >
+        USERCHECKID,
+      </if>
+      <if test="checkid != null" >
+        CHECKID,
+      </if>
+      <if test="billstate != null" >
+        BILLSTATE,
+      </if>
+      <if test="billdate != null" >
+        BILLDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billid != null" >
+        #{billid,jdbcType=DECIMAL},
+      </if>
+      <if test="usercheckid != null" >
+        #{usercheckid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkid != null" >
+        #{checkid,jdbcType=DECIMAL},
+      </if>
+      <if test="billstate != null" >
+        #{billstate,jdbcType=DECIMAL},
+      </if>
+      <if test="billdate != null" >
+        #{billdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Bill" >
+    update BILL_TABLE
+    <set >
+      <if test="usercheckid != null" >
+        USERCHECKID = #{usercheckid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkid != null" >
+        CHECKID = #{checkid,jdbcType=DECIMAL},
+      </if>
+      <if test="billstate != null" >
+        BILLSTATE = #{billstate,jdbcType=DECIMAL},
+      </if>
+      <if test="billdate != null" >
+        BILLDATE = #{billdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BILLID = #{billid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Bill" >
+    update BILL_TABLE
+    set USERCHECKID = #{usercheckid,jdbcType=DECIMAL},
+      CHECKID = #{checkid,jdbcType=DECIMAL},
+      BILLSTATE = #{billstate,jdbcType=DECIMAL},
+      BILLDATE = #{billdate,jdbcType=TIMESTAMP}
+    where BILLID = #{billid,jdbcType=DECIMAL}
+  </update>
+</mapper>

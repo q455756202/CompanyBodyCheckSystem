@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.User" >
+    <id column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="USERGENDER" property="usergender" jdbcType="DECIMAL" />
+    <result column="USERAGE" property="userage" jdbcType="DECIMAL" />
+    <result column="USERPHONE" property="userphone" jdbcType="VARCHAR" />
+    <result column="USERCARDCODE" property="usercardcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERID, COMPANYID, USERNAME, USERGENDER, USERAGE, USERPHONE, USERCARDCODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_TABLE
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from USER_TABLE
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.User" >
+    insert into USER_TABLE (USERID, COMPANYID, USERNAME, 
+      USERGENDER, USERAGE, USERPHONE, 
+      USERCARDCODE)
+    values (#{userid,jdbcType=DECIMAL}, #{companyid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, 
+      #{usergender,jdbcType=DECIMAL}, #{userage,jdbcType=DECIMAL}, #{userphone,jdbcType=VARCHAR}, 
+      #{usercardcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.User" >
+    insert into USER_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="companyid != null" >
+        COMPANYID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="usergender != null" >
+        USERGENDER,
+      </if>
+      <if test="userage != null" >
+        USERAGE,
+      </if>
+      <if test="userphone != null" >
+        USERPHONE,
+      </if>
+      <if test="usercardcode != null" >
+        USERCARDCODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="usergender != null" >
+        #{usergender,jdbcType=DECIMAL},
+      </if>
+      <if test="userage != null" >
+        #{userage,jdbcType=DECIMAL},
+      </if>
+      <if test="userphone != null" >
+        #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="usercardcode != null" >
+        #{usercardcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.User" >
+    update USER_TABLE
+    <set >
+      <if test="companyid != null" >
+        COMPANYID = #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="usergender != null" >
+        USERGENDER = #{usergender,jdbcType=DECIMAL},
+      </if>
+      <if test="userage != null" >
+        USERAGE = #{userage,jdbcType=DECIMAL},
+      </if>
+      <if test="userphone != null" >
+        USERPHONE = #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="usercardcode != null" >
+        USERCARDCODE = #{usercardcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.User" >
+    update USER_TABLE
+    set COMPANYID = #{companyid,jdbcType=DECIMAL},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      USERGENDER = #{usergender,jdbcType=DECIMAL},
+      USERAGE = #{userage,jdbcType=DECIMAL},
+      USERPHONE = #{userphone,jdbcType=VARCHAR},
+      USERCARDCODE = #{usercardcode,jdbcType=VARCHAR}
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </update>
+</mapper>

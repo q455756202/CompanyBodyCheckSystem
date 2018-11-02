@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.AccountMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Account" >
+    <id column="ACCOUNTID" property="accountid" jdbcType="DECIMAL" />
+    <result column="ROLEID" property="roleid" jdbcType="DECIMAL" />
+    <result column="ACCOUNTNAME" property="accountname" jdbcType="VARCHAR" />
+    <result column="ACCOUNTPASSWORD" property="accountpassword" jdbcType="VARCHAR" />
+    <result column="ACCOUNTSTATE" property="accountstate" jdbcType="DECIMAL" />
+    <result column="REGISTERDATE" property="registerdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ACCOUNTID, ROLEID, ACCOUNTNAME, ACCOUNTPASSWORD, ACCOUNTSTATE, REGISTERDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACCOUNT_TABLE
+    where ACCOUNTID = #{accountid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ACCOUNT_TABLE
+    where ACCOUNTID = #{accountid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Account" >
+    insert into ACCOUNT_TABLE (ACCOUNTID, ROLEID, ACCOUNTNAME, 
+      ACCOUNTPASSWORD, ACCOUNTSTATE, REGISTERDATE
+      )
+    values (#{accountid,jdbcType=DECIMAL}, #{roleid,jdbcType=DECIMAL}, #{accountname,jdbcType=VARCHAR}, 
+      #{accountpassword,jdbcType=VARCHAR}, #{accountstate,jdbcType=DECIMAL}, #{registerdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Account" >
+    insert into ACCOUNT_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountid != null" >
+        ACCOUNTID,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="accountname != null" >
+        ACCOUNTNAME,
+      </if>
+      <if test="accountpassword != null" >
+        ACCOUNTPASSWORD,
+      </if>
+      <if test="accountstate != null" >
+        ACCOUNTSTATE,
+      </if>
+      <if test="registerdate != null" >
+        REGISTERDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountid != null" >
+        #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=DECIMAL},
+      </if>
+      <if test="accountname != null" >
+        #{accountname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountpassword != null" >
+        #{accountpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="accountstate != null" >
+        #{accountstate,jdbcType=DECIMAL},
+      </if>
+      <if test="registerdate != null" >
+        #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Account" >
+    update ACCOUNT_TABLE
+    <set >
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=DECIMAL},
+      </if>
+      <if test="accountname != null" >
+        ACCOUNTNAME = #{accountname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountpassword != null" >
+        ACCOUNTPASSWORD = #{accountpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="accountstate != null" >
+        ACCOUNTSTATE = #{accountstate,jdbcType=DECIMAL},
+      </if>
+      <if test="registerdate != null" >
+        REGISTERDATE = #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ACCOUNTID = #{accountid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Account" >
+    update ACCOUNT_TABLE
+    set ROLEID = #{roleid,jdbcType=DECIMAL},
+      ACCOUNTNAME = #{accountname,jdbcType=VARCHAR},
+      ACCOUNTPASSWORD = #{accountpassword,jdbcType=VARCHAR},
+      ACCOUNTSTATE = #{accountstate,jdbcType=DECIMAL},
+      REGISTERDATE = #{registerdate,jdbcType=TIMESTAMP}
+    where ACCOUNTID = #{accountid,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.ConfigMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Config" >
+    <id column="CONFIGID" property="configid" jdbcType="DECIMAL" />
+    <result column="CONFIGNAME" property="configname" jdbcType="VARCHAR" />
+    <result column="CONFIGVALUE" property="configvalue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CONFIGID, CONFIGNAME, CONFIGVALUE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CONFIG_TABLE
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CONFIG_TABLE
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Config" >
+    insert into CONFIG_TABLE (CONFIGID, CONFIGNAME, CONFIGVALUE
+      )
+    values (#{configid,jdbcType=DECIMAL}, #{configname,jdbcType=VARCHAR}, #{configvalue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Config" >
+    insert into CONFIG_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="configid != null" >
+        CONFIGID,
+      </if>
+      <if test="configname != null" >
+        CONFIGNAME,
+      </if>
+      <if test="configvalue != null" >
+        CONFIGVALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="configid != null" >
+        #{configid,jdbcType=DECIMAL},
+      </if>
+      <if test="configname != null" >
+        #{configname,jdbcType=VARCHAR},
+      </if>
+      <if test="configvalue != null" >
+        #{configvalue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Config" >
+    update CONFIG_TABLE
+    <set >
+      <if test="configname != null" >
+        CONFIGNAME = #{configname,jdbcType=VARCHAR},
+      </if>
+      <if test="configvalue != null" >
+        CONFIGVALUE = #{configvalue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Config" >
+    update CONFIG_TABLE
+    set CONFIGNAME = #{configname,jdbcType=VARCHAR},
+      CONFIGVALUE = #{configvalue,jdbcType=VARCHAR}
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </update>
+</mapper>

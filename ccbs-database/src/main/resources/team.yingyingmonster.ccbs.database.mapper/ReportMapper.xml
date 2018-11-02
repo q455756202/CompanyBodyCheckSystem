@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.ReportMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Report" >
+    <id column="REPORTID" property="reportid" jdbcType="DECIMAL" />
+    <result column="BILLID" property="billid" jdbcType="DECIMAL" />
+    <result column="REPORTDATE" property="reportdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="team.yingyingmonster.ccbs.database.bean.Report" extends="BaseResultMap" >
+    <result column="REPORTSUMMARY" property="reportsummary" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    REPORTID, BILLID, REPORTDATE
+  </sql>
+  <sql id="Blob_Column_List" >
+    REPORTSUMMARY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from REPORT_TABLE
+    where REPORTID = #{reportid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from REPORT_TABLE
+    where REPORTID = #{reportid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Report" >
+    insert into REPORT_TABLE (REPORTID, BILLID, REPORTDATE, 
+      REPORTSUMMARY)
+    values (#{reportid,jdbcType=DECIMAL}, #{billid,jdbcType=DECIMAL}, #{reportdate,jdbcType=TIMESTAMP}, 
+      #{reportsummary,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Report" >
+    insert into REPORT_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reportid != null" >
+        REPORTID,
+      </if>
+      <if test="billid != null" >
+        BILLID,
+      </if>
+      <if test="reportdate != null" >
+        REPORTDATE,
+      </if>
+      <if test="reportsummary != null" >
+        REPORTSUMMARY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reportid != null" >
+        #{reportid,jdbcType=DECIMAL},
+      </if>
+      <if test="billid != null" >
+        #{billid,jdbcType=DECIMAL},
+      </if>
+      <if test="reportdate != null" >
+        #{reportdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportsummary != null" >
+        #{reportsummary,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Report" >
+    update REPORT_TABLE
+    <set >
+      <if test="billid != null" >
+        BILLID = #{billid,jdbcType=DECIMAL},
+      </if>
+      <if test="reportdate != null" >
+        REPORTDATE = #{reportdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportsummary != null" >
+        REPORTSUMMARY = #{reportsummary,jdbcType=CLOB},
+      </if>
+    </set>
+    where REPORTID = #{reportid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="team.yingyingmonster.ccbs.database.bean.Report" >
+    update REPORT_TABLE
+    set BILLID = #{billid,jdbcType=DECIMAL},
+      REPORTDATE = #{reportdate,jdbcType=TIMESTAMP},
+      REPORTSUMMARY = #{reportsummary,jdbcType=CLOB}
+    where REPORTID = #{reportid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Report" >
+    update REPORT_TABLE
+    set BILLID = #{billid,jdbcType=DECIMAL},
+      REPORTDATE = #{reportdate,jdbcType=TIMESTAMP}
+    where REPORTID = #{reportid,jdbcType=DECIMAL}
+  </update>
+</mapper>
