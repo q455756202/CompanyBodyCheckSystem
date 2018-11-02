@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.StatementMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Statement" >
+    <id column="STATEMENTID" property="statementid" jdbcType="DECIMAL" />
+    <result column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+    <result column="STATEMENTPRICE" property="statementprice" jdbcType="DECIMAL" />
+    <result column="STATEMENTDATE" property="statementdate" jdbcType="TIMESTAMP" />
+    <result column="STATEMENTTYPE" property="statementtype" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    STATEMENTID, COMPANYID, STATEMENTPRICE, STATEMENTDATE, STATEMENTTYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from STATEMENT_TABLE
+    where STATEMENTID = #{statementid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from STATEMENT_TABLE
+    where STATEMENTID = #{statementid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Statement" >
+    insert into STATEMENT_TABLE (STATEMENTID, COMPANYID, STATEMENTPRICE, 
+      STATEMENTDATE, STATEMENTTYPE)
+    values (#{statementid,jdbcType=DECIMAL}, #{companyid,jdbcType=DECIMAL}, #{statementprice,jdbcType=DECIMAL}, 
+      #{statementdate,jdbcType=TIMESTAMP}, #{statementtype,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Statement" >
+    insert into STATEMENT_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statementid != null" >
+        STATEMENTID,
+      </if>
+      <if test="companyid != null" >
+        COMPANYID,
+      </if>
+      <if test="statementprice != null" >
+        STATEMENTPRICE,
+      </if>
+      <if test="statementdate != null" >
+        STATEMENTDATE,
+      </if>
+      <if test="statementtype != null" >
+        STATEMENTTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statementid != null" >
+        #{statementid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="statementprice != null" >
+        #{statementprice,jdbcType=DECIMAL},
+      </if>
+      <if test="statementdate != null" >
+        #{statementdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statementtype != null" >
+        #{statementtype,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Statement" >
+    update STATEMENT_TABLE
+    <set >
+      <if test="companyid != null" >
+        COMPANYID = #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="statementprice != null" >
+        STATEMENTPRICE = #{statementprice,jdbcType=DECIMAL},
+      </if>
+      <if test="statementdate != null" >
+        STATEMENTDATE = #{statementdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statementtype != null" >
+        STATEMENTTYPE = #{statementtype,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where STATEMENTID = #{statementid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Statement" >
+    update STATEMENT_TABLE
+    set COMPANYID = #{companyid,jdbcType=DECIMAL},
+      STATEMENTPRICE = #{statementprice,jdbcType=DECIMAL},
+      STATEMENTDATE = #{statementdate,jdbcType=TIMESTAMP},
+      STATEMENTTYPE = #{statementtype,jdbcType=DECIMAL}
+    where STATEMENTID = #{statementid,jdbcType=DECIMAL}
+  </update>
+</mapper>

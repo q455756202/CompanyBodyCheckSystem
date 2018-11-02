@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.ModelMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Model" >
+    <id column="RECORDID" property="recordid" jdbcType="DECIMAL" />
+    <result column="CHECKID" property="checkid" jdbcType="DECIMAL" />
+    <result column="RECORDNAME" property="recordname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RECORDID, CHECKID, RECORDNAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from MODEL_TABLE
+    where RECORDID = #{recordid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from MODEL_TABLE
+    where RECORDID = #{recordid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Model" >
+    insert into MODEL_TABLE (RECORDID, CHECKID, RECORDNAME
+      )
+    values (#{recordid,jdbcType=DECIMAL}, #{checkid,jdbcType=DECIMAL}, #{recordname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Model" >
+    insert into MODEL_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordid != null" >
+        RECORDID,
+      </if>
+      <if test="checkid != null" >
+        CHECKID,
+      </if>
+      <if test="recordname != null" >
+        RECORDNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordid != null" >
+        #{recordid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkid != null" >
+        #{checkid,jdbcType=DECIMAL},
+      </if>
+      <if test="recordname != null" >
+        #{recordname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Model" >
+    update MODEL_TABLE
+    <set >
+      <if test="checkid != null" >
+        CHECKID = #{checkid,jdbcType=DECIMAL},
+      </if>
+      <if test="recordname != null" >
+        RECORDNAME = #{recordname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RECORDID = #{recordid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Model" >
+    update MODEL_TABLE
+    set CHECKID = #{checkid,jdbcType=DECIMAL},
+      RECORDNAME = #{recordname,jdbcType=VARCHAR}
+    where RECORDID = #{recordid,jdbcType=DECIMAL}
+  </update>
+</mapper>

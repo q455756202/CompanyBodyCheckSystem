@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.DoctorMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Doctor" >
+    <id column="DOCTORID" property="doctorid" jdbcType="DECIMAL" />
+    <result column="ACCOUNTID" property="accountid" jdbcType="DECIMAL" />
+    <result column="DEPTID" property="deptid" jdbcType="DECIMAL" />
+    <result column="DOCTORGENDER" property="doctorgender" jdbcType="DECIMAL" />
+    <result column="DOCTORAGE" property="doctorage" jdbcType="DECIMAL" />
+    <result column="DOCTORPHONE" property="doctorphone" jdbcType="VARCHAR" />
+    <result column="DOCTORHEADER" property="doctorheader" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DOCTORID, ACCOUNTID, DEPTID, DOCTORGENDER, DOCTORAGE, DOCTORPHONE, DOCTORHEADER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from DOCTOR_TABLE
+    where DOCTORID = #{doctorid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from DOCTOR_TABLE
+    where DOCTORID = #{doctorid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Doctor" >
+    insert into DOCTOR_TABLE (DOCTORID, ACCOUNTID, DEPTID, 
+      DOCTORGENDER, DOCTORAGE, DOCTORPHONE, 
+      DOCTORHEADER)
+    values (#{doctorid,jdbcType=DECIMAL}, #{accountid,jdbcType=DECIMAL}, #{deptid,jdbcType=DECIMAL}, 
+      #{doctorgender,jdbcType=DECIMAL}, #{doctorage,jdbcType=DECIMAL}, #{doctorphone,jdbcType=VARCHAR}, 
+      #{doctorheader,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Doctor" >
+    insert into DOCTOR_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="doctorid != null" >
+        DOCTORID,
+      </if>
+      <if test="accountid != null" >
+        ACCOUNTID,
+      </if>
+      <if test="deptid != null" >
+        DEPTID,
+      </if>
+      <if test="doctorgender != null" >
+        DOCTORGENDER,
+      </if>
+      <if test="doctorage != null" >
+        DOCTORAGE,
+      </if>
+      <if test="doctorphone != null" >
+        DOCTORPHONE,
+      </if>
+      <if test="doctorheader != null" >
+        DOCTORHEADER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="doctorid != null" >
+        #{doctorid,jdbcType=DECIMAL},
+      </if>
+      <if test="accountid != null" >
+        #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorgender != null" >
+        #{doctorgender,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorage != null" >
+        #{doctorage,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorphone != null" >
+        #{doctorphone,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorheader != null" >
+        #{doctorheader,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Doctor" >
+    update DOCTOR_TABLE
+    <set >
+      <if test="accountid != null" >
+        ACCOUNTID = #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="deptid != null" >
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorgender != null" >
+        DOCTORGENDER = #{doctorgender,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorage != null" >
+        DOCTORAGE = #{doctorage,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorphone != null" >
+        DOCTORPHONE = #{doctorphone,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorheader != null" >
+        DOCTORHEADER = #{doctorheader,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DOCTORID = #{doctorid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Doctor" >
+    update DOCTOR_TABLE
+    set ACCOUNTID = #{accountid,jdbcType=DECIMAL},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      DOCTORGENDER = #{doctorgender,jdbcType=DECIMAL},
+      DOCTORAGE = #{doctorage,jdbcType=DECIMAL},
+      DOCTORPHONE = #{doctorphone,jdbcType=VARCHAR},
+      DOCTORHEADER = #{doctorheader,jdbcType=VARCHAR}
+    where DOCTORID = #{doctorid,jdbcType=DECIMAL}
+  </update>
+</mapper>

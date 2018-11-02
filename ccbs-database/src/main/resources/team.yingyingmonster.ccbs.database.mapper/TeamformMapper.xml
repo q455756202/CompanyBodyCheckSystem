@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.TeamformMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Teamform" >
+    <id column="TEAMFORMID" property="teamformid" jdbcType="DECIMAL" />
+    <result column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+    <result column="TEAMFORMSTATE" property="teamformstate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TEAMFORMID, COMPANYID, TEAMFORMSTATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TEAMFORM_TABLE
+    where TEAMFORMID = #{teamformid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TEAMFORM_TABLE
+    where TEAMFORMID = #{teamformid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Teamform" >
+    insert into TEAMFORM_TABLE (TEAMFORMID, COMPANYID, TEAMFORMSTATE
+      )
+    values (#{teamformid,jdbcType=DECIMAL}, #{companyid,jdbcType=DECIMAL}, #{teamformstate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Teamform" >
+    insert into TEAMFORM_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teamformid != null" >
+        TEAMFORMID,
+      </if>
+      <if test="companyid != null" >
+        COMPANYID,
+      </if>
+      <if test="teamformstate != null" >
+        TEAMFORMSTATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teamformid != null" >
+        #{teamformid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="teamformstate != null" >
+        #{teamformstate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Teamform" >
+    update TEAMFORM_TABLE
+    <set >
+      <if test="companyid != null" >
+        COMPANYID = #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="teamformstate != null" >
+        TEAMFORMSTATE = #{teamformstate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TEAMFORMID = #{teamformid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Teamform" >
+    update TEAMFORM_TABLE
+    set COMPANYID = #{companyid,jdbcType=DECIMAL},
+      TEAMFORMSTATE = #{teamformstate,jdbcType=DECIMAL}
+    where TEAMFORMID = #{teamformid,jdbcType=DECIMAL}
+  </update>
+</mapper>

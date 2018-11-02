@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.ComboCheckMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.ComboCheck" >
+    <id column="COMBOCHECKID" property="combocheckid" jdbcType="DECIMAL" />
+    <result column="CHECKID" property="checkid" jdbcType="DECIMAL" />
+    <result column="COMBOID" property="comboid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COMBOCHECKID, CHECKID, COMBOID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from COMBO_CHECK_TABLE
+    where COMBOCHECKID = #{combocheckid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from COMBO_CHECK_TABLE
+    where COMBOCHECKID = #{combocheckid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.ComboCheck" >
+    insert into COMBO_CHECK_TABLE (COMBOCHECKID, CHECKID, COMBOID
+      )
+    values (#{combocheckid,jdbcType=DECIMAL}, #{checkid,jdbcType=DECIMAL}, #{comboid,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.ComboCheck" >
+    insert into COMBO_CHECK_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="combocheckid != null" >
+        COMBOCHECKID,
+      </if>
+      <if test="checkid != null" >
+        CHECKID,
+      </if>
+      <if test="comboid != null" >
+        COMBOID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="combocheckid != null" >
+        #{combocheckid,jdbcType=DECIMAL},
+      </if>
+      <if test="checkid != null" >
+        #{checkid,jdbcType=DECIMAL},
+      </if>
+      <if test="comboid != null" >
+        #{comboid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.ComboCheck" >
+    update COMBO_CHECK_TABLE
+    <set >
+      <if test="checkid != null" >
+        CHECKID = #{checkid,jdbcType=DECIMAL},
+      </if>
+      <if test="comboid != null" >
+        COMBOID = #{comboid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where COMBOCHECKID = #{combocheckid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.ComboCheck" >
+    update COMBO_CHECK_TABLE
+    set CHECKID = #{checkid,jdbcType=DECIMAL},
+      COMBOID = #{comboid,jdbcType=DECIMAL}
+    where COMBOCHECKID = #{combocheckid,jdbcType=DECIMAL}
+  </update>
+</mapper>

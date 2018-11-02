@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.UserCheckMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.UserCheck" >
+    <id column="USERCHECKID" property="usercheckid" jdbcType="DECIMAL" />
+    <result column="USERID" property="userid" jdbcType="DECIMAL" />
+    <result column="TEAMFORMCOMBOCHECKID" property="teamformcombocheckid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERCHECKID, USERID, TEAMFORMCOMBOCHECKID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_CHECK_TABLE
+    where USERCHECKID = #{usercheckid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from USER_CHECK_TABLE
+    where USERCHECKID = #{usercheckid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.UserCheck" >
+    insert into USER_CHECK_TABLE (USERCHECKID, USERID, TEAMFORMCOMBOCHECKID
+      )
+    values (#{usercheckid,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{teamformcombocheckid,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.UserCheck" >
+    insert into USER_CHECK_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="usercheckid != null" >
+        USERCHECKID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="teamformcombocheckid != null" >
+        TEAMFORMCOMBOCHECKID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="usercheckid != null" >
+        #{usercheckid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="teamformcombocheckid != null" >
+        #{teamformcombocheckid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.UserCheck" >
+    update USER_CHECK_TABLE
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="teamformcombocheckid != null" >
+        TEAMFORMCOMBOCHECKID = #{teamformcombocheckid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USERCHECKID = #{usercheckid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.UserCheck" >
+    update USER_CHECK_TABLE
+    set USERID = #{userid,jdbcType=DECIMAL},
+      TEAMFORMCOMBOCHECKID = #{teamformcombocheckid,jdbcType=DECIMAL}
+    where USERCHECKID = #{usercheckid,jdbcType=DECIMAL}
+  </update>
+</mapper>
