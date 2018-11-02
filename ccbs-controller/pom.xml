@@ -11,4 +11,12 @@
 
     <artifactId>ccbs-controller</artifactId>
     <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>team.yingyingmonster</groupId>
+            <artifactId>ccbs-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
