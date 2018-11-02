@@ -14,10 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/gateway")
 public class GatewayAction {
 
+    //private AccountMapper accountMapper;
+    //private Account account= new Account();
     @RequestMapping("/index")
     public String index(){
         return "login/index";
     }
 
+    @RequestMapping("/login")
+    public String loginAction(Long accountId,String accountPassword){
+        //account=accountMapper;
+        return "";
+    }
 
 }
