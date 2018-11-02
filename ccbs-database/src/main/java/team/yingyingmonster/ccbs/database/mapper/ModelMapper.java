@@ -1,7 +1,9 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Model;
 
+@Repository
 public interface ModelMapper {
     Model selectByPrimaryKey(Long modelid);
     int deleteByPrimaryKey(Long modelid);
