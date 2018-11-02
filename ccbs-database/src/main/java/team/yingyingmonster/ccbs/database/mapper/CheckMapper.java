@@ -1,9 +1,11 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Check;
 
 import java.util.List;
 
+@Repository
 public interface CheckMapper {
     Check selectByPrimaryKey(Long checkid);
     int deleteByPrimaryKey(Long checkid);

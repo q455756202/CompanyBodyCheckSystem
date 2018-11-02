@@ -37,7 +37,7 @@
 
     <!--交由Spring扫描所有的Mapper，并注册为Bean-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="team.yingyingmonster.ccsb.database.mapper"/>
+        <property name="basePackage" value="team.yingyingmonster.ccbs.database.mapper"/>
         <!--<property name="markerInterface" value="priv.juergenie.ssmtest.model.mapper.MapperMarker"/>-->
     </bean>
 

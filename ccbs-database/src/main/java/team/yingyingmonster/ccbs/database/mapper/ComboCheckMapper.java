@@ -1,9 +1,11 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.ComboCheck;
 
 import java.util.List;
 
+@Repository
 public interface ComboCheckMapper {
     ComboCheck selectByPrimaryKey(Long combocheckid);
     int deleteByPrimaryKey(Long combocheckid);

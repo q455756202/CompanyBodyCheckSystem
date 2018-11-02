@@ -1,7 +1,9 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Templete;
 
+@Repository
 public interface TempleteMapper {
     Templete selectByPrimaryKey(Long templeteid);
     int deleteByPrimaryKey(Long templeteid);
