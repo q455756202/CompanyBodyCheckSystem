@@ -1,7 +1,9 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Role;
 
+@Repository
 public interface RoleMapper {
     Role selectByPrimaryKey(Long roleid);
     int deleteByPrimaryKey(Long roleid);
