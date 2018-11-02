@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+水果：<input type="text" ng-model="name"/>
+<input type="button" value="添加" ng-click="add()"/>
+<input type="button" value="批量删除" ng-click="plsc()"/>
+
+
+<table border="1px" cellspacing="0px" cellpadding="0px" width="200px" height="30px">
+    <tr>
+        <td><input type="checkbox" ng-click="qx()"/></td>
+        <td>水果名称</td>
+        <td>操作</td>
+    </tr>
+
+    <tr ng-repeat="g in goods">
+        <td><input type="checkbox" name="ck" ng-click="ck($index)"></td>
+        <td>{{g.name}}</td>
+        <td><input type="button" ng-click="dele($index)" value="删除"/></td>
+    </tr>
+
+</table>
+<hr/>
+名字：<input type="text" ng-model="tname" value="{{tname}}"/><input type="button" ng-click="submit()" value="提交"/>
+<br/>
+{{tname}}
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/bootstrap.bundle.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+<script type="text/javascript">
+    var mb = angular.module("myApp", []);
+    mb.controller("myCtrl", function ($scope, $http) {
+        $scope.goods = [];
+        $scope.add = function () {
+            var go = {"flag": false, "name": $scope.name}
+            $scope.goods.push(go);
+        }
+
+        $scope.dele = function ($index) {
+            $scope.goods.splice($index, 1);
+        }
+
+        $scope.ck = function ($index) {
+            $scope.goods[$index].flag = !$scope.goods[$index].flag
+        }
+        $scope.plsc = function () {
+            for (var i = $scope.goods.length - 1; i >= 0; i--) {
+                if ($scope.goods[i].flag) {
+                    $scope.goods.splice(i, 1);
+                }
+            }
+        }
+
+        let data = {"name": $scope.tname};
+        let config = {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }};
+
+        $scope.tname="23333";
+        $scope.submit = function() {
+            console.log($scope.tname);
+            $http.post("/test/test", data, config)
+                .then(function success(response) {
+                    console.log(response);
+                    console.log(response.data)
+                });
+        };
+
+        var qq = true;
+        $scope.qx = function () {
+            var ck = $("input[name=ck]")
+            for (var i = 0; i < ck.length; i++) {
+                ck[i].checked = qq;
+                $scope.goods[i].flag = qq;
+            }
+            qq = !qq;
+        }
+    });
+</script>
+
+</body>
+</html>
