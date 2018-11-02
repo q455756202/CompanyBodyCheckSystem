@@ -1,8 +1,12 @@
 package team.yingyingmonster.ccbs.service.serviceimplement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Account;
+import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoAccountMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
+
+import java.util.List;
 
 /**
  * @author Juer Whang <br/>
@@ -12,8 +16,22 @@ import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
  **/
 @Service
 public class AccountServiceImplement implements AccountService {
+    @Autowired
+    private ZhaoAccountMapper zhaoAccountMapper;
+
     @Override
     public Account login(Long accountId, String accountPassword) {
-        return null;
+        Account account = new Account();
+        account.setAccountid(accountId);
+        account.setAccountpassword(accountPassword);
+        List<Account> accountList = zhaoAccountMapper.selectAccountByCondition(account);
+        if (accountList!=null){
+            account=accountList.get(0);
+            return account;
+        }else {
+            account=null;
+            return account;
+        }
+
     }
 }
