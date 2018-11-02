@@ -24,10 +24,4 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /ccbs-database/src/main/resources/database.properties
-ccbs-common/src/main/java/
-ccbs-common/src/test/
-ccbs-controller/src/main/java/
 ccbs-controller/src/main/webapp/assets/scripts/i18n/ngLocale/
-ccbs-database/src/test/
-ccbs-service/src/main/java/
-ccbs-service/src/test/
