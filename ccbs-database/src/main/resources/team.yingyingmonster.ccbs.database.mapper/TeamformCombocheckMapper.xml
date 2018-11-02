@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.TeamformCombocheckMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck" >
+    <id column="TEAMFORMCOMBOCHECKID" property="teamformcombocheckid" jdbcType="DECIMAL" />
+    <result column="TEAMFORMID" property="teamformid" jdbcType="DECIMAL" />
+    <result column="COMBOID" property="comboid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TEAMFORMCOMBOCHECKID, TEAMFORMID, COMBOID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TEAMFORM_COMBOCHECK_TABLE
+    where TEAMFORMCOMBOCHECKID = #{teamformcombocheckid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TEAMFORM_COMBOCHECK_TABLE
+    where TEAMFORMCOMBOCHECKID = #{teamformcombocheckid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck" >
+    insert into TEAMFORM_COMBOCHECK_TABLE (TEAMFORMCOMBOCHECKID, TEAMFORMID, 
+      COMBOID)
+    values (#{teamformcombocheckid,jdbcType=DECIMAL}, #{teamformid,jdbcType=DECIMAL}, 
+      #{comboid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck" >
+    insert into TEAMFORM_COMBOCHECK_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teamformcombocheckid != null" >
+        TEAMFORMCOMBOCHECKID,
+      </if>
+      <if test="teamformid != null" >
+        TEAMFORMID,
+      </if>
+      <if test="comboid != null" >
+        COMBOID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teamformcombocheckid != null" >
+        #{teamformcombocheckid,jdbcType=DECIMAL},
+      </if>
+      <if test="teamformid != null" >
+        #{teamformid,jdbcType=DECIMAL},
+      </if>
+      <if test="comboid != null" >
+        #{comboid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck" >
+    update TEAMFORM_COMBOCHECK_TABLE
+    <set >
+      <if test="teamformid != null" >
+        TEAMFORMID = #{teamformid,jdbcType=DECIMAL},
+      </if>
+      <if test="comboid != null" >
+        COMBOID = #{comboid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TEAMFORMCOMBOCHECKID = #{teamformcombocheckid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck" >
+    update TEAMFORM_COMBOCHECK_TABLE
+    set TEAMFORMID = #{teamformid,jdbcType=DECIMAL},
+      COMBOID = #{comboid,jdbcType=DECIMAL}
+    where TEAMFORMCOMBOCHECKID = #{teamformcombocheckid,jdbcType=DECIMAL}
+  </update>
+</mapper>

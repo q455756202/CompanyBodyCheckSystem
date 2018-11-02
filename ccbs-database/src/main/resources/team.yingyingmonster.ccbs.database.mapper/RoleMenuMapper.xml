@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.RoleMenuMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.RoleMenuTableKey" >
+    <id column="ROLEID" property="roleid" jdbcType="DECIMAL" />
+    <id column="MENUID" property="menuid" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.RoleMenuTableKey" >
+    delete from ROLE_MENU_TABLE
+    where ROLEID = #{roleid,jdbcType=DECIMAL}
+      and MENUID = #{menuid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.RoleMenuTableKey" >
+    insert into ROLE_MENU_TABLE (ROLEID, MENUID)
+    values (#{roleid,jdbcType=DECIMAL}, #{menuid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.RoleMenuTableKey" >
+    insert into ROLE_MENU_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="menuid != null" >
+        MENUID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=DECIMAL},
+      </if>
+      <if test="menuid != null" >
+        #{menuid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

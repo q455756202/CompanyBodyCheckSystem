@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.ExcelMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Excel" >
+    <id column="EXCELID" property="excelid" jdbcType="DECIMAL" />
+    <result column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+    <result column="EXCELNAME" property="excelname" jdbcType="VARCHAR" />
+    <result column="EXCELURL" property="excelurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EXCELID, COMPANYID, EXCELNAME, EXCELURL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from EXCEL_TABLE
+    where EXCELID = #{excelid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from EXCEL_TABLE
+    where EXCELID = #{excelid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Excel" >
+    insert into EXCEL_TABLE (EXCELID, COMPANYID, EXCELNAME, 
+      EXCELURL)
+    values (#{excelid,jdbcType=DECIMAL}, #{companyid,jdbcType=DECIMAL}, #{excelname,jdbcType=VARCHAR}, 
+      #{excelurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Excel" >
+    insert into EXCEL_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="excelid != null" >
+        EXCELID,
+      </if>
+      <if test="companyid != null" >
+        COMPANYID,
+      </if>
+      <if test="excelname != null" >
+        EXCELNAME,
+      </if>
+      <if test="excelurl != null" >
+        EXCELURL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="excelid != null" >
+        #{excelid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="excelname != null" >
+        #{excelname,jdbcType=VARCHAR},
+      </if>
+      <if test="excelurl != null" >
+        #{excelurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Excel" >
+    update EXCEL_TABLE
+    <set >
+      <if test="companyid != null" >
+        COMPANYID = #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="excelname != null" >
+        EXCELNAME = #{excelname,jdbcType=VARCHAR},
+      </if>
+      <if test="excelurl != null" >
+        EXCELURL = #{excelurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where EXCELID = #{excelid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Excel" >
+    update EXCEL_TABLE
+    set COMPANYID = #{companyid,jdbcType=DECIMAL},
+      EXCELNAME = #{excelname,jdbcType=VARCHAR},
+      EXCELURL = #{excelurl,jdbcType=VARCHAR}
+    where EXCELID = #{excelid,jdbcType=DECIMAL}
+  </update>
+</mapper>

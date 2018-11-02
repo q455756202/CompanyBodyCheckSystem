@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="debug" name="log4j2Config">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="\n优先等级:\t%p\n发生时间:\t%d{yyyy/MM/dd HH:mm:ss.SSS}%n信息来源:\t[%t] %l%n输出信息:\t%m\n"/>
+        </Console>
+        <Console name="console_layout2" target="SYSTEM_OUT">
+            <PatternLayout pattern="\n
+优先等级 : %p\n
+发生时间 : %d\n
+发生位置 : %l\n
+发生线程 : %t\n
+输出来源 : %c\n
+输出信息 : %m\n"/>
+        </Console>
+
+        <!--<JDBC name="jdbc" tableName="T_LOG">-->
+            <!--<ConnectionFactory class="org.logicalcobwebs.proxool.ProxoolDataSource" method="getConnection" />-->
+            <!--<column name="LOG_LEVEL" pattern="%p"/>-->
+            <!--<column name="LOG_TIME"  isEventTimestamp="true"/>-->
+            <!--<column name="LOG_LOCATE" pattern="%l"/>-->
+            <!--<column name="LOG_THREAD" pattern="%t"/>-->
+            <!--<column name="LOG_FROM" pattern="%c"/>-->
+            <!--<column name="LOG_MESSAGE" pattern="%m"/>-->
+        <!--</JDBC>-->
+        <!--<JDBC name="databaseAppender" tableName="LOG_TABLE">-->
+            <!--<ConnectionFactory class="team.yingyingmonster.ccs.commons.log4j2.JuerDataSource" method="getConnection" />-->
+            <!--<column name="LOGLEVEL" pattern="%p"/>-->
+            <!--<column name="LOGTIME"  isEventTimestamp="true"/>-->
+            <!--<column name="LOGLOCATE" pattern="%l"/>-->
+            <!--<column name="LOGTHREAD" pattern="%t"/>-->
+            <!--<column name="LOGCLASS" pattern="%c"/>-->
+            <!--<column name="LOGMESSAGE" pattern="%m"/>-->
+        <!--</JDBC>-->
+    </Appenders>
+    <Loggers>
+        <Logger name="org.springframework" level="info"></Logger>
+        <Logger name="org.logicalcobwebs" level="info"></Logger>
+        <Logger name="org.mybatis.spring" level="info"></Logger>
+        <Logger name="priv.juergenie.ssmtest.model.mapper" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="console" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!--<Logger name="jdbc" level="debug" additivity="false">-->
+            <!--<AppenderRef ref="databaseAppender"/>-->
+        <!--</Logger>-->
+
+        <Root level="debug">
+            <AppenderRef ref="console_layout2"/>
+        </Root>
+    </Loggers>
+</Configuration>
