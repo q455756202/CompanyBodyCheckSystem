@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>中央框架</title>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/toastr.min.css" rel="stylesheet"/>
+    <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/juer-style.css" rel="stylesheet"/>
+</head>
+<body ng-app="leftFrameApp">
+<div class="container-fluid h-100">
+<!--创建一个行-->
+<div class="row h-100">
+    <!--菜单栏-->
+    <div id="leftMenuContent" class="col-2 p-0" ng-controller="leftMenuController">
+        <div class="panel-box">
+            <div class="panel-group" id="accordion" data-spy="scroll">
+                <div class="panel panel-default" ng-repeat="menu in menuList">
+                    <div class="panel-heading">
+                            <span class="panel-title rectangle non-margin btn btn-block btn-primary"
+                                  ng-click="menuClick(menu)"
+                                  data-parent="#accordion">
+                                {{menu.menuName}}
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-10 p-0">
+        <iframe name="mainPageFrame" id="mainPageFrame" frameborder="none" src="/common/index" class="w-100 h-100">
+            用户操作页面.
+        </iframe>
+    </div>
+</div>
+</div>
+</body>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/bootstrap.bundle.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+<script>
+    let leftFrameApp = angular.module("leftFrameApp", []);
+
+    // 创建侧边导航栏控制器
+    leftFrameApp.controller('leftMenuController', function ($scope, $http) {
+        $scope.menuList = [];
+        $http.post("/common/get-menu")
+            .then(
+                function success(response) {
+                    let resultMessage = response.data;
+                    if (resultMessage.state == 200) {
+                        $(resultMessage.data).each(function (i, v) {
+                            $scope.menuList.push(v);
+                        });
+                        $("#leftMenuContent").removeClass("d-none");
+                    } else {
+                        console.error(response);
+                        toastr.error("获取导航栏信息失败,可能是网络原因!");
+                    }
+                }, function error(response) {
+                    console.error(response);
+                    toastr.error("获取导航栏信息失败,可能是网络原因!");
+                });
+
+        $scope.menuClick = function (button) {
+            // 这句话可以注释掉,只是用来测试的.
+            alert(`some button on click!, name is "${button.menuName}", and url is "${button.menuUrl}"`);
+            // 使页面框架发生跳转.
+            window.frames["mainPageFrame"].location.href = button.menuUrl;
+        };
+    });
+</script>
+</html>

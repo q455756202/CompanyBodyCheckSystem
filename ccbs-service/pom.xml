@@ -11,5 +11,11 @@
 
     <artifactId>ccbs-service</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>team.yingyingmonster</groupId>
+            <artifactId>ccbs-database</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
