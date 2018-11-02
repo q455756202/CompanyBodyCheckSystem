@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 所有的工作都交由spring去完成，则此处无需任何配置，仅需加载所需插件即可 -->
+    <settings>
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="Oracle"/>
+        </plugin>
+    </plugins>
+</configuration>
