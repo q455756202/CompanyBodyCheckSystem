@@ -1,0 +1,29 @@
+.bg-blue-light {
+    background-color: #48bcd5;
+}
+.bg-blue-powder {
+    background-color: #aaf1fb;
+}
+.bg-blue-shallow {
+    background-color: #d1fffa;
+}
+
+.bg-green-light {
+    background-color: #95cc56;
+}
+.bg-green-powder {
+    background-color: #c2f384;
+}
+.bg-green-shallow {
+    background-color: #c1ffbb;
+}
+
+.bg-red-light {
+    background-color: #ffa995;
+}
+.bg-red-powder {
+    background-color: #ffc7b6;
+}
+.bg-red-shallow {
+    background-color: #ffe2d9;
+}
