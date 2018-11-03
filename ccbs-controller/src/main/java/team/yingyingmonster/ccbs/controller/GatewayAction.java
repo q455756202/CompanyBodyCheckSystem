@@ -1,6 +1,7 @@
 package team.yingyingmonster.ccbs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,23 +39,36 @@ public class GatewayAction {
     }
 
     @RequestMapping("/success")
-    public String success(){
-        return "common/index";
+    public String success(HttpSession session){
+        Account account=(Account) session.getAttribute("login-account");
+        if (account!=null){
+            return "common/index";
+        }else {
+            return "redirect:/gateway/index.html";
+        }
+
     }
 
     @RequestMapping("/login")
-    public String login(HttpSession session, Long accountId, String accountPassword,String userCode){
+    @ResponseBody
+    public ResultMessage login(HttpSession session, Long accountId, String accountPassword,String userCode){
+        String msg="";
         String keyCode=String.valueOf(session.getAttribute("keyCode"));
         if (keyCode.toLowerCase().equals(userCode.toLowerCase())){
             Account account=accountService.login(accountId,accountPassword);
             if(account!=null){
                 session.setAttribute("login-account", account);
-                return "success";
+                msg="登陆成功";
+                return ResultMessage.createSuccessMessage(msg,null);
             }else {
-                return "faild";
+                msg="账号或者密码错误！";
+                return ResultMessage.createErrorMessage(msg);
+
             }
         }else {
-            return "false";
+            msg="验证码错误！";
+            return ResultMessage.createErrorMessage(msg);
+
         }
 
     }

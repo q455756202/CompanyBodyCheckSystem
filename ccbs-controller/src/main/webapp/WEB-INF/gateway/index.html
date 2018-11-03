@@ -41,14 +41,17 @@
             <div class="row row-centered">
                 <div class="well col-lg-4 col-centered">
                     <h2 calss="card-title">登入界面</h2>
-                    <form action="/gateway/login" method="post" role="form">
+                    <!--<form action="/gateway/login" method="post" role="form">-->
                         <div class="input-group input-group-lg">
+                            <!--<span class="input-group-addon">用户名：</span>-->
                             <input type="text" class="form-control" id="accountId" name="accountId" placeholder="请输入用户ID" />
                         </div>
                         <div class="input-group input-group-lg">
+                            <!--<span class="input-group-addon">密&nbsp;&nbsp;码：</span>-->
                             <input type="password" class="form-control" id="accountPassword" name="accountPassword" placeholder="请输入密码"/>
                         </div>
                         <div>
+                           <!-- <span class="input-group-addon">验证码：</span>-->
                             <a href="#">
                                 <img alt="看不清请点我！" id="codeImage" name="codeImage" height="60" border="1"
                                      align="absmiddle" style="padding-top: 15px;" onclick="getCodeImage()">
@@ -56,31 +59,31 @@
                             <input type="text" class="form-control" id="userCode" name="userCode" placeholder="请输入验证码"/>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" >登录
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" onclick="adminlogin()">登录
                         </button>
-                        <div class="modal fade" id="myModal" style="margin-top: 200px">
+                        <!--<div class="modal fade" id="myModal" style="margin-top: 200px">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <!-- 模态框头部 -->
+                                    &lt;!&ndash; 模态框头部 &ndash;&gt;
                                     <div class="modal-header">
                                         <h4 class="modal-title">恭喜</h4>
                                         <button type="submit" class="close" data-dismiss="modal">&times;</button>
                                     </div>
-                                    <!-- 模态框主体 -->
+                                    &lt;!&ndash; 模态框主体 &ndash;&gt;
                                     <div class="modal-body">
                                         登入成功！
                                     </div>
-                                    <!-- 模态框底部 -->
+                                    &lt;!&ndash; 模态框底部 &ndash;&gt;
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-secondary" data-dismiss="modal" onclick="adminlogin()">关闭</button>
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <br>
                         <button type="submit" class="btn btn-primary btn-block">注册</button>
-                    </form>
+                    <!--</form>-->
                 </div>
             </div>
         </div>
@@ -100,27 +103,29 @@
     function adminlogin(){
         var accountId=$("#accountId").val();
         var accountPassword=$("#accountPassword").val();
-        console.log(accountId,accountPassword);
-        $.ajax({
-            url:"/gateway/login",
-            data:{
+        var userCode=$("#userCode").val();
+        console.log(userCode);
+        $.post("/gateway/login",
+            {
                 "accountId":accountId,
                 "accountPassword":accountPassword,
                 "userCode":userCode
             },
-            type:"post",
-            success:function(msg){
-                if (msg=="success") {
-                    alert("登入成功！");
+            function(msg){
+                console.log("msg:"+msg);
+                console.log(typeof msg);
+                console.log(msg.message);
+                console.log(msg.state);
+                if (msg.state==200) {
+                    window.alert(msg.message);
                     window.location.href="/gateway/success";
-                }else if (msg=="faild") {
-                    alert("账号或者密码错误！");
+                }else if (msg.state==400) {
+                    alert(msg.message);
                     getCodeImage();
-                }else{
-                    alert("验证码错误！");
+                }else if (msg=="false"){
+                    alert(msg.message);
                     getCodeImage();
                 }
-            }
         });
     }
     function check() {
