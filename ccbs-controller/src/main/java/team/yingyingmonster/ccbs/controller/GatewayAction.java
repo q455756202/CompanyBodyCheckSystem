@@ -42,9 +42,9 @@ public class GatewayAction {
     public String success(HttpSession session){
         Account account=(Account) session.getAttribute("login-account");
         if (account!=null){
-            return "common/index";
+            return "main/index";
         }else {
-            return "redirect:/gateway/index.html";
+            return "redirect:/";
         }
 
     }
@@ -93,5 +93,10 @@ public class GatewayAction {
         }else {
             return ResultMessage.createErrorMessage("未获取到验证码！");
         }
+    }
+
+    @RequestMapping("/register")
+    public String register(){
+        return "register/register";
     }
 }
