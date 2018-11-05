@@ -3,6 +3,7 @@ package team.yingyingmonster.ccbs.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.mapper.MenuMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerMenuMapper;
@@ -28,11 +29,13 @@ public class CommonAction {
     }
 
     @RequestMapping("/get-menu")
+    @ResponseBody
     public ResultMessage getMenu() {
         return ResultMessage.createSuccessMessage("success!", juerMenuMapper.selectAllMenu());
     }
 
     @RequestMapping("/user-info")
+    @ResponseBody
     public ResultMessage userInfo(HttpSession session) {
         return ResultMessage.createSuccessMessage("success!", session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT));
     }

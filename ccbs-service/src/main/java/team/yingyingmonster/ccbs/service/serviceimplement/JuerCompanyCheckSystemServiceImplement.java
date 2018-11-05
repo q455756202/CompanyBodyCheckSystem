@@ -7,6 +7,7 @@ import team.yingyingmonster.ccbs.database.mapper.CompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
+import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
 /**
@@ -37,6 +38,8 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
         User condition = new User();
         condition.setCompanyid(companyid);
         entity.setUserList(juerUserMapper.selectUsersByCondition(condition));
+        System.out.println("\n===="+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n====");
+
         return entity;
     }
 }
