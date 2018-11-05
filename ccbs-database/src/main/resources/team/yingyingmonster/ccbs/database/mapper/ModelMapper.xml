@@ -5,9 +5,10 @@
     <id column="RECORDID" property="recordid" jdbcType="DECIMAL" />
     <result column="CHECKID" property="checkid" jdbcType="DECIMAL" />
     <result column="RECORDNAME" property="recordname" jdbcType="VARCHAR" />
+    <result column="RECORDDEFAULT" property="recorddefault" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    RECORDID, CHECKID, RECORDNAME
+    RECORDID, CHECKID, RECORDNAME, RECORDDEFAULT
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 

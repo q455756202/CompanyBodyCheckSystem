@@ -1,11 +1,12 @@
-package team.yingyingmonster.ccbs.service.servicebean.companychecksystem;
+package team.yingyingmonster.ccbs.database.bean.juergenie;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import team.yingyingmonster.ccbs.database.bean.Combo;
 import team.yingyingmonster.ccbs.database.bean.User;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,9 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
-public class JuerCombo {
-    private Long comboid;
-    private String comboname;
-    private List<User> userList;
+public class JuerCombo extends Combo {
+    private List<User> userList = new LinkedList<>();
 }
