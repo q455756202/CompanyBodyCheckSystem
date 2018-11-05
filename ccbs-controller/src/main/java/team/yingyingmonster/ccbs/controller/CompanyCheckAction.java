@@ -57,9 +57,10 @@ public class CompanyCheckAction {
     }
 
     @RequestMapping("/get-company-entity")
+    @ResponseBody
     public ResultMessage getCompanyEntity() {
         JuerCompanyCheckEntity entity = juerCompanyCheckSystemService.getCompanyCheckEntity(1l);
-        System.out.println(JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL));
+        System.out.println("\n========"+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n========");
         return ResultMessage.createSuccessMessage("success!", entity);
     }
 }

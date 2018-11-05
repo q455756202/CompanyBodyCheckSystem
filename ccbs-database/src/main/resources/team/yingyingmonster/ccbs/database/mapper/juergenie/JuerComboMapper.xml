@@ -29,7 +29,7 @@
     <select id="selectAllJuerCombo" resultMap="JuerResultMap">
         select * from COMBO_TABLE
     </select>
-    <select id="selectComboByCondition" resultMap="JuerResultMap" parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
+    <select id="selectJuerComboByCondition" resultMap="JuerResultMap" parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
         select * from COMBO_TABLE
         <where>
             <if test="comboid != null">and COMBOID=#{comboid}</if>
