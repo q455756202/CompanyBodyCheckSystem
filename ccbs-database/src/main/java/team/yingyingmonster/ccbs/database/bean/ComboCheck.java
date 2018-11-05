@@ -18,4 +18,5 @@ public class ComboCheck {
     private Long comboid;
 
     private Check checkByCheckid;
+    private Combo comboByComboid;
 }
