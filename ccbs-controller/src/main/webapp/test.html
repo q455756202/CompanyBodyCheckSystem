@@ -60,13 +60,15 @@
             }
         }
 
-        let data = {"name": $scope.tname};
-        let config = {headers: { 'Content-Type': 'application/x-www-form-urlencoded' }};
 
         $scope.tname="23333";
         $scope.submit = function() {
-            console.log($scope.tname);
-            $http.post("/test/test", data, config)
+            let data = { username : $scope.tname, list : [] };
+            for (let i = 0; i < 10; i++) {
+                data.list.push($scope.tname+i);
+            }
+
+            $http.post("/test/test", data)
                 .then(function success(response) {
                     console.log(response);
                     console.log(response.data)
