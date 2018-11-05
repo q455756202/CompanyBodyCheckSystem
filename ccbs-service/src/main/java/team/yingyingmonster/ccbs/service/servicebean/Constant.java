@@ -32,4 +32,10 @@ public class Constant {
              * 角色 - 超级管理员
              */
             ROLE_SUPERADMIN = 6;
+
+    public static final String
+            /**
+             * 会话域中储存的登入账号的key值
+             */
+            SESSION_LOGIN_ACCOUNT       = "login-account";
 }

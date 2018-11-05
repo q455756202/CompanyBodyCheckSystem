@@ -1,10 +1,9 @@
-package team.yingyingmonster.ccbs.service.servicebean.companychecksystem;
+package team.yingyingmonster.ccbs.database.bean.juergenie;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import team.yingyingmonster.ccbs.database.bean.Combo;
 import team.yingyingmonster.ccbs.database.bean.Company;
 import team.yingyingmonster.ccbs.database.bean.User;
 
@@ -22,6 +21,6 @@ import java.util.List;
 @EqualsAndHashCode
 public class JuerCompanyCheckEntity {
     private Company company;
-    private List<Combo> comboCheckList;
+    private List<JuerCombo> comboList;
     private List<User> userList;
 }

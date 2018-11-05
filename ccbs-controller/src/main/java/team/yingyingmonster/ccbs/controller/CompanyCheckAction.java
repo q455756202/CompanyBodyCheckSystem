@@ -10,11 +10,10 @@ import team.yingyingmonster.ccbs.database.bean.User;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
 import team.yingyingmonster.ccbs.json.JsonUtil;
-import team.yingyingmonster.ccbs.service.servicebean.companychecksystem.JuerCompanyCheckEntity;
+import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * @author Juer Whang <br/>

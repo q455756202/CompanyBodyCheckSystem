@@ -7,6 +7,12 @@
         <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR" />
         <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL" />
     </resultMap>
+    <resultMap id="JuerResultMap" type="team.yingyingmonster.ccbs.database.bean.juergenie.JuerCombo">
+        <id column="COMBOID" property="comboid" jdbcType="DECIMAL" />
+        <result column="COMBONAME" property="comboname" jdbcType="VARCHAR" />
+        <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR" />
+        <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL" />
+    </resultMap>
 
     <select id="selectAllCombo" resultMap="BaseResultMap">
         select * from COMBO_TABLE
@@ -20,4 +26,17 @@
             <if test="combosummary != null">and COMBOSUMMARY like #{combosummary}</if>
         </where>
     </select>
+    <select id="selectAllJuerCombo" resultMap="JuerResultMap">
+        select * from COMBO_TABLE
+    </select>
+    <select id="selectComboByCondition" resultMap="JuerResultMap" parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
+        select * from COMBO_TABLE
+        <where>
+            <if test="comboid != null">and COMBOID=#{comboid}</if>
+            <if test="comboname != null">and COMBONAME like #{comboname}</if>
+            <if test="comboratio != null">and COMBORATIO=#{comboratio}</if>
+            <if test="combosummary != null">and COMBOSUMMARY like #{combosummary}</if>
+        </where>
+    </select>
+
 </mapper>
