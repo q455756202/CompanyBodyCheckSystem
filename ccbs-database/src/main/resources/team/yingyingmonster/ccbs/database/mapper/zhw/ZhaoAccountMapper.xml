@@ -14,6 +14,24 @@
         select * from ACCOUNT_TABLE where ACCOUNTID=#{accountid} and ACCOUNTPASSWORD=#{accountpassword}
     </select>
 
+    <insert id="addAccount" parameterType="team.yingyingmonster.ccbs.database.bean.Account">
+        <selectKey keyProperty="accountid" order="BEFORE" resultType="java.lang.Long">
+            select ACCOUNT_SEQUENCE.nextval from dual
+        </selectKey>
+        insert into ACCOUNT_TABLE (ACCOUNTID, ROLEID, ACCOUNTNAME,
+      ACCOUNTPASSWORD, ACCOUNTSTATE, REGISTERDATE)
+    values (#{accountid,jdbcType=DECIMAL}, 1, #{@accountname,jdbcType=VARCHAR},
+      #{@accountpassword,jdbcType=VARCHAR}, 0,to_char(sysdate,'yyyy-mm-dd'))
+        SELECT * FROM ACCOUNT_TABLE WHERE ID=@@IDENTITY
+    </insert>
+
+    <insert id="addCompany" parameterType="team.yingyingmonster.ccbs.database.bean.Company">
+        <selectKey keyProperty="companyid" order="BEFORE" resultType="java.lang.Long">
+            select COMPANY_SEQUENCE.nextval from dual
+        </selectKey>
+        insert into COMPANY_TABLE (COMPANYID,COMPANYPHONE,COMPANYEMAIL)
+        values (#{companyid,jdbcType=DECIMAL}, #{companyphone,jdbcType=VARCHAR}, #{companyemail,jdbcType=VARCHAR})
+    </insert>
 
 
 </mapper>

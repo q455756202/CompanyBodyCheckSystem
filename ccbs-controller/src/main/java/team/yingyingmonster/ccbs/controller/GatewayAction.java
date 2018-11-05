@@ -1,7 +1,6 @@
 package team.yingyingmonster.ccbs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,12 +10,9 @@ import team.yingyingmonster.ccbs.image.ImageUtil;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -84,7 +80,7 @@ public class GatewayAction {
         BufferedImage image=imageb.get(code);
         byte[] bytes=null;
         try {
-            bytes=ImageUtil.imageToBytes(image,"jpg");
+            bytes=ImageUtil.imageToBytes(image,"PNG");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,6 +93,21 @@ public class GatewayAction {
 
     @RequestMapping("/register")
     public String register(){
-        return "register/register";
+        return "gateway/register";
+    }
+
+    @RequestMapping("/account-register")
+    @ResponseBody
+    public ResultMessage register(String accountName,String accountPassword,String companyPhone,String companyEmail){
+        Long accountId=accountService.addAccount(accountName,accountPassword);
+        boolean result=accountService.addCompany(accountId,companyPhone,companyEmail);
+        String msg="";
+        if (accountId>0){
+            msg="注册成功";
+            return ResultMessage.createSuccessMessage(msg,accountId);
+        }else {
+            msg="注册失败";
+            return ResultMessage.createErrorMessage(msg);
+        }
     }
 }
