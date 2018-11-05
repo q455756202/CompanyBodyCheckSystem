@@ -63,4 +63,6 @@ public class CompanyCheckAction {
         System.out.println("\n========"+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n========");
         return ResultMessage.createSuccessMessage("success!", entity);
     }
+
+//    @RequestMapping("/submit-company-check")
 }
