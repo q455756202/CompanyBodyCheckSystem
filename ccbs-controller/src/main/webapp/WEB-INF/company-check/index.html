@@ -33,7 +33,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="combo in selectComboList">
+                    <tr ng-repeat="combo in companyEntity.selectCombo">
                         <td class="font-size-16px">{{combo.comboid}}</td>
                         <td class="font-size-16px">{{combo.comboname}}</td>
                         <td>
@@ -56,7 +56,7 @@
                                 <tr>
                                     <td class="font-size-16px">添加人员</td>
                                     <td>
-                                        <select ng-model="selectAddUser" ng-options="us.username for us in companyUserList" class="font-size-16px form-control">
+                                        <select ng-model="selectAddUser" ng-options="us.username for us in companyEntity.userList" class="font-size-16px form-control">
                                             <option value="">未选择</option>
                                         </select>
                                     </td>
@@ -74,7 +74,7 @@
                     <tr>
                         <td class="font-size-16px">添加套餐</td>
                         <td colspan="2">
-                            <select ng-model="selectCheck" ng-options="ch.comboname for ch in comboList" class="w-100 form-control font-size-16px">
+                            <select ng-model="selectCheck" ng-options="ch.comboname for ch in companyEntity.comboList" class="w-100 form-control font-size-16px">
                                 <option value="">未选择</option>
                             </select>
                         </td>
@@ -101,30 +101,17 @@
 <script>
     let companyCheckSystemApp = angular.module("companyCheckSystemApp", []);
     let comboCheckShowTable = companyCheckSystemApp.controller("comboCheckShowTable", function($scope, $http) {
-        // 待选团检套餐列表
-        $scope.comboList = [];
-        // 已选团检套餐列表
-        $scope.selectComboList = [];
-        // 团检组织内的成员列表
-        $scope.companyUserList = [];
-
-        $http.post("/company-check/get-company-user")
+        $http.post("/company-check/get-company-entity")
             .then(function success(response) {
                 console.log(response.data);
                 let msg = response.data;
-                $(msg.data).each(function(i, v) {
-                    $scope.companyUserList.push(v);
-                });
+                if (msg.state == 200)
+                    $scope.companyEntity = msg.data;
+                else
+                    toastr.error(msg.message, "获取数据");
             }, function error(response) {
                 console.error(response);
-            });
-        $http.post("/company-check/get-combo")
-            .then(function success(response) {
-                console.log(response.data);
-                let msg = response.data;
-                $(msg.data).each(function(i, v) {
-                    $scope.comboList.push(v);
-                });
+                toastr.error("出现了一些意外，相关信息已输出至控制台。", "获取数据");
             });
 
         /**
@@ -134,10 +121,10 @@
         $scope.addCombo = function(data) {
             if (!data)
                 return;
-            if ($scope.selectComboList.indexOf(data) > -1) {
+            if ($scope.companyEntity.selectCombo.indexOf(data) > -1) {
                 toastr.error("该套餐已存在！", "添加套餐");
             } else {
-                $scope.selectComboList.push(data);
+                $scope.companyEntity.selectCombo.push(data);
                 toastr.success("套餐添加成功！", "添加套餐");
             }
         };
@@ -147,9 +134,9 @@
          * @param data 套餐对象。
          */
         $scope.delCombo = function(data) {
-            for (let i = 0; i < $scope.selectComboList.length; i++) {
-                if ($scope.selectComboList[i] == data) {
-                    $scope.selectComboList.splice(i, 1);
+            for (let i = 0; i < $scope.companyEntity.selectCombo.length; i++) {
+                if ($scope.companyEntity.selectCombo[i] == data) {
+                    $scope.companyEntity.selectCombo.splice(i, 1);
                     break;
                 }
             }

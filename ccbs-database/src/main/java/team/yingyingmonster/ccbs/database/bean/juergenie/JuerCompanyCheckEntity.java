@@ -7,6 +7,7 @@ import lombok.ToString;
 import team.yingyingmonster.ccbs.database.bean.Company;
 import team.yingyingmonster.ccbs.database.bean.User;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class JuerCompanyCheckEntity {
     private Company company;
-    private List<JuerCombo> comboList;
-    private List<User> userList;
+    private List<JuerCombo> comboList = new LinkedList<>();
+    private List<JuerCombo> selectCombo = new LinkedList<>();
+    private List<User> userList = new LinkedList<>();
 }
