@@ -17,4 +17,5 @@ public interface ZhaoAccountMapper {
     List<Account> selectAccountByCondition(Account condition);
     Long addAccount(Account account);
     Integer addCompany(Company company);
+    Company selectCompany(Long accountId);
 }

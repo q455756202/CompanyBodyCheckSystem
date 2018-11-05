@@ -37,17 +37,32 @@ public class AccountServiceImplement implements AccountService {
     }
 
     @Override
-    public boolean addAccount(String accountName, String accountPassword,String companyPhone, String companyEmail) {
+    public Long addAccount(String accountName, String accountPassword,String companyPhone, String companyEmail) {
         Account account = new Account();
         account.setAccountname(accountName);
         account.setAccountpassword(accountPassword);
-        Long accountId= Long.valueOf(zhaoAccountMapper.addAccount(account));
-        Company company=new Company();
-        company.setAccountid(accountId);
-        company.setCompanyphone(companyPhone);
-        company.setCompanyemail(companyEmail);
-        Integer result=zhaoAccountMapper.addCompany(company);
-        return result>0;
+        Long accountId= zhaoAccountMapper.addAccount(account);
+        if (account!=null){
+            Company company=new Company();
+            company.setAccountid(accountId);
+            company.setCompanyphone(companyPhone);
+            company.setCompanyemail(companyEmail);
+            Integer result=zhaoAccountMapper.addCompany(company);
+            if (result>0){
+                return accountId;
+            }else {
+                return 0L;
+            }
+        }else {
+            return 0L;
+        }
+    }
+
+    @Override
+    public Company selectCompany(Long accountId) {
+        Company company=null;
+        company=zhaoAccountMapper.selectCompany(accountId);
+        return company;
     }
 
 }

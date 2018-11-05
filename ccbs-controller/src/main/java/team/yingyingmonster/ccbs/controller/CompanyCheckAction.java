@@ -11,6 +11,7 @@ import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
 import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
+import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
 import javax.servlet.http.HttpSession;
@@ -40,7 +41,7 @@ public class CompanyCheckAction {
     @ResponseBody
     public ResultMessage getCompanyUser(HttpSession session) {
         // TODO: 等待登入功能完成后执行，目前只返回测试公司的员工信息
-        Account account = (Account) session.getAttribute("login-account");
+        Account account = (Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
         if (account == null || account.getRoleid() != 1) {
             return ResultMessage.createErrorMessage("获取数据失败！");
         } else {

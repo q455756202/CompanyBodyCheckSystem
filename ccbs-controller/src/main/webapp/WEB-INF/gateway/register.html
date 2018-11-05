@@ -94,9 +94,10 @@
             ).then(
                 function success (msg) {
                     console.log(msg);
-                    msg = msg.data;
+                    var msg = msg.data;
                     if (msg.state==200){
                         window.alert(msg.message);
+                        window.alert("您的登陆账户为:"+msg.data);
                         window.location.href="/gateway/index";
                     }
                 }, function error (msg) {

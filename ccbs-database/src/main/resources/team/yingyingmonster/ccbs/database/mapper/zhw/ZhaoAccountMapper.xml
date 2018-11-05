@@ -33,5 +33,8 @@
         values (#{companyid,jdbcType=DECIMAL}, #{companyphone,jdbcType=VARCHAR}, #{companyemail,jdbcType=VARCHAR})
     </insert>
 
+    <select id="selectCompany" parameterType="java.lang.Long" resultType="team.yingyingmonster.ccbs.database.bean.Company">
+        select * from COMPANY_TABLE where ACCOUNTID=#{accountId}
+    </select>
 
 </mapper>
