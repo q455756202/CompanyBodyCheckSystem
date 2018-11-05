@@ -27,7 +27,7 @@ public class ImageUtil {
      * @throws IOException
      */
     public static byte[] imageToBytes (RenderedImage image, String formatName) throws IOException {
-        OutputStream output = new ByteArrayOutputStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
         ImageIO.write(image, formatName, output);
         return ((ByteArrayOutputStream) output).toByteArray();
     }
