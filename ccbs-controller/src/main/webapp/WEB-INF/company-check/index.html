@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>团检主页</title>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/toastr.min.css" rel="stylesheet"/>
+    <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/juer-style.css" rel="stylesheet"/>
+</head>
+<body class="h-100" ng-app="companyCheckSystemApp">
+    <div class="container-fluid h-100 align-items-center">
+        <div class="row justify-content-center">
+            <div class="col-4 text-left align-self-end">
+                <span class="font-size-40px align-self-end">团检报名</span>
+            </div>
+            <div class="col-6 text-right align-self-end">
+                <span class="font-size-9px align-self-end">COMPANY BODY CHECK</span>
+            </div>
+        </div>
+        <div class="row">
+            <hr class="w-100 mt-0"/>
+        </div>
+        <div class="row justify-content-center" ng-controller="comboCheckShowTable">
+            <div class="col-10 text-center align-items-start">
+                <table class="w-100" rules="rows">
+                    <thead>
+                    <tr>
+                        <th class="th-width-10p font-size-24px">编号</th>
+                        <th class="th-width-20p font-size-24px">名称</th>
+                        <th class="th-width-60p font-size-24px">人员</th>
+                        <th class="th-width-10p font-size-24px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="combo in companyEntity.selectCombo">
+                        <td class="font-size-16px">{{combo.comboid}}</td>
+                        <td class="font-size-16px">{{combo.comboname}}</td>
+                        <td>
+                            <table class="w-100" rules="rows">
+                                <thead>
+                                <tr>
+                                    <th class="th-width-30p font-size-20px">人员ID</th>
+                                    <th class="th-width-40p font-size-20px">人员名称</th>
+                                    <th class="th-width-30p font-size-20px">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="user in combo.userList">
+                                    <td class="font-size-16px">{{user.userid}}</td>
+                                    <td class="font-size-16px">{{user.username}}</td>
+                                    <td>
+                                        <button class="btn btn-danger font-size-16px w-100" ng-click="delUser(combo, user)">删除人员</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-size-16px">添加人员</td>
+                                    <td>
+                                        <select ng-model="selectAddUser" ng-options="us.username for us in companyEntity.userList" class="font-size-16px form-control">
+                                            <option value="">未选择</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success w-100 font-size-16px" ng-click="addUser(combo, selectAddUser)">添加人员</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger w-100 font-size-16px" ng-click="delCombo(combo)">删除套餐</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-size-16px">添加套餐</td>
+                        <td colspan="2">
+                            <select ng-model="selectCheck" ng-options="ch.comboname for ch in companyEntity.comboList" class="w-100 form-control font-size-16px">
+                                <option value="">未选择</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-success w-100 font-size-16px" ng-click="addCombo(selectCheck)">添加套餐</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr/>
+                <button class="btn btn-success w-100" ng-click="submit()">提交名单</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/bootstrap.bundle.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+<script>
+    let companyCheckSystemApp = angular.module("companyCheckSystemApp", []);
+    let comboCheckShowTable = companyCheckSystemApp.controller("comboCheckShowTable", function($scope, $http) {
+        $http.post("/company-check/get-company-entity")
+            .then(function success(response) {
+                console.log(response.data);
+                let msg = response.data;
+                if (msg.state == 200)
+                    $scope.companyEntity = msg.data;
+                else
+                    toastr.error(msg.message, "获取数据");
+            }, function error(response) {
+                console.error(response);
+                toastr.error("出现了一些意外，相关信息已输出至控制台。", "获取数据");
+            });
+
+        /**
+         * 添加一个套餐。
+         * @param data 套餐对象。
+         */
+        $scope.addCombo = function(data) {
+            if (!data)
+                return;
+            if ($scope.companyEntity.selectCombo.indexOf(data) > -1) {
+                toastr.error("该套餐已存在！", "添加套餐");
+            } else {
+                $scope.companyEntity.selectCombo.push(data);
+                toastr.success("套餐添加成功！", "添加套餐");
+            }
+        };
+
+        /**
+         * 删除一个套餐。
+         * @param data 套餐对象。
+         */
+        $scope.delCombo = function(data) {
+            for (let i = 0; i < $scope.companyEntity.selectCombo.length; i++) {
+                if ($scope.companyEntity.selectCombo[i] == data) {
+                    $scope.companyEntity.selectCombo.splice(i, 1);
+                    break;
+                }
+            }
+        };
+
+        /**
+         * 向套餐内添加一个成员。
+         * @param combo 套餐对象
+         * @param user 成员对象
+         */
+        $scope.addUser = function(combo, user) {
+            if (!user)
+                return;
+            if (combo.userList.indexOf(user) > -1) {
+                toastr.error("该套餐内已包含该用户！", "添加成员");
+            } else {
+                combo.userList.push(user);
+                $scope.selectAddUser = null;
+            }
+        };
+
+        /**
+         * 将成员移除出套餐。
+         * @param combo 套餐对象
+         * @param user 成员对象
+         */
+        $scope.delUser = function(combo, user) {
+            for (let i = 0; i < combo.userList.length; i++) {
+                if (combo.userList[i] == user) {
+                    combo.userList.splice(i, 1);
+                    break;
+                }
+            }
+        };
+
+        $scope.submit = function() {
+            $http.post("/company-check/");
+        };
+    });
+</script>
+</html>

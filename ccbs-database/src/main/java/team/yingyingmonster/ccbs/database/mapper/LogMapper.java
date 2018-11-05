@@ -1,9 +1,11 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Log;
 
 import java.util.List;
 
+@Repository
 public interface LogMapper {
     Log selectByPrimaryKey(Long logid);
     int deleteByPrimaryKey(Long logid);

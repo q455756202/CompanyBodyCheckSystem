@@ -1,9 +1,11 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
+import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Doctor;
 
 import java.util.List;
 
+@Repository
 public interface DoctorMapper {
     Doctor selectByPrimaryKey(Long doctorid);
     int deleteByPrimaryKey(Long doctorid);
