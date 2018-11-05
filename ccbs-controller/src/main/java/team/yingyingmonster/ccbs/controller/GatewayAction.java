@@ -34,16 +34,16 @@ public class GatewayAction {
         return "gateway/index";
     }
 
-    @RequestMapping("/success")
+  /*  @RequestMapping("/success")
     public String success(HttpSession session){
         Account account=(Account) session.getAttribute("login-account");
-        if (account!=null){
+        if (account.getAccountid()!=null){
             return "main/index";
         }else {
             return "redirect:/";
         }
 
-    }
+    }*/
 
     @RequestMapping("/login")
     @ResponseBody
