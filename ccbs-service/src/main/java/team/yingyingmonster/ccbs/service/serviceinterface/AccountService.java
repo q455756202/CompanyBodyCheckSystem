@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface AccountService {
     Account login(Long accountId, String accountPassword);
-    Long addAccount(String accountName,String accountPassword);
-    boolean addCompany(Long accountId,String companyPhone,String companyEmail);
+    boolean addAccount(String accountName,String accountPassword,String companyPhone,String companyEmail);
 }

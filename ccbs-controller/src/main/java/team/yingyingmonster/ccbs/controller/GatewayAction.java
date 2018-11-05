@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.image.ImageUtil;
+import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
 
 
@@ -53,7 +54,7 @@ public class GatewayAction {
         if (keyCode.toLowerCase().equals(userCode.toLowerCase())){
             Account account=accountService.login(accountId,accountPassword);
             if(account!=null){
-                session.setAttribute("login-account", account);
+                session.setAttribute(Constant.SESSION_LOGIN_ACCOUNT, account);
                 msg="登陆成功";
                 return ResultMessage.createSuccessMessage(msg,null);
             }else {
@@ -99,12 +100,11 @@ public class GatewayAction {
     @RequestMapping("/account-register")
     @ResponseBody
     public ResultMessage register(String accountName,String accountPassword,String companyPhone,String companyEmail){
-        Long accountId=accountService.addAccount(accountName,accountPassword);
-        boolean result=accountService.addCompany(accountId,companyPhone,companyEmail);
+        boolean result=accountService.addAccount(accountName, accountPassword, companyPhone, companyEmail);
         String msg="";
-        if (accountId>0){
+        if (result){
             msg="注册成功";
-            return ResultMessage.createSuccessMessage(msg,accountId);
+            return ResultMessage.createSuccessMessage(msg,null);
         }else {
             msg="注册失败";
             return ResultMessage.createErrorMessage(msg);

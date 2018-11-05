@@ -37,16 +37,11 @@ public class AccountServiceImplement implements AccountService {
     }
 
     @Override
-    public Long addAccount(String accountName, String accountPassword) {
+    public boolean addAccount(String accountName, String accountPassword,String companyPhone, String companyEmail) {
         Account account = new Account();
         account.setAccountname(accountName);
         account.setAccountpassword(accountPassword);
-        Long result= Long.valueOf(zhaoAccountMapper.addAccount(account));
-        return result;
-    }
-
-    @Override
-    public boolean addCompany(Long accountId, String companyPhone, String companyEmail) {
+        Long accountId= Long.valueOf(zhaoAccountMapper.addAccount(account));
         Company company=new Company();
         company.setAccountid(accountId);
         company.setCompanyphone(companyPhone);
@@ -54,4 +49,5 @@ public class AccountServiceImplement implements AccountService {
         Integer result=zhaoAccountMapper.addCompany(company);
         return result>0;
     }
+
 }

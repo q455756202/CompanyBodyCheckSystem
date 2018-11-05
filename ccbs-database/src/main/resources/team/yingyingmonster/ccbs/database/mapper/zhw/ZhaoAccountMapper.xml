@@ -22,7 +22,7 @@
       ACCOUNTPASSWORD, ACCOUNTSTATE, REGISTERDATE)
     values (#{accountid,jdbcType=DECIMAL}, 1, #{@accountname,jdbcType=VARCHAR},
       #{@accountpassword,jdbcType=VARCHAR}, 0,to_char(sysdate,'yyyy-mm-dd'))
-        SELECT * FROM ACCOUNT_TABLE WHERE ID=@@IDENTITY
+        select @@identity
     </insert>
 
     <insert id="addCompany" parameterType="team.yingyingmonster.ccbs.database.bean.Company">
