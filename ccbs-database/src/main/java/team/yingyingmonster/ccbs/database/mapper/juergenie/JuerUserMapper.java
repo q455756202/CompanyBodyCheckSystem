@@ -9,4 +9,5 @@ import java.util.List;
 public interface JuerUserMapper {
     List<User> selectAllUsers();
     List<User> selectUsersByCondition(User condition);
+    List<User> selectUsersByCompanyid(Long companyid);
 }
