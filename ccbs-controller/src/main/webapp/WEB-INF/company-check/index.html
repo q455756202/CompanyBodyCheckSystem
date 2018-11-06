@@ -34,7 +34,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="combo in companyEntity.selectCombo">
-                        <td class="font-size-16px">{{combo.comboid}}</td>
+                        <td class="font-size-16px align-items-start">{{combo.comboid}}</td>
                         <td class="font-size-16px">{{combo.comboname}}</td>
                         <td>
                             <table class="w-100" rules="rows">
@@ -67,7 +67,7 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td>
+                        <td class="align-items-start">
                             <button class="btn btn-danger w-100 font-size-16px" ng-click="delCombo(combo)">删除套餐</button>
                         </td>
                     </tr>
@@ -173,8 +173,19 @@
         };
 
         $scope.submit = function() {
-            $http.post()
-        }
+            $http.post("/company-check/submit-company-check", $scope.companyEntity)
+                .then(
+                    function success(response) {
+                        let msg = response.data;
+                        if (msg.state == 200) {
+                            toastr.success(msg.message, "提交表单");
+                            window.setTimeout(() => {window.location.href = msg.data}, 2000);
+                        } else {
+                            toastr.error(msg.message, "提交表单");
+                        }
+                    }
+                );
+        };
     });
 </script>
 </html>
