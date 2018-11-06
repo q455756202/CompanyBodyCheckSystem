@@ -13,6 +13,7 @@ public class Model {
     private Long recordid;
     private Long checkid;
     private String recordname;
+    private String recorddefault;
 
     private Check checkByCheckid;
 }

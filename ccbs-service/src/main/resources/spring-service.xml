@@ -23,6 +23,8 @@
         </tx:attributes>
     </tx:advice>
 
+    <bean id="adviceBefore" class="team.yingyingmonster.ccbs.service.servicebean.AdviceBeforeHandler"/>
+
     <aop:config>
         <aop:pointcut id="servicePointcut" expression="execution (* team.yingyingmonster.ccbs.service.serviceimplement.*.*(..))"/>
         <aop:advisor advice-ref="transactionInterceptor" pointcut-ref="servicePointcut"/>

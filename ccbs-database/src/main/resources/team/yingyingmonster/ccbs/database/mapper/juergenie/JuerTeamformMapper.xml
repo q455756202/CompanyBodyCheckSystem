@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerTeamformMapper" >
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Teamform" >
+        <id column="TEAMFORMID" property="teamformid" jdbcType="DECIMAL" />
+        <result column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+        <result column="TEAMFORMSTATE" property="teamformstate" jdbcType="DECIMAL" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        TEAMFORMID, COMPANYID, TEAMFORMSTATE
+    </sql>
+
+    <select id="getNewId" resultType="long">
+        select TEAMFORM_SEQUENCE.nextval from dual
+    </select>
+
+    <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Teamform" >
+    insert into TEAMFORM_TABLE (TEAMFORMID, COMPANYID, TEAMFORMSTATE)
+    values (#{teamformid,jdbcType=DECIMAL}, #{companyid,jdbcType=DECIMAL}, #{teamformstate,jdbcType=DECIMAL})
+  </insert>
+</mapper>

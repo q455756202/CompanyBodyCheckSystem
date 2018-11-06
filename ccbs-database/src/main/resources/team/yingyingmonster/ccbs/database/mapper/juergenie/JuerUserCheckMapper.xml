@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserCheckMapper" >
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.UserCheck" >
+        <id column="USERCHECKID" property="usercheckid" jdbcType="DECIMAL" />
+        <result column="USERID" property="userid" jdbcType="DECIMAL" />
+        <result column="TEAMFORMCOMBOCHECKID" property="teamformcombocheckid" jdbcType="DECIMAL" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        USERCHECKID, USERID, TEAMFORMCOMBOCHECKID
+    </sql>
+
+    <select id="getNewId" resultType="long">
+        select USER_CHECK_SEQUENCE.nextval from dual
+    </select>
+
+    <insert id="insertBatch" parameterType="list">
+        insert into USER_CHECK_TABLE(USERID, USERCHECKID, TEAMFORMCOMBOCHECKID)
+        select * from
+        <foreach collection="list" item="item" open="(" separator="union all" close=")">
+            select #{item.userid}, #{item.usercheckid}, #{item.teamformcombocheckid} from dual
+        </foreach>
+    </insert>
+</mapper>

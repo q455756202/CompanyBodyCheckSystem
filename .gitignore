@@ -25,3 +25,7 @@
 hs_err_pid*
 /ccbs-database/src/main/resources/database.properties
 ccbs-controller/src/main/webapp/assets/scripts/i18n/ngLocale/
+ccbs-controller/target/
+ccbs-database/target/
+ccbs-service/target/
+ccbs-common/target/
