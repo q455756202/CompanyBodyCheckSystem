@@ -34,13 +34,15 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="combo in companyEntity.selectCombo">
-                    <td class="font-size-16px align-items-start">{{combo.comboid}}</td>
-                    <td class="font-size-16px">
-                        <span class="font-size-16px font-weight-bold">{{combo.comboname}}</span>
-                        <br/>
-                        <span class="font-size-12px">{{combo.combosummary}}</span>
+                    <td class="font-size-16px th-width-10p">{{combo.comboid}}</td>
+                    <td class="font-size-16px th-width-20p">
+                        <div class="w-100 j-break-wrap">
+                            <span class="font-size-16px font-weight-bold">{{combo.comboname}}</span>
+                            <br/>
+                            <span class="font-size-12px">{{combo.combosummary}}</span>
+                        </div>
                     </td>
-                    <td>
+                    <td class="th-width-60p">
                         <table class="w-100 p-2" rules="rows">
                             <thead>
                             <tr>
@@ -77,7 +79,7 @@
                             </tbody>
                         </table>
                     </td>
-                    <td class="align-items-start">
+                    <td class="th-width-10p">
                         <button class="btn btn-danger w-100 font-size-16px p-2 mt-2 mb-2" ng-click="delCombo(combo)">删除套餐</button>
                         <br/>
                         <button class="btn btn-primary w-100 font-size-16px p-2 mt-2 mb-2" ng-click="clearCombo(combo)">清空套餐</button>
@@ -106,6 +108,7 @@
 </div>
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/truncate.js"></script>
 <script src="/assets/scripts/jquery.min.js"></script>
 <script src="/assets/scripts/bootstrap.min.js"></script>
 <script src="/assets/scripts/bootstrap.bundle.min.js"></script>
@@ -114,7 +117,7 @@
 <script src="/assets/scripts/base64.min.js"></script>
 <script src="/assets/scripts/juer-script.js"></script>
 <script>
-    let companyCheckSystemApp = angular.module("companyCheckSystemApp", []);
+    let companyCheckSystemApp = angular.module("companyCheckSystemApp", ['truncate']);
     let comboCheckShowTable = companyCheckSystemApp.controller("comboCheckShowTable", function ($scope, $http) {
         $http.post("/company-check/get-company-entity")
             .then(function success(response) {
