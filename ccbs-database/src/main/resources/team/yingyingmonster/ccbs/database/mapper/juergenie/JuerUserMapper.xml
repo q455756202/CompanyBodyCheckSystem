@@ -27,4 +27,8 @@
             <if test="usercardcode != null">and USERCARDCODE like #{usercardcode}</if>
         </where>
     </select>
+
+    <select id="selectUsersByCompanyid" resultMap="BaseResultMap">
+        select * from USER_TABLE where COMPANYID=#{companyid}
+    </select>
 </mapper>

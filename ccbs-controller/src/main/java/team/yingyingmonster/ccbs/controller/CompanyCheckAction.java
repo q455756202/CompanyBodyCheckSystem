@@ -2,12 +2,15 @@ package team.yingyingmonster.ccbs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
+import team.yingyingmonster.ccbs.database.bean.Company;
 import team.yingyingmonster.ccbs.database.bean.User;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
+import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
 import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
@@ -31,23 +34,33 @@ public class CompanyCheckAction {
     private JuerUserMapper juerUserMapper;
     @Autowired
     private JuerComboMapper juerComboMapper;
+    @Autowired
+    private JuerCompanyMapper juerCompanyMapper;
 
     @RequestMapping("/index")
     public String index() {
         return "company-check/index";
     }
 
+    @RequestMapping("/success")
+    public String success() {
+        return "company-check/success";
+    }
+
+    @RequestMapping("/error")
+    public String error() {
+        return "company-check/error";
+    }
+
     @RequestMapping("/get-company-user")
     @ResponseBody
     public ResultMessage getCompanyUser(HttpSession session) {
-        // TODO: 等待登入功能完成后执行，目前只返回测试公司的员工信息
         Account account = (Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
         if (account == null || account.getRoleid() != 1) {
             return ResultMessage.createErrorMessage("获取数据失败！");
         } else {
-            User condition = new User();
-            condition.setCompanyid(1l);
-            return ResultMessage.createSuccessMessage("success!", juerUserMapper.selectUsersByCondition(condition));
+            Company company = juerCompanyMapper.selectCompanyByAccountId(account.getAccountid());
+            return ResultMessage.createSuccessMessage("success!", juerUserMapper.selectUsersByCompanyid(company.getCompanyid()));
         }
     }
 
@@ -63,5 +76,12 @@ public class CompanyCheckAction {
         JuerCompanyCheckEntity entity = juerCompanyCheckSystemService.getCompanyCheckEntity(1l);
         System.out.println("\n========"+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n========");
         return ResultMessage.createSuccessMessage("success!", entity);
+    }
+
+    @RequestMapping("/submit-company-check")
+    @ResponseBody
+    public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
+        System.out.println(JsonUtil.beanToJson(juerCompanyCheckEntity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL));
+        return ResultMessage.createSuccessMessage("success!", "/company-check/success");
     }
 }
