@@ -31,14 +31,18 @@ public class AccountAction {
     @ResponseBody
     public ResultMessage accountInfo(HttpSession session){
         Account account=(Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
-        Company company=accountService.selectCompany(account.getAccountid());
-        Map<String,Object> map=new ManagedMap<>();
-        map.put("account",account);
-        map.put("company",company);
-        if (company!=null){
-            return ResultMessage.createSuccessMessage(null,map);
+        if (account!=null){
+            Company company=accountService.selectCompany(account.getAccountid());
+            if (company!=null){
+                Map<String,Object> map=new ManagedMap<>();
+                map.put("account",account);
+                map.put("company",company);
+                return ResultMessage.createSuccessMessage(null,map);
+            }else {
+                return ResultMessage.createErrorMessage("没有获取到账户信息");
+            }
         }else {
-            return ResultMessage.createErrorMessage(null);
+            return ResultMessage.createErrorMessage("请重新登入");
         }
 
     }

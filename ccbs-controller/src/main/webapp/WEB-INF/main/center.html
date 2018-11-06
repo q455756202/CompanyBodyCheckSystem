@@ -54,6 +54,7 @@
             .then(
                 function success(response) {
                     let resultMessage = response.data;
+                    console.log("菜单", resultMessage.data);
                     if (resultMessage.state == 200) {
                         $(resultMessage.data).each(function (i, v) {
                             $scope.menuList.push(v);
