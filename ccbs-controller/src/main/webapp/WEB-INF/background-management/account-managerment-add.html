@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="./css/x-admin.css" media="all">
 </head>
 
-<body ng-app="myApp">
+<body ng-app="ngApp">
 <div class="x-body">
-    <form ng-submit="submitForm()" ng-controller="AccountHandle"
+    <form ng-submit="submitForm()" ng-controller="accountController"
           method="post" onsubmit="return checkForm()">
         <input type="hidden" value="addManager" name="method">
         <div class="layui-form-item">
@@ -23,7 +23,7 @@
                     class="x-red">*</span>设置账户名
             </label>
             <div class="layui-input-inline">
-                <input type="text"  ng-model="accountBean.accountName" name="ACCOUNTNAME" id="accountname" onblur="check1()"
+                <input type="text"  ng-model="account.accountName" name="accountName" id="accountName" onblur="check1()"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -36,7 +36,7 @@
             <label class="layui-form-label"> <span class="x-red">*</span>密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" ng-model="accountBean.accountPassword" id="L_pass" name="ADMINPSW"
+                <input type="password" ng-model="account.accountPassword" id="L_pass" name="ADMINPSW"
                        onblur="check2()" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">6到16个字符</div>
@@ -46,7 +46,7 @@
                     class="x-red">*</span>确认密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" ng-model="accountBean.accountPassword" id="L_repass" name="REPWD" onblur="check3()"
+                <input type="password" ng-model="account.accountPassword" id="L_repass" name="REPWD" onblur="check3()"
                        class="layui-input">
             </div>
         </div>
@@ -55,9 +55,14 @@
             <label for="L_username" class="layui-form-label"> <span
                     class="x-red">*</span>角色
             </label>
-            <select name="ACCOUNTROLE" ng-model="accountBean.roleId">
-                <option value="1">管理员</option>
+            <select name="ACCOUNTROLE" ng-model="account.roleId">
+                <option value="1">团检单位</option>
                 <option value="2">医生</option>
+                <option value="3">总检医生</option>
+                <option value="4">前台服务</option>
+                <option value="5">管理员</option>
+                <option value="6">超级管理员</option>
+
             </select>
         </div>
 
@@ -75,6 +80,29 @@
 </script>
 <script src="./js/x-layui.js" charset="utf-8">
 
+</script>
+<script src="/assets/scripts/angular.min.js"></script>
+<script>
+    var app = angular.module("ngApp",[]);
+    app.controller('accountController',function ($scope,$http) {
+        $scope.submitForm = function () {
+            console.log('enter submitForm');
+            $http({
+                method:'post',
+                url:'/addAccount',
+                data:$.param($scope.account),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(function(resp){
+                console.log('post success');
+                console.log(resp);
+            },function(resp){
+                console.log('post error');
+                console.log(resp);
+            });
+        }
+    });
 </script>
 <script type="text/javascript">
     $(document)
@@ -115,7 +143,7 @@
         }
     }
     function check1() {
-        var Username = document.getElementById("accountname").value;
+        var Username = document.getElementById("accountName").value;
 
         if (Username == "")
 
@@ -131,26 +159,7 @@
         if (pwd == "")
             alert("请确认密码");
     }
-    var app = angular.module("myApp",[]);
-    app.controller('AccountHandle',function ($scope,$http) {
-        $scope.submitForm = function () {
-            console.log('enter submitForm');
-            $http({
-                method:'post',
-                url:'/background-management',
-                data:$.param($scope.accountBean),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(function(resp){
-                console.log('post success');
-                console.log(resp);
-            },function(resp){
-                console.log('post error');
-                console.log(resp);
-            });
-        }
-    });
+
 </script>
 </body>
 </html>

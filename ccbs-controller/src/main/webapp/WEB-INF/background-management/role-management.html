@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html" charset="utf-8">
 <meta charset="utf-8">
 <title>角色管理</title>
 <meta name="renderer" content="webkit">
@@ -43,8 +44,8 @@
 <div class="tools">
     <ul class="toolbar">
       <li><span><img src="/assets/images/t03.png" /></span>批量删除</li>
-      <li onclick="role_management_add('添加用户','role_management_add.html','900','500')"><span><img src="images/t01.png" /></span>添加</li>
-      <li onclick="role_management_edit('编辑','role_management_edit.html','900','500')"><span><img src="images/t02.png" /></span>编辑</li>
+      <li onclick="role_management_add('添加用户','roleAdd','900','500')"><span><img src="/assets/images/t01.png" /></span>添加</li>
+      <li onclick="role_management_edit('编辑','role-management-edit.html','900','500')"><span><img src="/assets/images/t02.png" /></span>编辑</li>
     </ul>
     <span class="x-right" style="line-height:25px">共有数据： 条</span></xblock>
   </div>
@@ -66,11 +67,20 @@
       <td>{{role.roleName}}</td>
       <td >更改权利</td>
       <td class="td-manage"><a title="分配权限" href="javascript:;" onclick="role_management_permissions('分配权限','role_management_permissions.html','4','','510')"
-                            class="ml-5" style="text-decoration:none"> <i class="layui-icon"><img src="images/quanxian.png" width="15" height="15"></i> </a> <a title="查看" href="javascript:;" onclick="role_management_look('查看','role_management_look.html','4','','510')"
+                            class="ml-5" style="text-decoration:none"> <i class="layui-icon"><img src="/assets/images/quanxian.png" width="15" height="15"></i> </a> <a title="查看" href="javascript:;" onclick="role_management_look('查看','role_management_look.html','4','','510')"
                             class="ml-5" style="text-decoration:none"> <i class="layui-icon">&#xe63c;</i> </a> <a title="删除" href="javascript:;" onclick="role_del(this,'1')" 
                             style="text-decoration:none"> <i class="layui-icon">&#xe640;</i> </a></td>
     </tr>
-
+    <tr>
+      <td><input type="checkbox" value="1" name="selected"></td>
+      <td> 2 </td>
+      <td>呵呵</td>
+      <td >更改权利</td>
+      <td class="td-manage"><a title="分配权限" href="javascript:;" onclick="role_management_permissions('分配权限','role_management_permissions.html','4','','510')"
+                               class="ml-5" style="text-decoration:none"> <i class="layui-icon"><img src="/assets/images/quanxian.png" width="15" height="15"></i> </a> <a title="查看" href="javascript:;" onclick="role_management_look('查看','/roleMenu','4','','510')"
+                                                                                                                                                                           class="ml-5" style="text-decoration:none"> <i class="layui-icon">&#xe63c;</i> </a> <a title="删除" href="javascript:;" onclick="role_del(this,'1')"
+                                                                                                                                                                                                                                                                 style="text-decoration:none"> <i class="layui-icon">&#xe640;</i> </a></td>
+    </tr>
   </tbody>
 </table>
 <div class="page"  v-show="show">

@@ -3,11 +3,11 @@ package team.yingyingmonster.ccbs.service.serviceimplement;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Role;
 import team.yingyingmonster.ccbs.database.dingli.RoleListMapper;
-import team.yingyingmonster.ccbs.database.mapper.RoleMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.RoleService;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public class RoleServiceImplement implements RoleService {
     private List roleList;
     private String flag;
     @Autowired
-    public RoleMapper roleMapper;
     public RoleListMapper roleListMapper;
+
+
     @Override
-    public List<Role> selectAllRole()
-    {
+    public List<Role> selectAllRoleList(@Param("roleid") Long roleid, @Param("rolename") String rolename) throws Exception {
         return roleListMapper.selectAllRole();
     }
 

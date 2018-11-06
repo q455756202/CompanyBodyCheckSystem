@@ -24,5 +24,12 @@ public class TestAction {
      public String index(){
         return "background-management/role-management";
     }
-
+    @RequestMapping("/roleAdd")
+    public String index2(){
+        return "background-management/role-management-add";
+    }
+    @RequestMapping("/roleMenu")
+    public String index3(){
+        return "background-management/role-management-menu";
+    }
 }

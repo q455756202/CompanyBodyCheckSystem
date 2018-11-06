@@ -12,8 +12,8 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="format-detection" content="telephone=no">
-        <link rel="stylesheet" href="./css/x-admin.css" media="all">
-        <link rel="stylesheet" href="css/pag.css" media="all">        
+        <link rel="stylesheet" href="/assets/css/x-admin.css" media="all">
+        <link rel="stylesheet" href="/assets/css/pag.css" media="all">
     </head>
     <body ng-app="ngApp">
         <div class="x-nav">
@@ -50,12 +50,12 @@
             </form>
             <div class="tools">
     <ul class="toolbar">
-      <li><span><img src="images/t03.png" /></span>批量删除</li>
-      <li onclick="user_management_add('添加用户','account_management_add.html','600','500')"><span><img src="images/t01.png" /></span>添加</li>
-      <li><span><img src="images/t10.png" /></span>导入</li>
-      <li><span><img src="images/t09.png" /></span>导出</li>
-      <li><span><img src="images/t07.png" /></span>打印</li>
-      <li><span><img src="images/t08.png" /></span>审核</li>
+      <li><span><img src="/assets/images/t03.png" /></span>批量删除</li>
+      <li onclick="user_management_add('添加用户','account-management-add.html','600','500')"><span><img src="/assets/images/t01.png" /></span>添加</li>
+      <li><span><img src="/assets/images/t10.png" /></span>导入</li>
+      <li><span><img src="/assets/images/t09.png" /></span>导出</li>
+      <li><span><img src="/assets/images/t07.png" /></span>打印</li>
+      <li><span><img src="/assets/images/t08.png" /></span>审核</li>
     </ul>
     <span class="x-right" style="line-height:25px">共有数据：88 条</span></xblock>
   </div>
@@ -111,11 +111,11 @@
                             <a style="text-decoration:none" onclick="member_stop(this,'10001')" href="javascript:;" title="停用">
                                 <i class="layui-icon">&#xe601;</i>
                             </a>
-                            <a title="编辑" href="javascript:;" onclick="user_management_edit('编辑','user_management_edit.html','4','','510')"
+                            <a title="编辑" href="javascript:;" onclick="user_management_edit('编辑','user-management-edit.html','4','','510')"
                             class="ml-5" style="text-decoration:none">
                                 <i class="layui-icon">&#xe642;</i>
                             </a>
-                            <a style="text-decoration:none"  onclick="user_management_password('修改密码','user_management_password.html','10001','600','400')"
+                            <a style="text-decoration:none"  onclick="user_management_password('修改密码','user-management-password.html','10001','600','400')"
                             href="javascript:;" title="修改密码">
                                 <i class="layui-icon">&#xe631;</i>
                             </a>

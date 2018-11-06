@@ -11,11 +11,4 @@
   <select id="selectAllRole" resultType="team.yingyingmonster.ccbs.database.bean.Role" >
       select * from ROLE_TABLE;
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from ROLE_TABLE
-    where ROLEID = #{roleid,jdbcType=DECIMAL}
-  </select>
-
 </mapper>
