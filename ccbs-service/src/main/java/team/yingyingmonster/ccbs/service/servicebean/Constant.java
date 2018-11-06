@@ -38,4 +38,14 @@ public class Constant {
              * 会话域中储存的登入账号的key值
              */
             SESSION_LOGIN_ACCOUNT       = "login-account";
+
+    public static final Integer
+            /**
+             * 套餐类型 - 持久套餐
+             */
+            COMBO_TYPE_LASTING  = 0,
+            /**
+             * 套餐类型 - 临时套餐
+             */
+            COMBO_TYPE_TEMP     = 1;
 }
