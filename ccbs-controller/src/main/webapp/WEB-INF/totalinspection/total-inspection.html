@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>总检</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/toastr.min.css" rel="stylesheet"/>
+    <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/juer-style.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="/test/themes/default/default.css" />
+    <link rel="stylesheet" href="/test/plugins/code/prettify.css" />
+</head>
+<body >
+
+<h1 class="text-center">总检人员表</h1>
+<div class="container">
+    <table class="table table-bordered table-hover">
+        <thead class="text-center">
+        <tr>
+            <th>体检人</th>
+            <th>性别</th>
+            <th>体检套餐</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody class="text-center" ng-app="userApp" ng-controller="userController">
+            <tr ng-repeat="user in userList">
+                <td>{{user.userName}}</td>
+                <td>{{user.userGender}}</td>
+                <td>{{user.comboName}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#total-inspection">总结</button>
+                </td>
+            </tr>
+        <!--<tr>
+            <td>张三</td>
+            <td>男</td>
+            <td>入职体检</td>
+            <td >
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#total-inspection">总结</button>
+            </td>
+        </tr>-->
+        </tbody>
+    </table>
+    <ul class="pagination float-right">
+        <li class="page-item"><a class="page-link" href="#">首页</a></li>
+        <li class="page-item"><a class="page-link" href="#">上一页</a></li>
+        <li class="page-item"><a class="page-link" href="#">下一页</a></li>
+        <li class="page-item"><a class="page-link" href="#">末页</a></li>
+    </ul>
+</div>
+<!-- 模态框 -->
+<div class="modal fade" id="total-inspection">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="form-group">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">体检总检和建议</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- 模态框内容 -->
+                <div class="modal-body" >
+                    <form>
+                        <div ng-app="inspectionContentApp"  ng-controller="inspectionContentController">
+                            <textarea name="totalInspectionContent" cols="60" rows="8" ng-model="totalInspectionContent"></textarea><br />
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="saveInspection()">保存</button>
+                    <button type="button" class="btn btn-primary" onclick="submitInspection()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/bootstrap.bundle.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+
+<script charset="utf-8" src="/test/kindeditor.js"></script>
+<script charset="utf-8" src="/test/lang/zh-CN.js"></script>
+<script charset="utf-8" src="/test/plugins/code/prettify.js"></script>
+<script>
+    KindEditor.ready(function(K) {
+        var editor1 = K.create('textarea[name="totalInspectionContent"]', {
+            cssPath : '/test/plugins/code/prettify.css',
+            //uploadJson : '/test/jsp/upload_json.jsp',
+            //fileManagerJson : '/test/jsp/file_manager_json.jsp',
+            allowFileManager : true,
+            resizeType:1,
+            width:"100%",
+            height:"350px",
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    document.forms['example'].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    document.forms['example'].submit();
+                });
+            }
+        });
+        prettyPrint();
+    });
+</script>
+<script>
+    var app=angular.module('userApp',[]);
+    //查询待检人员
+    app.controller('userContentController',function ($scope,$http) {
+        $http({
+            method:"POST",
+            url:"/total-inspection/findUsers"
+        }).then(function (response) {
+            $scope.userList=response.data;
+        })
+    })
+</script>
+<script>
+    //保存总检内容
+    function saveInspection() {
+        var form=$("from");
+
+    }
+    //提交总检内容
+    function submitInspection() {
+
+    }
+</script>
+</html>
