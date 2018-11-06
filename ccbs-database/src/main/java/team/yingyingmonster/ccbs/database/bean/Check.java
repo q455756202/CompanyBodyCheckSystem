@@ -19,4 +19,6 @@ public class Check {
     private Long deptid;
     private String checkname;
     private BigDecimal checkprice;
+
+    private Dept deptByDeptid;
 }

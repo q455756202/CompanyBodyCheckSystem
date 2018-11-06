@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerMenuMapper" >
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Menu" >
+        <id column="MENUID" property="menuid" jdbcType="DECIMAL" />
+        <result column="MENUNAME" property="menuname" jdbcType="VARCHAR" />
+        <result column="MENUURL" property="menuurl" jdbcType="VARCHAR" />
+        <result column="MENUSTATE" property="menustate" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectAllMenu" resultMap="BaseResultMap">
+        select * from MENU_TABLE
+    </select>
+    <select id="selectMenusByCondition" resultMap="BaseResultMap" parameterType="team.yingyingmonster.ccbs.database.bean.Menu">
+        select * from MENU_TABLE
+        <where>
+            <if test="menuid != null">and MENUID=#{menuid}</if>
+            <if test="menuname != null">and MENUNAME like #{menuname}</if>
+            <if test="menuurl != null">and MENUURL like #{menuurl}</if>
+            <if test="menustate != null">and MENUSTATE=#{menustate}</if>
+        </where>
+    </select>
+</mapper>
