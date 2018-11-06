@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboCheckMapper">
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.ComboCheck">
+        <id column="COMBOCHECKID" property="combocheckid" jdbcType="DECIMAL"/>
+        <result column="CHECKID" property="checkid" jdbcType="DECIMAL"/>
+        <result column="COMBOID" property="comboid" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="CheckResultMap" type="team.yingyingmonster.ccbs.database.bean.Check">
+        <id column="CHECKID" property="checkid" jdbcType="DECIMAL"/>
+        <result column="DEPTID" property="deptid" jdbcType="DECIMAL"/>
+        <result column="CHECKNAME" property="checkname" jdbcType="VARCHAR"/>
+        <result column="CHECKPRICE" property="checkprice" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="ComboResultMap" type="team.yingyingmonster.ccbs.database.bean.Combo" >
+        <id column="COMBOID" property="comboid" jdbcType="DECIMAL" />
+        <result column="COMBONAME" property="comboname" jdbcType="VARCHAR" />
+        <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR" />
+        <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        COMBOCHECKID, CHECKID, COMBOID
+    </sql>
+
+    <select id="getNewId" resultType="long">
+        select COMBO_CHECK_SEQUENCE.nextval from dual
+    </select>
+    <select id="selectChecksByComboid" parameterType="long" resultMap="CheckResultMap">
+        select * from CHECK_TABLE where CHECKID in (select CHECKID from COMBO_CHECK_TABLE where COMBOID=#{comboid})
+    </select>
+    <select id="selectCombosByCheckid" parameterType="long" resultMap="ComboResultMap">
+        select * from COMBO_TABLE where COMBOID in (select COMBOID from COMBO_CHECK_TABLE where CHECKID=#{checkid})
+    </select>
+</mapper>

@@ -58,6 +58,10 @@
         <version.zxing>3.3.2</version.zxing>
         <!--PDF依赖包-->
         <version.itext>5.5.13</version.itext>
+        <!--WORD转HTML依赖包-->
+        <version.poi>4.0.0</version.poi>
+        <version.ooxml>1.4</version.ooxml>
+        <version.xdocreport>2.0.1</version.xdocreport>
     </properties>
 
     <dependencies>
@@ -266,11 +270,45 @@
             <version>${version.zxing}</version>
         </dependency>
 
+        <!--PDF生成依赖-->
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itextpdf</artifactId>
             <version>${version.itext}</version>
         </dependency>
+
+        <!--WORD转HTML依赖-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${version.poi}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>${version.poi}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${version.poi}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>${version.poi}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
+            <version>${version.ooxml}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>fr.opensagres.xdocreport.core</artifactId>
+            <version>${version.xdocreport}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
