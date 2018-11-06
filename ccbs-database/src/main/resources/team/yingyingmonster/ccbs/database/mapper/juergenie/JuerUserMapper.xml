@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper" >
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.User" >
+        <id column="USERID" property="userid" jdbcType="DECIMAL" />
+        <result column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+        <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+        <result column="USERGENDER" property="usergender" jdbcType="DECIMAL" />
+        <result column="USERAGE" property="userage" jdbcType="DECIMAL" />
+        <result column="USERPHONE" property="userphone" jdbcType="VARCHAR" />
+        <result column="USERCARDCODE" property="usercardcode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+        select * from USER_TABLE
+    </select>
+
+    <select id="selectUsersByCondition" parameterType="team.yingyingmonster.ccbs.database.bean.User" resultMap="BaseResultMap">
+        select * from USER_TABLE
+        <where>
+            <if test="userid != null">and USERID=#{userid}</if>
+            <if test="username != null">and USERNAME like #{username}</if>
+            <if test="companyid != null">and COMPANYID=#{companyid}</if>
+            <if test="usergender != null">and USERGENDER=#{usergender}</if>
+            <if test="userage != null">and USERAGE=#{userage}</if>
+            <if test="userphone != null">and USERPHONE like #{userphone}</if>
+            <if test="usercardcode != null">and USERCARDCODE like #{usercardcode}</if>
+        </where>
+    </select>
+</mapper>
