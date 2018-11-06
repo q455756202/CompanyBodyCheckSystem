@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>体检小结录入</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+</head>
+<body ng-app="summaryapp">
+    <div class="container">
+        <div class="row" ng-controller="summarytemplet">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">体检小结录入</div>
+                    <div class="card-body">
+                            <textarea id="summary" name="summary" ng-model="summary" style="width: 700px; height: 400px;"></textarea>
+                        <button class="btn btn-primary" ng-click="submitsummary()">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
+<script>
+    var summarydata=CKEDITOR.replace('summary');
+
+    var app = angular.module('modelinfo',[]);
+    app.config(['$locationProvider', function($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+    }]);
+
+    var summaryapp = angular.module('summaryapp',[]);
+    summaryapp.controller('summarytemplet',function ($scope,$http,$location) {
+        var billid = $location.search().billid;
+        $scope.submitsummary=function(){
+            var data1=summarydata.document.getBody().getText();
+            console.log(data1);
+            $http.post("/doctorcheck/submitsummary", data1, {header:{'Content-Type': 'text/plain'}}).then(function success(response) {
+                alert("传输成功");
+            },function fail() {
+                alert("失败");
+            })
+        }
+    })
+</script>
+
+</html>
