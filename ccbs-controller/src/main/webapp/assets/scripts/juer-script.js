@@ -144,7 +144,50 @@ var juerCore = {
             //
             // }
         }
-    }
+    },
+
+    //HTML转义
+    encodeHtml: function(s){
+        return (typeof s != "string") ? s :
+            s.replace(this.REGX_HTML_ENCODE,
+                function($0){
+                    var c = $0.charCodeAt(0), r = ["&#"];
+                    c = (c == 0x20) ? 0xA0 : c;
+                    r.push(c); r.push(";");
+                    return r.join("");
+                });
+    },
+
+    REGX_HTML_DECODE: /&\w+;|&#(\d+);/g,
+    HTML_DECODE: {
+        "&lt;"  : "<",
+        "&gt;"  : ">",
+        "&amp;" : "&",
+        "&nbsp;": " ",
+        "&quot;": "\"",
+        "&copy;": "©"
+
+        // Add more
+    },
+
+    //HTML反转义
+    decodeHtml: function(s){
+    return (typeof s != "string") ? s :
+        s.replace(this.REGX_HTML_DECODE,
+            function($0,$1){
+                var c = this.HTML_ENCODE[$0]; // 尝试查表
+                if(c === undefined){
+                    // Maybe is Entity Number
+                    if(!isNaN($1)){
+                        c = String.fromCharCode(($1 == 160) ? 32 : $1);
+                    }else{
+                        // Not Entity Number
+                        c = $0;
+                    }
+                }
+                return c;
+            });
+},
 };
 
 var juerCard = {
