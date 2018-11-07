@@ -1,5 +1,7 @@
 package team.yingyingmonster.ccbs.common;
 
+import java.util.Base64;
+
 /**
  * @author Juer Whang <br/>
  * - project: CompanyCheckSystem
@@ -33,5 +35,23 @@ public class CommonUtil {
             }
 
         return result;
+    }
+
+    /**
+     * 将一个字节数组转化为经过Base64加密的文本.
+     * @param bytes 字节数组
+     * @return Base64文本
+     */
+    public static String toBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
+    /**
+     * 将一个Base64文本进行解密，转化为字节数组.
+     * @param base64 Base64文本
+     * @return 字节数组
+     */
+    public static byte[] fromBase64(String base64) {
+        return Base64.getDecoder().decode(base64);
     }
 }
