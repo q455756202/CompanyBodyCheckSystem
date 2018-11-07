@@ -26,11 +26,33 @@ public class POIUtils {
     /**
      * 读入excel文件，解析后返回
      * @param file
+     * @throws IOException 会验证文件的合法性，当不合法时抛出异常。
+     */
+    public static List<String[]> readExcelAndCheck(File file) throws IOException {
+        return readExcel(file, true);
+    }
+
+    /**
+     * 读入excel文件，解析后返回，不进行合法性验证，请自行处理异常。
+     * @param file
      * @throws IOException
      */
-    public static List<String[]> readExcel(File file) throws IOException {
+    public static List<String[]> readExcelAndNotCheck(File file) throws IOException {
+        return readExcel(file, false);
+    }
+
+    /**
+     * 读入excel文件，解析后返回
+     * @param file
+     * @param checkFile 是否进行合法性验证。
+     * @return
+     * @throws IOException
+     */
+    public static List<String[]> readExcel(File file, boolean checkFile) throws IOException {
         //检查文件
-        checkFile(file);
+        if (checkFile)
+            checkFile(file);
+
         //获得Workbook工作薄对象
         Workbook workbook = getWorkBook(file);
         //创建返回对象，把每行中的值作为一个数组，所有行作为一个集合返回
@@ -70,6 +92,7 @@ public class POIUtils {
         }
         return list;
     }
+
     public static void checkFile(File file) throws IOException{
         //判断文件是否存在
         if(null == file){
@@ -84,6 +107,7 @@ public class POIUtils {
             throw new IOException(fileName + "不是excel文件");
         }
     }
+
     public static Workbook getWorkBook(File file) {
         //获得文件名
         String fileName = file.getName();
@@ -105,6 +129,7 @@ public class POIUtils {
         }
         return workbook;
     }
+
     public static String getCellValue(Cell cell){
         String cellValue = "";
         if(cell == null){
