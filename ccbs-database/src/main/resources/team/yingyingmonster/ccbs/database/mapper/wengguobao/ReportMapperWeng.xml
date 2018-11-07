@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.ReportMapperWeng" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Report" >
+    <id column="REPORTID" property="reportid" jdbcType="DECIMAL" />
+    <result column="BILLID" property="billid" jdbcType="DECIMAL" />
+    <result column="REPORTDATE" property="reportdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="team.yingyingmonster.ccbs.database.bean.Report" extends="BaseResultMap" >
+    <result column="REPORTSUMMARY" property="reportsummary" jdbcType="CLOB" />
+  </resultMap>
+  <insert id="insertdefaultreport" parameterType="java.lang.Long">
+    insert into REPORT_TABLE(BILLID,REPORTID) values (#{billid},REPORT_SEQUENCE.nextval)
+  </insert>
+  <select id="selectbybillid" parameterType="java.lang.Long" resultType="team.yingyingmonster.ccbs.database.bean.Report">
+    select billid,REPORTID from REPORT_TABLE where BILLID=#{billid}
+  </select>
+  
+  <update id="updatesummarybyrepo" parameterType="team.yingyingmonster.ccbs.database.bean.Report">
+    update REPORT_TABLE set REPORTSUMMARY=#{reportsummary} where BILLID=#{billid}
+  </update>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.CheckMapperWeng" >
+
+  <select id="selectCheckByDeptId" parameterType="java.lang.Long" resultMap="checkMap">
+    select * from CHECK_TABLE a,DEPT_TABLE b where a.DEPTID=b.DEPTID and b.DEPTID=#{deptId}
+  </select>
+
+  <resultMap id="checkMap" type="team.yingyingmonster.ccbs.database.bean.Check" >
+    <id column="CHECKID" property="checkid" jdbcType="DECIMAL" />
+    <result column="CHECKNAME" property="checkname" jdbcType="VARCHAR" />
+    <result column="CHECKPRICE" property="checkprice" jdbcType="DECIMAL" />
+    <association property="deptByDeptid" resultMap="deptMap"/>
+  </resultMap>
+
+  <resultMap id="deptMap" type="team.yingyingmonster.ccbs.database.bean.Dept">
+    <id property="deptid" column="DEPTID"/>
+    <result property="deptname" column="DEPTNAME"/>
+  </resultMap>
+</mapper>
