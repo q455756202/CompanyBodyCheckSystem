@@ -83,7 +83,12 @@ public class CompanyCheckAction {
     @RequestMapping("/submit-company-check")
     @ResponseBody
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
-
-        return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+        try {
+            juerCompanyCheckSystemService.registerCompanyCheck(juerCompanyCheckEntity);
+            return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMessage.createErrorMessage(e.getMessage());
+        }
     }
 }
