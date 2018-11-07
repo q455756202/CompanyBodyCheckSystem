@@ -111,6 +111,7 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             }
         }
 
+        // 逐一进行插入，并若插入失败则抛出异常，并执行回滚操作。
         if (juerTeamformCombocheckMapper.insertBatch(teamformCombocheckList)<1)
             throw new Exception("插入团检数据失败 - juerTeamformCombocheckMapper.insertBatch");
         if (juerUserCheckMapper.insertBatch(userCheckList)<1)
