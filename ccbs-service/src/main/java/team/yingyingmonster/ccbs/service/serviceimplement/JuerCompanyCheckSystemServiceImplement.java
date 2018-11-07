@@ -116,8 +116,9 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
         if (juerUserCheckMapper.insertBatch(userCheckList)<1)
             throw new Exception("插入团检数据失败 - juerUserCheckMapper.insertBatch");
         if (juerBillMapper.insertBatch(billList)<1)
-            throw new Exception("插入团建数据失败 - juerBillMapper.insertBatch");
-        return false;
+            throw new Exception("插入团检数据失败 - juerBillMapper.insertBatch");
+
+        return true;
     }
 
     private List<TeamformCombocheck> generatTeamformCombocheckList(List<JuerCombo> list, Long teamformid) {
