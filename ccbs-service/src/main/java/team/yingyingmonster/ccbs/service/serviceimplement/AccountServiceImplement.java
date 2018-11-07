@@ -41,20 +41,20 @@ public class AccountServiceImplement implements AccountService {
         Account account = new Account();
         account.setAccountname(accountName);
         account.setAccountpassword(accountPassword);
-        Long accountId= zhaoAccountMapper.addAccount(account);
-        if (account!=null){
+        Long insertNum = zhaoAccountMapper.addAccount(account);
+        if (insertNum!=null){
             Company company=new Company();
-            company.setAccountid(accountId);
+            company.setAccountid(account.getAccountid());
             company.setCompanyphone(companyPhone);
             company.setCompanyemail(companyEmail);
             Integer result=zhaoAccountMapper.addCompany(company);
             if (result>0){
-                return accountId;
+                return account.getAccountid();
             }else {
-                return 0L;
+                return null;
             }
         }else {
-            return 0L;
+            return null;
         }
     }
 

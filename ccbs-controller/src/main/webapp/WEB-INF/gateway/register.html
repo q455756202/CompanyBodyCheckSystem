@@ -9,10 +9,10 @@
     <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/juer-style.css" rel="stylesheet"/>
 </head>
-<body>
+<body ng-app="registerApp">
     <h1 align="center">新用户注册</h1>
-    <div align="center" ng-app="registerApp" ng-controller="registerController">
-    <form ng-submit="submitForm" name="registerForm" class="col-lg-6" novalidate role="form" >
+    <div align="center"  ng-controller="registerController">
+    <form ng-submit="registerSubmitForm()" name="registerForm" class="col-lg-6" novalidate role="form" >
         <div class="input-group">
             <span class="input-group-append">用户名&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span>
@@ -79,18 +79,15 @@
 <script>
     var app = angular.module('registerApp', []);
     app.controller('registerController', function($scope, $http) {
-        $scope.submitForm=function () {
-            var accountName=$("#accountName").val();
-            var accountPassword=$("#accountPassword").val();
-            var companyPhone=$("#companyPhone").val();
-            var companyEmail=$("#companyEmail").val();
-            $http.post("/gate/account-register",
-                {
-                  "accountName":accountName,
-                  "accountPassword":accountPassword,
-                  "companyPhone":companyPhone,
-                  "companyEmail":companyEmail
-                }
+        $scope.registerSubmitForm=function () {
+            var data = {
+                "accountName":$scope.accountName,
+                "accountPassword":$scope.accountPassword,
+                "companyPhone":$scope.companyPhone,
+                "companyEmail":$scope.companyEmail
+            };
+            console.log("accountName"+$scope.accountName);
+            $http.post("/account/account-register", data
             ).then(
                 function success (msg) {
                     console.log(msg);
@@ -107,9 +104,9 @@
                 }
             )
         }
+
     });
-</script>
-<script>
+
     function returnLogin() {
         location.href="/gateway/index";
     }

@@ -41,7 +41,7 @@
 <div class="modal fade" id="add-users" aria-labelledby="add-users-title" aria-hidden="true" ng-controller="addUsersController">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form ng-submit="addUsersSubmitForm" name="addUsersForm" novalidate>
+           <!-- <form ng-submit="addUsersSubmitForm()" name="addUsersForm" novalidate>-->
                 <!--模态框标题-->
                 <div class="modal-header">
                     <h4 class="modal-title" id="add-users-title">
@@ -51,14 +51,15 @@
                 </div>
                 <!--模态框内容-->
                 <div class="modal-body">
-                    <p>选择文件:</p><input type="file" name="userList">
-
+                    <p>选择文件:</p><input type="file" id="userNameList" name="userNameList" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ng-model="userNameList">
+                    <span class="text-danger" ng-show="addUsersForm.userNameList.$error.required">请选择一个Excel格式文件</span>
                 </div>
                 <!--模态框底部-->
                 <div class="modal-footer">
-
+                    <button type="button" class="btn btn-primary" ng-disabled="addUsersForm.userNameList.$dirty" ng-click="onload()">提交
+                    </button>
                 </div>
-            </form>
+         <!--   </form>-->
 
         </div>
     </div>
@@ -69,7 +70,7 @@
 <div class="modal fade" id="recharge" aria-labelledby="recharge-title" aria-hidden="true" ng-controller="rechargeController">
     <div class="modal-dialog">
         <div class="modal-content" >
-            <form ng-submit="rechargeSubmitForm" name="rechargeForm" novalidate>
+            <form ng-submit="rechargeSubmitForm()" name="rechargeForm" novalidate>
                 <!--模态框标题-->
                 <div class="modal-header">
                     <h4 class="modal-title" id="recharge-title">
@@ -159,19 +160,27 @@
                 }
             )
     });
-
+    //充值
     app.controller('rechargeController',function ($scope) {
         $scope.rechargeSubmitForm=function () {
 
         }
     })
-
-    app.controller('addUsersController',function ($scope) {
-        $scope.addUsersSubmitForm=function () {
-
-
+    //添加体检人员名单
+    app.controller('addUsersController',function ($scope,$http) {
+        $scope.onload=function () {
+            var form = new FormData();
+            var file = document.getElementById("userNameList").files[0];
+            form.append('userNameList', file);
+            console.log(form.get("userNameList"));
+            juerCore.post("/account/user-list",
+                form,
+                function success (msg) {
+                    console.log(msg);
+                },
+                true
+            );
         }
-
     })
 </script>
 </html>
