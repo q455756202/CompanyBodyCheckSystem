@@ -10,7 +10,7 @@
         TEAMFORMCOMBOCHECKID, TEAMFORMID, COMBOID
     </sql>
 
-    <select id="getNewId" resultType="long">
+    <select id="getNewId" resultType="long" flushCache="true">
         select TEAMFORM_COMBOCHECK_TABLE_SEQ.nextval from dual
     </select>
 

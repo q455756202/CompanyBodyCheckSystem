@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckSystemService {
     @Autowired
-    private CompanyMapper companyMapper;
+    private JuerCompanyMapper juerCompanyMapper;
     @Autowired
     private JuerComboMapper juerComboMapper;
     @Autowired
@@ -46,15 +46,20 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
      * @return
      */
     @Override
-    public JuerCompanyCheckEntity getCompanyCheckEntity(Long companyid) {
-        JuerCompanyCheckEntity entity = new JuerCompanyCheckEntity();
-        entity.setCompany(companyMapper.selectByPrimaryKey(companyid));
-        entity.setComboList(juerComboMapper.selectAllJuerCombo());
-        User condition = new User();
-        condition.setCompanyid(companyid);
-        entity.setUserList(juerUserMapper.selectUsersByCondition(condition));
+    public JuerCompanyCheckEntity getCompanyCheckEntity(Long accountid) {
+        Company company = juerCompanyMapper.selectCompanyByAccountId(accountid);
+        if (company != null) {
+            JuerCompanyCheckEntity entity = new JuerCompanyCheckEntity();
+            entity.setCompany(company);
+            entity.setComboList(juerComboMapper.selectAllJuerCombo());
+            User condition = new User();
+            condition.setCompanyid(company.getCompanyid());
+            entity.setUserList(juerUserMapper.selectUsersByCondition(condition));
 
-        return entity;
+            return entity;
+        } else {
+            return null;
+        }
     }
 
     /**

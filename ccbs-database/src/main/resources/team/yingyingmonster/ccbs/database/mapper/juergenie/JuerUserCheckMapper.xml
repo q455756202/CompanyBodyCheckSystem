@@ -10,7 +10,7 @@
         USERCHECKID, USERID, TEAMFORMCOMBOCHECKID
     </sql>
 
-    <select id="getNewId" resultType="long">
+    <select id="getNewId" resultType="long" flushCache="true">
         select USER_CHECK_SEQUENCE.nextval from dual
     </select>
 
