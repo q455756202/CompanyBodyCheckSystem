@@ -53,7 +53,6 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
         User condition = new User();
         condition.setCompanyid(companyid);
         entity.setUserList(juerUserMapper.selectUsersByCondition(condition));
-        System.out.println("\n===="+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n====");
 
         return entity;
     }
@@ -106,6 +105,8 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
                     bill.setUsercheckid(userCheck.getUsercheckid());
                     bill.setBillid(juerBillMapper.getNewId());
                     bill.setCheckid(checkList.get(k).getCheckid());
+
+                    billList.add(bill);
                 }
             }
         }
@@ -114,7 +115,8 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             throw new Exception("插入团检数据失败 - juerTeamformCombocheckMapper.insertBatch");
         if (juerUserCheckMapper.insertBatch(userCheckList)<1)
             throw new Exception("插入团检数据失败 - juerUserCheckMapper.insertBatch");
-
+        if (juerBillMapper.insertBatch(billList)<1)
+            throw new Exception("插入团建数据失败 - juerBillMapper.insertBatch");
         return false;
     }
 
