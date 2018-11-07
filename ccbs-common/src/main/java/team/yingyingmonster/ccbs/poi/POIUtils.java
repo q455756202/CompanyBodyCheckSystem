@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * excel读写工具类 */
+ * excel读写工具类
+ */
 public class POIUtils {
     private static Logger logger  = Logger.getLogger(POIUtils.class);
     private final static String xls = "xls";
