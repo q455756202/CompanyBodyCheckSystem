@@ -23,7 +23,7 @@
         COMBOCHECKID, CHECKID, COMBOID
     </sql>
 
-    <select id="getNewId" resultType="long">
+    <select id="getNewId" resultType="long" flushCache="true">
         select COMBO_CHECK_SEQUENCE.nextval from dual
     </select>
     <select id="selectChecksByComboid" parameterType="long" resultMap="CheckResultMap">

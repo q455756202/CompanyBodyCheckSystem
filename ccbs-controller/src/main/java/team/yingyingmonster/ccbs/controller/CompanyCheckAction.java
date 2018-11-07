@@ -74,10 +74,10 @@ public class CompanyCheckAction {
 
     @RequestMapping("/get-company-entity")
     @ResponseBody
-    public ResultMessage getCompanyEntity() {
-        JuerCompanyCheckEntity entity = juerCompanyCheckSystemService.getCompanyCheckEntity(1l);
-        System.out.println("\n========"+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n========");
-        return ResultMessage.createSuccessMessage("success!", entity);
+    public ResultMessage getCompanyEntity(HttpSession session) {
+        Account account = (Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
+        JuerCompanyCheckEntity entity = juerCompanyCheckSystemService.getCompanyCheckEntity(account.getAccountid());
+        return entity==null?ResultMessage.createErrorMessage("未取到数据！"):ResultMessage.createSuccessMessage("success!", entity);
     }
 
     @RequestMapping("/submit-company-check")

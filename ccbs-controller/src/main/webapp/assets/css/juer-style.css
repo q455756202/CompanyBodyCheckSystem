@@ -4,7 +4,7 @@
 
 .bg-wrap {
     height: 100%;
-    background: url(images/background.png);
+    background: url(/assets/images/background_simple_old.png);
     background-position: center;
 }
 

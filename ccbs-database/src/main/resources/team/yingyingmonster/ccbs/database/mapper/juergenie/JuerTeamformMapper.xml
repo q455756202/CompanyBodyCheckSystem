@@ -10,7 +10,7 @@
         TEAMFORMID, COMPANYID, TEAMFORMSTATE
     </sql>
 
-    <select id="getNewId" resultType="long">
+    <select id="getNewId" resultType="long" flushCache="true">
         select TEAMFORM_SEQUENCE.nextval from dual
     </select>
 
