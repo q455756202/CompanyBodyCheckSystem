@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.ModelMapperWeng" >
+  <resultMap id="modelMap" type="team.yingyingmonster.ccbs.database.bean.Model" >
+    <id column="RECORDID" property="recordid" jdbcType="DECIMAL" />
+    <result column="CHECKID" property="checkid" jdbcType="DECIMAL" />
+    <result column="RECORDNAME" property="recordname" jdbcType="VARCHAR" />
+    <result column="RECORDDEFAULT" property="recorddefault" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <select id="selectByCheckId" parameterType="java.lang.Long" resultMap="modelMap">
+    select RECORDID,RECORDNAME,RECORDDEFAULT from MODEL_TABLE where CHECKID=#{checkId}
+  </select>
+
+
+</mapper>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
+import team.yingyingmonster.ccbs.database.bean.Bill;
 import team.yingyingmonster.ccbs.database.bean.Company;
 import team.yingyingmonster.ccbs.database.bean.User;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
@@ -18,6 +19,7 @@ import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author Juer Whang <br/>
@@ -81,7 +83,12 @@ public class CompanyCheckAction {
     @RequestMapping("/submit-company-check")
     @ResponseBody
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
-        System.out.println(JsonUtil.beanToJson(juerCompanyCheckEntity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL));
-        return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+        try {
+            juerCompanyCheckSystemService.registerCompanyCheck(juerCompanyCheckEntity);
+            return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMessage.createErrorMessage(e.getMessage());
+        }
     }
 }
