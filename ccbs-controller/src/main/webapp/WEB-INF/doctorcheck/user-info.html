@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>体检人信息</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+</head>
+<body ng-app="ngApp">
+    <div class="container" ng-controller="userInfoCtrl">
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>姓名：{{user.username}}</td>
+                        <td>性别：{{user.usergender}}</td>
+                    </tr>
+                    <tr>
+                        <td>年龄：{{user.userage}}</td>
+                        <td>电话：{{user.userphone}}</td>
+                    </tr>
+                    <tr>
+                        <td>公司：{{user.companyByCompanyid.account.accountname}}</td>
+                        <td>身份证：{{user.usercardcode}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <!--<form action="" role="form" enctype="multipart/form-data" class="form-inline" ng-submit="submitForm()">-->
+                <div class="col-lg-10">
+                    <label for="uploadUserCode" class="btn btn-primary">选择二维码</label>
+                    <input id="uploadUserCode" file-model="userCode" name="upfile" style="display:none" type="file" onchange="getval()">
+                    <span id="showVal"></span>
+                </div>
+                <div class="col-lg-2">
+                    <button ng-click="uploadUserCodemethod()" class="btn btn-primary">扫描</button>
+                </div>
+            <!--</form>-->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>体检项目</h5>
+                <div class="list-group">
+                    <a href="/doctorcheck/modelinfo?billid={{x.billid}}&checkid={{x.checkByCheckid.checkid}}&usercheckid={{x.usercheckid}}" target="main" class="list-group-item list-group-item-action" ng-repeat="x in bills">
+                        {{x.checkByCheckid.checkname}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/angular.min.js"></script>
+<script>
+    function getval() {
+        var filename = $("#uploadUserCode").val();
+        $("#showVal").text(filename);
+    }
+
+    var app=angular.module('ngApp',[]);
+    app.controller('userInfoCtrl',function ($scope,$http) {
+        $scope.uploadUserCodemethod = function() {
+            var fd = new FormData();
+            var file = document.getElementById("uploadUserCode").files[0];
+            fd.append('uploadUserCode', file);
+            $http({
+                method:'post',
+                url:'/read-qr-code/get-qr-result',
+                data: fd,
+                headers: {'Content-Type':undefined},
+                transformRequest: angular.identity
+            }).then(function successCallback(response){
+                    //上传成功的操作
+                $scope.user = eval(response.data.user);
+                $scope.bills = response.data.bills;
+                    alert("uplaod success");
+                },function errorCallback(response) {
+                    alert("fail")
+            });
+        }
+    })
+
+
+
+</script>
+</html>

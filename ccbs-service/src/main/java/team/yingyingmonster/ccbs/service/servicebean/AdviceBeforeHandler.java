@@ -17,7 +17,7 @@ public class AdviceBeforeHandler implements MethodBeforeAdvice {
     private Logger logger = LogManager.getLogger("OracleLogger");
 
     @Override
-    public void before(Method method, Object[] objects, Object o) throws Throwable {
+    public void before(Method method, Object[] params, Object result) throws Throwable {
         logger.debug(MarkerManager.getMarker("db"), "");
     }
 }

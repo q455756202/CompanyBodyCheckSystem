@@ -16,6 +16,7 @@ public class Report {
     private Long billid;
     private Date reportdate;
     private String reportsummary;
+    private Short reportstate;
 
     private Bill billByBillid;
 }
