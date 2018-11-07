@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.ModelDataMapperWeng" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.ModelData" >
+    <id column="MODELDATAID" property="modeldataid" jdbcType="DECIMAL" />
+    <result column="RECORDID" property="recordid" jdbcType="DECIMAL" />
+    <result column="USERCHECKID" property="usercheckid" jdbcType="DECIMAL" />
+    <result column="MODELVALUE" property="modelvalue" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="insertInBatch">
+    <foreach collection="list" item="modelDatas" open="begin" close="end;">
+      insert into MODEL_DATA_TABLE(MODELDATAID,RECORDID,USERCHECKID,MODELVALUE) values
+      (MODEL_DATA_SEQUENCE.nextval,#{modelDatas.recordid},#{modelDatas.usercheckid},#{modelDatas.modelvalue});
+    </foreach>
+  </insert>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.DoctorMapperWeng" >
+
+  <select id="selectDeptByAccountId" parameterType="java.lang.Long" resultMap="doctorMap">
+    select a.DEPTID,DEPTNAME from DOCTOR_TABLE a,ACCOUNT_TABLE b,DEPT_TABLE c where b.ACCOUNTID=#{AccountId} and a.ACCOUNTID=b.ACCOUNTID and a.DEPTID=c.DEPTID
+  </select>
+
+  <resultMap id="doctorMap" type="team.yingyingmonster.ccbs.database.bean.Doctor" >
+    <id column="DOCTORID" property="doctorid" jdbcType="DECIMAL" />
+    <result column="ACCOUNTID" property="accountid" jdbcType="DECIMAL" />
+    <result column="DOCTORGENDER" property="doctorgender" jdbcType="DECIMAL" />
+    <result column="DOCTORAGE" property="doctorage" jdbcType="DECIMAL" />
+    <result column="DOCTORPHONE" property="doctorphone" jdbcType="VARCHAR" />
+    <result column="DOCTORHEADER" property="doctorheader" jdbcType="VARCHAR" />
+    <association property="deptByDeptid" resultMap="deptMap"></association>
+  </resultMap>
+
+  <resultMap id="deptMap" type="team.yingyingmonster.ccbs.database.bean.Dept">
+    <id property="deptid" column="DEPTID"/>
+    <result property="deptname" column="DEPTNAME"/>
+  </resultMap>
+</mapper>
