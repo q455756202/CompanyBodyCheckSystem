@@ -146,6 +146,7 @@ var juerCore = {
         }
     },
 
+    REGX_HTML_ENCODE: /“|&|’|<|>|[\x00-\x20]|[\x7F-\xFF]|[\u0100-\u2700]/g,
     //HTML转义
     encodeHtml: function(s){
         return (typeof s != "string") ? s :
