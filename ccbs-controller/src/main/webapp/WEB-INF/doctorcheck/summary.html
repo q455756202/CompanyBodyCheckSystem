@@ -23,29 +23,41 @@
 <script src="/assets/scripts/jquery.min.js"></script>
 <script src="/assets/scripts/bootstrap.min.js"></script>
 <script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
 <script src="/assets/ckeditor/ckeditor.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
 <script>
-    var summarydata=CKEDITOR.replace('summary');
-
-    var app = angular.module('modelinfo',[]);
-    app.config(['$locationProvider', function($locationProvider) {
+    var summarydata=CKEDITOR.replace('summary',{
+        filebrowserImageUploadUrl : '/upload/uploadsumaryimage',
+        language : 'zh-cn',
+    } );
+    // CKEDITOR.replace('content',
+    //     {
+    //         filebrowserImageUploadUrl : '/upload/uploadsumaryimage',
+    //         language : 'zh-cn',
+    //     } );
+    var summaryapp = angular.module('summaryapp',[]);
+    summaryapp.config(['$locationProvider', function($locationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
     }]);
 
-    var summaryapp = angular.module('summaryapp',[]);
+
+
     summaryapp.controller('summarytemplet',function ($scope,$http,$location) {
         var billid = $location.search().billid;
         $scope.submitsummary=function(){
-            var data1=summarydata.document.getBody().getText();
-            console.log(data1);
-            $http.post("/doctorcheck/submitsummary", data1, {header:{'Content-Type': 'text/plain'}}).then(function success(response) {
-                alert("传输成功");
-            },function fail() {
-                alert("失败");
-            })
+            var summary= summarydata.document.getBody().getHtml().toBase64();
+            console.log(summary);
+            console.log(billid);
+            $.post("/doctorcheck/submitsummary?billid="+billid, {"summary":summary,"billid":billid}, function success(response) {
+                        alert(response.message);
+                        window.location=response.data;
+                    })
         }
     })
 </script>

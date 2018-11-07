@@ -1,12 +1,15 @@
 package team.yingyingmonster.ccbs.controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Model;
 import team.yingyingmonster.ccbs.database.bean.ModelData;
+import team.yingyingmonster.ccbs.database.bean.Report;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.ModelMapperWeng;
+import team.yingyingmonster.ccbs.database.mapper.wengguobao.ReportMapperWeng;
 import team.yingyingmonster.ccbs.service.serviceinterface.DoctorCheckService;
 
 import java.util.ArrayList;
@@ -25,6 +28,8 @@ public class DoctorCheckAction {
     private ModelMapperWeng modelMapperWeng;
     @Autowired
     private DoctorCheckService doctorCheckService;
+    @Autowired
+    private ReportMapperWeng reportMapperWeng;
 
     @RequestMapping("/index")
     public String index(){
@@ -78,8 +83,12 @@ public class DoctorCheckAction {
     @RequestMapping("/submitsummary")
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public ResultMessage submitsummary(@RequestBody String summary){
+    public ResultMessage submitsummary(@RequestParam("summary") String summary,@RequestParam("billid") Long billid){
         System.out.println(summary);
-        return ResultMessage.createSuccessMessage("成功添加小结",1);
+        Report report = new Report();
+        report.setBillid(billid);
+        report.setReportsummary(summary);
+        reportMapperWeng.updatesummarybyrepo(report);
+        return ResultMessage.createSuccessMessage("成功添加小结,在后台确认后可正式提交","/doctorcheck/userinfo");
     }
 }
