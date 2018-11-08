@@ -10,7 +10,7 @@
         <result column="USERPHONE" property="userphone" jdbcType="VARCHAR" />
         <result column="USERCARDCODE" property="usercardcode" jdbcType="VARCHAR" />
     </resultMap>
-    <resultMap id="JuerResultMap" extends="BaseResultMap">
+    <resultMap id="JuerResultMap" extends="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.User">
         <collection column="USERID" property="checkList" select="team.yingyingmonster.ccbs.database.mapper.JuerCheckMapper.selectChecksByUserId"/>
     </resultMap>
 
