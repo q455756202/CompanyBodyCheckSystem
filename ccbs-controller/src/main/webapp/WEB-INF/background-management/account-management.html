@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="/assets/css/x-admin.css" media="all">
         <link rel="stylesheet" href="/assets/css/pag.css" media="all">
     </head>
-    <body ng-app="ngApp">
+    <body>
         <div class="x-nav">
             <span class="layui-breadcrumb">
               <a><cite>首页</cite></a>
@@ -59,7 +59,7 @@
     </ul>
     <span class="x-right" style="line-height:25px">共有数据：88 条</span></xblock>
   </div>
-            <table class="tablelist" ng-controller="accountListController" ng-repeat="accountbean in accountList">
+            <table class="tablelist" ng-controller="accountListController">
                 <thead>
                     <tr>
                         <th>
@@ -87,22 +87,22 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody ng-app="ngApp">
+                    <tr  ng-repeat="account in accountList">
                         <td>
                             <input type="checkbox" value="1" name="selected">
                         </td>
                         <td>
-                            {{accountbean.accountId}}
+                            {{account.accountId}}
                         </td>
                         <td><u style="cursor:pointer" onclick="user_management_show('宋加加','user_management_show.html','10001','360','400')">{{accountbean.accountName}}</u></td>
                         <td >
-                        {{accountbean.accountPassword}}</td>
+                        {{account.accountPassword}}</td>
                         <td >
-                            {{accountbean.accountRole}}</td>
+                            {{account.accountRole}}</td>
 
                         <td>
-                            {{accountbean.registerDate}}
+                            {{account.registerDate}}
                         </td>
                         <td class="td-status">
                             <button class="sp">已启用</button>
@@ -136,10 +136,11 @@
 <br />
 <br />
 <br />
-        <script src="./lib/layui/layui.js" charset="utf-8"></script>
-        <script src="./js/x-layui.js" charset="utf-8"></script> 
-<script src="js/jquery2.js" charset="utf-8"></script> 
-<script src="js/js.js" charset="utf-8"></script>
+        <script src="/assets/scripts/angular.min.js"></script>
+        <script src="/assets/lib/layui/layui.js" charset="utf-8"></script>
+        <script src="/assets/js/x-layui.js" charset="utf-8"></script>
+        <script src="/assets/js/jquery2.js" charset="utf-8"></script>
+        <script src="/assets/js/js.js" charset="utf-8"></script>
         <script>
             //创建angularjs模块
             let ngApp = angular.module('ngApp', []);

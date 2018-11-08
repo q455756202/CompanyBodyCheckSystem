@@ -3,9 +3,9 @@ package team.yingyingmonster.ccbs.controller.action;
 /**
  * @author DingLi <br/>
  * - project: CompanyBodyCheckSystem
- * - create: 15:34 2018/11/8
- * - 角色管理
+ * - create: 9:43 2018/11/8
+ * - 体检细项列表
  **/
 
-public class RoleAction {
+public class CheckAction {
 }

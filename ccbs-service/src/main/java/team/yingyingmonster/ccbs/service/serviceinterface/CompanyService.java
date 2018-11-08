@@ -1,4 +1,4 @@
 package team.yingyingmonster.ccbs.service.serviceinterface;
 
-public interface AccountService {
+public interface CompanyService {
 }
