@@ -11,7 +11,9 @@
       CHECKID, DEPTID, CHECKNAME, CHECKPRICE
     </sql>
 
-    <select id="selectChecksByUserId" parameterType="long">
-        select * from CHECK_TABLE where CHECKID in (select CHECKID from USER_CHECK_TABLE where USERID = #{userid})
+    <select id="selectChecksByUserId" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from CHECK_TABLE where CHECKID in (select CHECKID from USER_CHECK_TABLE where USERID = #{userid})
     </select>
 </mapper>

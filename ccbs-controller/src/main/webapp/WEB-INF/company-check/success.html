@@ -17,9 +17,9 @@
         </div>
         <div class="row justify-content-center align-items-start">
             <div class="col-10 text-center" ng-controller="showGuideController">
-                <select class="form-control font-size-16px" ng-model="selectedUser" ng-options="x.username in userList"></select>
+                <select class="form-control font-size-16px" ng-model="selectedUser" ng-options="x.username for x in userList"></select>
                 <hr/>
-                <table>
+                <table class="w-100">
                     <thead>
                     <tr>
                         <th class="th-width-60p"></th>
@@ -32,7 +32,7 @@
                         <td class="font-size-16px">姓名: {{selectedUser.username}}</td>
                         <td></td>
                         <td rowspan="3">
-                            <img class="img-thumbnail" src="data:image/png;base64,{{selectedUser.usercardcode}}" alt="个人二维码"/>
+                            <img class="img-thumbnail" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAAEECAIAAABBat1dAAAD4klEQVR4nO3du47bMABFQTnY//9lp8iBizSyQYJLSzN1sH7lgM0F9Xg+nwdwHH9++w3ALsQAEQNEDBAxQMQAEQNEDBAxQMQA+Tn9F4/HY8H72MTpOOWdb2N84XL6KlNGNH7Z/zgZIGKAiAEiBogYIGKAiAEiBogYIGKAnM8xTn3R/RrjA4Q1O4hNViG3+mUPJwO8iAEiBogYIGKAiAEiBogYIGKAiAEyYY5xas0tDPtsB9bcbbGJK/24TgaIGCBigIgBIgaIGCBigIgBIgaIGCBigKzYJl3JlCnOrcZLX8TJABEDRAwQMUDEABEDRAwQMUDEABEDxBzjM+8MJcYnG/Yav8LJABEDRAwQMUDEABEDRAwQMUDEABEDZMUc427bgdPPO762eGfxseZrv9KP62SAiAEiBogYIGKAiAEiBogYIGKAiAEiBsiEbdKUh9l8i31GQQvc6pc9nAzwIgaIGCBigIgBIgaIGCBigIgBIgbI4zLbARjkZICIASIGiBggYoCIASIGiBggYoCIAbLiyT1TbpRYc1PDJo/MGX+0z6w/Mm7N25jyKk4GiBggYoCIASIGiBggYoCIASIGiBggYoCcXxWzyeNbNhnSvGPBNmmNW33nh5MBXsQAEQNEDBAxQMQAEQNEDBAxQMQA2WWOcau3sWavMf5Z7nYhjZMBIgaIGCBigIgBIgaIGCBigIgBIgbI+Rxjwmtssx1YY8FyZMpQYsqrjNtk4XI4GeBFDBAxQMQAEQNEDBAxQMQAEQNEDJAJt2NscqPEJg/4OK41LTm1yX+PU27HgA+IASIGiBggYoCIASIGiBggYoCIASIGyIqrYq7kbjurU1d6PpCTASIGiBggYoCIASIGiBggYoCIASIGyISrYq7kVuOUW01LXBUDHxADRAwQMUDEABEDRAwQMUDEABED5Gf8T3zRhGF8GvDOXxj/QtZcBjFlSTH+lbodA7YjBogYIGKAiAEiBogYIGKAiAEiBogYIBO2SafWXBayz0Rqk8tRTm1yVcyUudeU8ZKTASIGiBggYoCIASIGiBggYoCIASIGyIo5xpVMuddk3Joba77oQhpXxcBMYoCIASIGiBggYoCIASIGiBggYoCYY3xmkyf37GN8KDFlSeF2DJhJDBAxQMQAEQNEDBAxQMQAEQNEDBAxQFZsk/Z5ps64K32WKdYMsdYMnJwMEDFAxAARA0QMEDFAxAARA0QMEDFAJswxvuhekzXGv5A1T7uZYs0zdda8DScDRAwQMUDEABEDRAwQMUDEABEDRAyQh+se4B8nA0QMEDFAxAARA0QMEDFAxAARA0QMEDFA/gKBoBkN+Mh5FAAAAABJRU5ErkJggg==" alt="个人二维码"/>
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                     </tbody>
                 </table>
                 <hr/>
-                <table>
+                <table class="w-100">
                     <thead>
                     <tr>
                         <th class="font-size-20px font-weight-bold th-width-30p">体检项目</th>
@@ -79,6 +79,7 @@
         $http.post("/company-check/check-user-list")
             .then(function success(response) {
                 let msg = response.data;
+                console.log(msg);
                 if (msg.state == 200) {
                     $scope.userList = msg.data;
                 } else {
