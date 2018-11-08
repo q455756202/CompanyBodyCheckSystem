@@ -63,4 +63,13 @@ public class Constant {
      * 小结状态 - 提交
      */
     public static final Short REPORT_COMPLETE           = 0;
+
+    /**
+     * 菜单状态 - 启用
+     */
+    public static final Short MENU_STATE_ENABLE         = 0;
+    /**
+     * 菜单状态 - 禁用
+     */
+    public static final Short MENU_STATE_DISABLE        = 1;
 }
