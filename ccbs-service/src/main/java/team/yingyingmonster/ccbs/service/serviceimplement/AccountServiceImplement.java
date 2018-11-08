@@ -1,6 +1,5 @@
 package team.yingyingmonster.ccbs.service.serviceimplement;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
@@ -17,7 +16,7 @@ import java.util.List;
  * @author Juer Whang <br/>
  * - project: CompanyBodyCheckSystem
  * - create: 11:51 2018/11/2
- * -   该文件由赵寒威接管
+ * -
  **/
 @Service
 public class AccountServiceImplement implements AccountService {
@@ -118,5 +117,4 @@ public class AccountServiceImplement implements AccountService {
         System.out.println("插入信息的条数：" + result);
         return result;
     }
-
 }

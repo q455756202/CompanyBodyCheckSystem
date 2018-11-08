@@ -1,5 +1,6 @@
 package team.yingyingmonster.ccbs.service.serviceinterface;
 
+public interface AccountService {
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
 
