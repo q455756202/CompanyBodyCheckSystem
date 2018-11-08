@@ -87,7 +87,7 @@
                 "companyEmail":$scope.companyEmail
             };
             console.log("accountName"+$scope.accountName);
-            $http.post("/account/account-register", data
+            $http.post("/company-info/account-register", data
             ).then(
                 function success (msg) {
                     console.log(msg);

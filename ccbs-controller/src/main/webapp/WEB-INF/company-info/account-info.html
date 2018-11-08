@@ -41,7 +41,6 @@
 <div class="modal fade" id="add-users" aria-labelledby="add-users-title" aria-hidden="true" ng-controller="addUsersController">
     <div class="modal-dialog">
         <div class="modal-content">
-           <!-- <form ng-submit="addUsersSubmitForm()" name="addUsersForm" novalidate>-->
                 <!--模态框标题-->
                 <div class="modal-header">
                     <h4 class="modal-title" id="add-users-title">
@@ -52,15 +51,32 @@
                 <!--模态框内容-->
                 <div class="modal-body">
                     <p>选择文件:</p><input type="file" id="userNameList" name="userNameList" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ng-model="userNameList">
-                    <span class="text-danger" ng-show="addUsersForm.userNameList.$error.required">请选择一个Excel格式文件</span>
+                    <button type="button" class="btn btn-primary float-right" ng-click="onload()">确定</button>
+                    <!--人员显示-->
+                    <div align="center">
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>姓名</td>
+                                <td>性别</td>
+                                <td>年龄</td>
+                                <td>手机号</td>
+                                <td>身份证</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="user in userList">
+                                <td ng-repeat="x in user">{{x}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!--模态框底部-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-disabled="addUsersForm.userNameList.$dirty" ng-click="onload()">提交
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitUsers()">提交
                     </button>
                 </div>
-         <!--   </form>-->
-
         </div>
     </div>
 </div>
@@ -105,7 +121,7 @@
 </div>
 
 
-
+<!--账户信息显示-->
 <div align="center" ng-controller="accountController">
     <table>
         <thead>
@@ -135,6 +151,26 @@
         </tbody>
     </table>
 </div>
+
+<!--体检人员信息-->
+<div align="cenger">
+    <table>
+        <thead>
+            <tr>
+                <td>姓名</td>
+                <td>性别</td>
+                <td>年龄</td>
+                <td>手机</td>
+                <td>身份证</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
 <script src="/assets/scripts/jquery.min.js"></script>
@@ -147,7 +183,7 @@
 <script>
     var app = angular.module('accountApp', []);
     app.controller('accountController', function ($scope, $http) {
-        $http.post("/account/account-info")
+        $http.post("/company-info/account-info")
             .then(
                 function success(msg) {
                     var msg = msg.data;
@@ -168,19 +204,48 @@
     })
     //添加体检人员名单
     app.controller('addUsersController',function ($scope,$http) {
+        $scope.userList = [];
+        //上传人员名单
         $scope.onload=function () {
             var form = new FormData();
             var file = document.getElementById("userNameList").files[0];
-            form.append('userNameList', file);
-            console.log(form.get("userNameList"));
-            juerCore.post("/account/user-list",
-                form,
-                function success (msg) {
-                    console.log(msg);
-                },
-                true
-            );
+            if (file!=null) {
+                form.append('userNameList', file);
+                juerCore.post("/company-info/user-list",
+                    form,
+                    function (msg) {
+                        if (msg.state == 200) {
+                            $scope.userList = msg.data;
+                            console.log($scope.userList);
+                            $scope.$apply();
+                        } else {
+                            window.alert(msg.message);
+                        }
+                    },
+                    true
+                );
+            }else {
+                window.alert("请选择Excel文档！");
+            }
+        };
+        //提交人员名单
+        $scope.submitUsers=function () {
+            console.log("体检人信息："+$scope.userList);
+            if ($scope.userList!=null){
+                $http.post("/company-info/submit-users",$scope.userList
+                ).then(
+                    function success (msg) {
+                        window.alert("提交成功！共提交"+msg.data+"条信息")
+                    },function error (msg) {
+                        window.alert("提交失败！")
+                    }
+                )
+            } else {
+                window.alert("请先添加体检人员名单！");
+            }
+
         }
+
     })
 </script>
 </html>
