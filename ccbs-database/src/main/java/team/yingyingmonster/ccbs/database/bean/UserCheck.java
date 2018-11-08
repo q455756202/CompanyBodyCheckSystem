@@ -23,4 +23,5 @@ public class UserCheck {
     private List<Bill> billsByUsercheckid;
     @SerializedName("modelDataList")
     private List<ModelData> modeldataByUsercheckid;
+    private User userByUserid;
 }

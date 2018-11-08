@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+</head>
+<body ng-app="summaryallapp">
+    <div class="container" ng-controller="summaryallcontroller">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="cardparent" >
+                    <div class="card" ng-repeat="x in reports">
+                        <div class="card-header">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#card{{x.billByBillid.userCheckByUsercheckid.usercheckid}}" ng-click="getsummarys(x.billByBillid.userCheckByUsercheckid.usercheckid)">
+                                {{x.billByBillid.userCheckByUsercheckid.userByUserid.username}}
+                            </a>
+                        </div>
+                        <div id="card{{x.billByBillid.userCheckByUsercheckid.usercheckid}}" class="collapse" data-parent="#cardparent">
+                            <div class="card-body">
+                                <a ng-click="getsummarydata(y.reportid)" data-target="#summarymodal" data-toggle="modal" class="list-group-item list-group-item-action" ng-repeat="y in summarys">
+                                    {{y.billByBillid.checkByCheckid.checkname}}
+                                </a>
+                                <div><button class="btn btn-primary" data-toggle="modal" data-target="#summaryallmodal" ng-click="getusercheckid(x.billByBillid.usercheckid)">总检</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 用于显示小结的模态框 -->
+                <div class="modal fade" id="summarymodal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- 模态框头部 -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">体检小结查看</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- 模态框主体 -->
+                            <div class="modal-body">
+                                <div ng-bind-html="summarydata"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 用于总结编写的模态框 -->
+                <div class="modal fade" id="summaryallmodal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- 模态框头部 -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">体检总结编写</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- 模态框主体 -->
+                            <div class="modal-body">
+                                <textarea id="summaryall" name="summaryall" ng-model="summaryinfo"  style="width: 700px; height: 400px;"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" ng-click="summaryallcommit()" class="btn btn-secondary" data-dismiss="modal">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
+<script>
+    var summarydata=CKEDITOR.replace('summaryall',{
+        filebrowserImageUploadUrl : '/upload/uploadsumaryimage',
+        language : 'zh-cn',
+    } );
+
+    var summaryallapp=angular.module('summaryallapp',[]);
+    summaryallapp.controller('summaryallcontroller',function ($scope,$http,$sce) {
+        $http.post("/summaryall/getsummaryall")
+            .then(function success(response) {
+                $scope.reports=response.data.data;
+                console.log(response);
+            })
+
+        $scope.getsummarys=function (usercheckid) {
+            $http.post("/summaryall/getsummarybyuser",usercheckid).then(
+                function success(response) {
+                    $scope.summarys=response.data.data;
+                }
+            )
+        }
+
+        $scope.getsummarydata=function (reportid) {
+            $http.post("/summaryall/getsummarydata",reportid).then(
+                function success(response) {
+                    var result = decodeURI(response.data.data.reportsummary.fromBase64())
+                    $scope.summarydata= $sce.trustAsHtml(result);
+                }
+            )
+        }
+
+        var usercheckid;
+        $scope.getusercheckid=function (id) {
+            usercheckid=id;
+        }
+        $scope.summaryallcommit=function () {
+            var summaryalleditor= summarydata.getData().toBase64();
+            console.log(summaryalleditor);
+            $.post("/summaryall/summaryallcommit", {"summaryall":summaryalleditor,"usercheckid":usercheckid}, function success(response) {
+                alert(response.message);
+                window.location=response.data;
+            })
+        }
+    })
+</script>
+</html>

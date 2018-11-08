@@ -3,8 +3,6 @@ package team.yingyingmonster.ccbs.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpSession;
-
 /**
  * @author Zhao Han Wei <br/>
  * - project: CompanyBodyCheckSystem
@@ -27,7 +25,7 @@ public class MainAction {
 
     @RequestMapping("/account-info")
     public String accountInfo(){
-        return "main/account-info";
+        return "company-info/account-info";
     }
 
 }
