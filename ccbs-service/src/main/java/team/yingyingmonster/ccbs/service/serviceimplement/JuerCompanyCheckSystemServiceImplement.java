@@ -52,6 +52,7 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             JuerCompanyCheckEntity entity = new JuerCompanyCheckEntity();
             entity.setCompany(company);
             entity.setComboList(juerComboMapper.selectAllJuerCombo());
+
             User condition = new User();
             condition.setCompanyid(company.getCompanyid());
             entity.setUserList(juerUserMapper.selectUsersByCondition(condition));

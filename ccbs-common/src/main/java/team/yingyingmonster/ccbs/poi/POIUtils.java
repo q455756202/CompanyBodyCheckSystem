@@ -6,7 +6,6 @@ package team.yingyingmonster.ccbs.poi;
  * - create: 15:24 2018/9/24
  * -
  **/
-import com.sun.istack.internal.logging.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -19,7 +18,6 @@ import java.util.List;
  * excel读写工具类
  */
 public class POIUtils {
-    private static Logger logger  = Logger.getLogger(POIUtils.class);
     private final static String xls = "xls";
     private final static String xlsx = "xlsx";
 
@@ -96,14 +94,12 @@ public class POIUtils {
     public static void checkFile(File file) throws IOException{
         //判断文件是否存在
         if(null == file){
-            logger.warning("文件不存在！");
             throw new FileNotFoundException("文件不存在！");
         }
         //获得文件名
         String fileName = file.getName();
         //判断文件是否是excel文件
         if(!fileName.endsWith(xls) && !fileName.endsWith(xlsx)){
-            logger.warning(fileName + "不是excel文件");
             throw new IOException(fileName + "不是excel文件");
         }
     }
@@ -125,7 +121,7 @@ public class POIUtils {
                 workbook = new XSSFWorkbook(is);
             }
         } catch (IOException e) {
-            logger.info(e.getMessage());
+            e.printStackTrace();
         }
         return workbook;
     }
