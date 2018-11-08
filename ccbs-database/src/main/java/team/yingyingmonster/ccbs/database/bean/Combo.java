@@ -21,6 +21,7 @@ public class Combo {
     private String comboname;
     private String combosummary;
     private Double comboratio;
+    private Short combotype;
 
     @SerializedName("comboCheckList")
     private List<ComboCheck> comboChecksByComboid;
