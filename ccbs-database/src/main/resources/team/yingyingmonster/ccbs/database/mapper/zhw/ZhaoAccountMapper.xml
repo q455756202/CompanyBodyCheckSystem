@@ -39,10 +39,6 @@
         select * from COMPANY_TABLE where ACCOUNTID=#{accountId}
     </select>
 
-    <select id="getNewUserId" resultType="long" flushCache="true">
-        select COMPANY_SEQUENCE.nextval from dual
-    </select>
-
     <insert id="insertUsers" parameterType="list">
         insert into USER_TABLE(USERID, COMPANYID, USERNAME, USERGENDER, USERAGE, USERPHONE, USERCARDCODE)
         select * from

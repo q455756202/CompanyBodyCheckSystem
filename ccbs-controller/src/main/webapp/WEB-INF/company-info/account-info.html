@@ -165,9 +165,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-
-            </tr>
+        <tr ng-repeat="user in userList">
+            <td ng-repeat="x in user">{{x}}</td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -234,9 +234,9 @@
             if ($scope.userList!=null){
                 $http.post("/company-info/submit-users",$scope.userList
                 ).then(
-                    function success (msg) {
-                        window.alert("提交成功！共提交"+msg.data+"条信息")
-                    },function error (msg) {
+                    function success (response) {
+                        window.alert("提交成功！共提交"+response.data.data+"条信息")
+                    },function error (response) {
                         window.alert("提交失败！")
                     }
                 )

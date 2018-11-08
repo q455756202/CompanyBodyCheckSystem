@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoUserMapper">
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.User">
+        <id column="USERID" property="userid" jdbcType="DECIMAL"/>
+        <result column="COMPANYID" property="companyid" jdbcType="DECIMAL"/>
+        <result column="USERNAME" property="username" jdbcType="VARCHAR"/>
+        <result column="USERGENDER" property="usergender" jdbcType="DECIMAL"/>
+        <result column="USERAGE" property="userage" jdbcType="DECIMAL"/>
+        <result column="USERPHONE" property="userphone" jdbcType="VARCHAR"/>
+        <result column="USERCARDCODE" property="usercardcode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getNewUserId" resultType="long" flushCache="true">
+        select USER_SEQUENCE.nextval from dual
+    </select>
+
+    <select id="selectBeforeUsers" resultType="team.yingyingmonster.ccbs.database.bean.User">
+        select * from USER_TABLE where COMPANYID = #{companyId}
+    </select>
+
+</mapper>

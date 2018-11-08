@@ -19,6 +19,5 @@ public interface ZhaoAccountMapper {
     Long addAccount(Account account);
     Integer addCompany(Company company);
     Company selectCompany(Long accountId);
-    Long getNewUserId();//获取体检人ID
     Integer insertUsers(List<User> userList);//插入体检人员信息
 }
