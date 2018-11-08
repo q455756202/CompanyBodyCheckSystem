@@ -48,14 +48,14 @@ public class DoctorCheckAction {
 
     @RequestMapping("/modeldata")
     @ResponseBody
-    public List<Model> modeldata(@RequestBody Long checkid){
+    public List<Model> modelData(@RequestBody Long checkid){
         List<Model> models = modelMapperWeng.selectByCheckId(checkid);
         return models;
     }
 
     @RequestMapping("/insertmodeldata")
     @ResponseBody
-    public List<ModelData> insertmodeldata(@RequestBody List<Model> models, Long billid, Long usercheckid) throws Exception {
+    public List<ModelData> insertModelData(@RequestBody List<Model> models, Long billid, Long usercheckid) throws Exception {
         List<ModelData> modelDatas = new ArrayList<>();
         for (Model model:models){
             ModelData modelData = new ModelData();
@@ -64,7 +64,9 @@ public class DoctorCheckAction {
             modelData.setUsercheckid(usercheckid);
             modelDatas.add(modelData);
         }
-        doctorCheckService.insertModelDataAndChangeBill(modelDatas,billid);
+        //暂存医生id
+        Long doctorid = 1l;
+        doctorCheckService.insertModelDataAndChangeBill(modelDatas,billid,doctorid);
         return modelDatas;
     }
 
@@ -75,7 +77,7 @@ public class DoctorCheckAction {
     }
 
     @RequestMapping("/summarytemplet")
-    public String summarytemplet(){
+    public String summaryTemplet(){
 
         return "doctorcheck/summarytemplet";
     }
@@ -83,12 +85,12 @@ public class DoctorCheckAction {
     @RequestMapping("/submitsummary")
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public ResultMessage submitsummary(@RequestParam("summary") String summary,@RequestParam("billid") Long billid){
+    public ResultMessage submitSummary(@RequestParam("summary") String summary,@RequestParam("billid") Long billid){
         System.out.println(summary);
         Report report = new Report();
         report.setBillid(billid);
         report.setReportsummary(summary);
-        reportMapperWeng.updatesummarybyrepo(report);
+        reportMapperWeng.updateSummaryByBillid(report);
         return ResultMessage.createSuccessMessage("成功添加小结,在后台确认后可正式提交","/doctorcheck/userinfo");
     }
 }
