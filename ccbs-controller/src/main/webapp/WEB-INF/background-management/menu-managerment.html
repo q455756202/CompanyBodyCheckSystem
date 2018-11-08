@@ -11,11 +11,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="format-detection" content="telephone=no">
-        <link rel="stylesheet" href="./css/x-admin.css" media="all">
-        <link rel="stylesheet" href="css/pag.css" media="all"> 
-      
+        <link rel="stylesheet" href="/assets/css/x-admin.css" media="all">
+        <link rel="stylesheet" href="/assets/css/pag.css" media="all">
+        <link href="/assets/css/toastr.min.css" rel="stylesheet"/>
     </head>
-    <body ng-app="ngApp">
+    <body>
         <div class="x-nav">
             <span class="layui-breadcrumb">
               <a><cite>首页</cite></a>
@@ -46,11 +46,11 @@
             </form>
             <div class="tools">
     <ul class="toolbar">
-      <li><span><img src="images/t03.png" /></span>批量删除</li>
+      <li><span><img src="/assets/images/t03.png" /></span>批量删除</li>
     </ul>
     <span class="x-right" style="line-height:25px">共有数据： 条</span></xblock>
   </div>
-            <table class="tablelist" ng-controller="menuListController" ng-repeat="menu in menuList">
+            <table class="tablelist">
                 <thead>
                     <tr>
                         <th>
@@ -71,17 +71,17 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody id="x-link">
-                    <tr>
+                <tbody id="x-link"  ng-app="menuApp"  ng-controller="menuListController">
+                    <tr ng-repeat="menu in menuList">
                         <td>
                             <input type="checkbox" value="1" name="selected">
                         </td>
                         <td>
-                            {{menu.menuId}}
+                            {{menu.menuid}}
                         </td>
-                        <td>{{menu.menuName}}</td>
+                        <td>{{menu.menuname}}</td>
                         <td >
-                            {{menu.menuUrl}}
+                            {{menu.menuurl}}
                         </td>
 
                         <td class="td-manage">
@@ -99,19 +99,22 @@
                 </tbody>
             </table>
 <div class="page"  v-show="show">
-  <div class="pagelist"> <span class="jump">上一页</span> <span class="jump">1</span> <span class="jump">2</span> <span class="jump">3</span> <span class="jump">4</span> <span class="jump">5</span> <span class="jump">6</span> <span class="ellipsis">...</span> <span class="jump">下一页</span> <span class="jumppoint">跳转到：</span> <span class="jumpinp">
-    <input type="text">
-    </span> <span class="jump gobtn">GO</span> </div>
+  <div class="pagelist">
+      <span class="jump">上一页</span>
+      <span class="jump">下一页</span>
+  </div>
 </div>
 </div>
 <br />
 <br />
 <br />
-        <script src="./lib/layui/layui.js" charset="utf-8"></script>
-        <script src="./js/x-layui.js" charset="utf-8"></script>
-
-<script src="js/jquery2.js" charset="utf-8"></script> 
-<script src="js/js.js" charset="utf-8"></script>
+        <script src="/assets/scripts/angular.min.js"></script>
+        <script src="/assets/lib/layui/layui.js" charset="utf-8"></script>
+        <script src="/assets/js/x-layui.js" charset="utf-8"></script>
+        <script src="/assets/js/jquery2.js" charset="utf-8"></script>
+        <script src="/assets/js/js.js" charset="utf-8"></script>
+        <script src="/assets/scripts/toastr.min.js"></script>
+        <script src="/assets/scripts/jquery.min.js"></script>
         <script>
             layui.use(['element','laypage','layer','form'], function(){
                 $ = layui.jquery;//jquery
@@ -123,46 +126,38 @@
 
             // 用户-编辑
             function link_edit (title,url,id,w,h) {
-                x_admin_show(title,url,w,h); 
+                x_admin_show(title,url,w,h);
             }
-            
-            </script>
-            <script type="text/javascript">
-	$('.tablelist tbody tr:odd').addClass('odd');
-	</script>
-    <script>
-        // 创建angularjs模块
-        let ngApp = angular.module('ngApp', []);
 
-        // 创建侧边导航栏控制器
+
+	$('.tablelist tbody tr:odd').addClass('odd');
+
+        // 创建angularjs模块
+        let ngApp = angular.module('menuApp', []);
+
+        // 创建菜单列表控制器
         ngApp.controller('menuListController', function ($scope, $http) {
             $scope.menuList = [];
             $http.post("/common/get-menu")
                 .then(
                     function success(response) {
                         resultMessage = response.data;
-                        if (resultMessage.resultState == 200) {
-                            $(resultMessage.resultData).each(function (i, v) {
+                        console.log(response);
+                        if (resultMessage.state == 200) {
+                            $(resultMessage.data).each(function (i, v) {
                                 $scope.menuList.push(v);
                             });
 
                         } else {
-                            console.error(response);
-                            toastr.error("获取菜单信息失败,可能是网络原因!");
+                           //console.error(response);
+                            console.log(resultMessage);
+                            toastr.error("Get menu info unsuccessful!");
                         }
                     }, function error(response) {
                         console.error(response);
                         toastr.error("获取菜单信息失败,可能是网络原因!");
                     });
-
-            $scope.menuClick = function (button) {
-                // 这句话可以注释掉,只是用来测试的.
-                alert(`some button on click!, name is "${button.menuName}", and url is "${button.menuUrl}"`);
-                // 使页面框架发生跳转.
-                window.frames["mainPageFrame"].location.href = button.menuUrl;
-            };
-        });
-
+            });
     </script>
     </body>
 </html>

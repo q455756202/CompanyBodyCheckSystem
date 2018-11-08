@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.yingyingmonster.ccbs.database.mapper.RoleMapper" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.dingli.DingRoleMapper" >
   <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Role" >
     <id column="ROLEID" property="roleid" jdbcType="DECIMAL" />
     <result column="ROLENAME" property="rolename" jdbcType="VARCHAR" />
@@ -8,6 +8,9 @@
   <sql id="Base_Column_List" >
     ROLEID, ROLENAME
   </sql>
+  <select id="selectAllRole" resultMap="BaseResultMap">
+        select * from ROLE_TABLE
+    </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

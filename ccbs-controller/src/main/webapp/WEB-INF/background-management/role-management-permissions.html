@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>
-            角色管理-添加
+            角色管理-权限分配
         </title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label for="name" class="layui-form-label">
-                        <span class="x-red">*</span>角色职称
+                        <span class="x-red">*</span>角色名称
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="title" name="name"  class="layui-input">
@@ -42,112 +42,40 @@
                         <tbody>
                             <tr>
                                 <td width="10%">
-                                    用户管理
+                                    用户访问权限
                                 </td>
                                 <td width="81%">
                                     <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 用户停用
-                                        <input name="id[]" type="checkbox" value="2"> 用户删除
-                                        <input name="id[]" type="checkbox" value="2"> 用户修改
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 用户改密
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检开单
+                                        <input name="id[]" type="checkbox" value="2"> 记账
+                                        <input name="id[]" type="checkbox" value="2"> 团检结算
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检单位结款
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 打印导检单和条码
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检报告打印
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检退费
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检综合查询
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检人员查询
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检单位对账
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 项目接收
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检小结
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检总结
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检单位设置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 人员设置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 角色配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 权限配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 菜单配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 科室设置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 细项配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 项目配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 套餐配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 日志查看
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 参数管理
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 修改密码
+
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    文章管理
-                                </td>
-                                <td>
-                                    <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        添加
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        删除
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        修改
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>后台登录</td>
-                                <td>
-                                    <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        登录
-                                        
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>人格测试</td>
-                                <td>
-                                    <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        保存
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    数据管理
-                                </td>
-                                <td>
-                                    <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        编辑
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        删除
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        批量删除
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        批量导出
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        导出
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        搜素
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    用户管理
-                                </td>
-                                <td>
-                                    <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        刷新
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        删除
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        编辑
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        添加
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        修改密码
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        下载用户模板
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        导出用户模板
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    网站信息管理
-                                </td>
-                                <td>
-                                    <div class="layui-input-block">
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        首页
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        关于我们
-                                        <input name="id[]" type="checkbox" value="2"> 
-                                        心里新闻
-                                        <input name="id[]" checked="" type="checkbox" value="2"> 
-                                        资源下载
-                                    </div>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>

@@ -27,7 +27,7 @@ public class AccountAction {
     @Autowired
     private AccountService accountService;
 
-    @RequestMapping("/account-info")
+   /* @RequestMapping("/account-info")
     @ResponseBody
     public ResultMessage accountInfo(HttpSession session){
         Account account=(Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
@@ -41,8 +41,6 @@ public class AccountAction {
             return ResultMessage.createErrorMessage(null);
         }
 
-    }
-
-
+    }*/
 
 }

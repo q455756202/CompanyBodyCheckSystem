@@ -43,8 +43,8 @@
     <div class="tools">
         <ul class="toolbar">
             <li><span><img src="/assets/images/t03.png" /></span>批量删除</li>
-            <li onclick="role_management_add('添加用户','role-management-add.html','900','500')"><span><img src="images/t01.png" /></span>添加</li>
-            <li onclick="role_management_edit('编辑','role-management-edit.html','900','500')"><span><img src="images/t02.png" /></span>编辑</li>
+            <li onclick="role_management_add('添加用户','/role-management-add','900','500')"><span><img src="/assets/images/t01.png" /></span>添加</li>
+            <li onclick="role_management_edit('编辑','role-menu','900','500')"><span><img src="/assets/images/t02.png" /></span>编辑</li>
         </ul>
         <span class="x-right" style="line-height:25px">共有数据： 条</span></xblock>
     </div>
@@ -65,12 +65,21 @@
             <td> {{role.roleId}} </td>
             <td>{{role.roleName}}</td>
             <td >更改权利</td>
-            <td class="td-manage"><a title="分配权限" href="javascript:;" onclick="role_management_permissions('分配权限','role_management_permissions.html','4','','510')"
-                                     class="ml-5" style="text-decoration:none"> <i class="layui-icon"><img src="images/quanxian.png" width="15" height="15"></i> </a> <a title="查看" href="javascript:;" onclick="role_management_look('查看','role_management_look.html','4','','510')"
+            <td class="td-manage"><a title="分配权限" href="javascript:;" onclick="role_management_permissions('分配权限','/role-menu','4','','510')"
+                                     class="ml-5" style="text-decoration:none"> <i class="layui-icon"><img src="/assets/images/quanxian.png" width="15" height="15"></i> </a> <a title="查看" href="javascript:;" onclick="role_management_look('查看','role_management_look.html','4','','510')"
                                                                                                                                                                          class="ml-5" style="text-decoration:none"> <i class="layui-icon">&#xe63c;</i> </a> <a title="删除" href="javascript:;" onclick="role_del(this,'1')"
                                                                                                                                                                                                                                                                style="text-decoration:none"> <i class="layui-icon">&#xe640;</i> </a></td>
         </tr>
-
+        <tr>
+            <td><input type="checkbox" value="1" name="selected"></td>
+            <td> 1 </td>
+            <td>fdsf</td>
+            <td >更改权利</td>
+            <td class="td-manage"><a title="分配权限" href="javascript:;" onclick="role_management_permissions('分配权限','/role-management-permissions','4','','510')"
+                                     class="ml-5" style="text-decoration:none"> <i class="layui-icon"><img src="/assets/images/quanxian.png" width="15" height="15"></i> </a> <a title="查看" href="javascript:;" onclick="role_management_look('查看','role_management_look.html','4','','510')"
+                                                                                                                                                                         class="ml-5" style="text-decoration:none"> <i class="layui-icon">&#xe63c;</i> </a> <a title="删除" href="javascript:;" onclick="role_del(this,'1')"
+                                                                                                                                                                                                                                                               style="text-decoration:none"> <i class="layui-icon">&#xe640;</i> </a></td>
+        </tr>
         </tbody>
     </table>
     <div class="page"  v-show="show">
@@ -87,6 +96,7 @@
 <script src="/assets/js/x-layui.js" charset="utf-8"></script>
 <script src="/assets/js/jquery2.js" charset="utf-8"></script>
 <script src="/assets/js/js.js" charset="utf-8"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
 <script>
     layui.use(['laydate','element','laypage','layer'], function(){
         $ = layui.jquery;//jquery
