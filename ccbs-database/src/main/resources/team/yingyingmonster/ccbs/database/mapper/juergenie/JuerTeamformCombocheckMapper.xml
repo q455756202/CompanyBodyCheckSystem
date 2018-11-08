@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerTeamformCombocheckMapper" >
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck" >
+        <id column="TEAMFORMCOMBOCHECKID" property="teamformcombocheckid" jdbcType="DECIMAL" />
+        <result column="TEAMFORMID" property="teamformid" jdbcType="DECIMAL" />
+        <result column="COMBOID" property="comboid" jdbcType="DECIMAL" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        TEAMFORMCOMBOCHECKID, TEAMFORMID, COMBOID
+    </sql>
+
+    <select id="getNewId" resultType="long" flushCache="true">
+        select TEAMFORM_COMBOCHECK_TABLE_SEQ.nextval from dual
+    </select>
+
+    <insert id="insertBatch" parameterType="list" useGeneratedKeys="false">
+        insert into TEAMFORM_COMBOCHECK_TABLE(TEAMFORMID, COMBOID, TEAMFORMCOMBOCHECKID)
+        select * from
+        <foreach collection="list" item="tf" open="(" close=")" separator="union all">
+            select #{tf.teamformid}, #{tf.comboid}, #{tf.teamformcombocheckid} from dual
+        </foreach>
+    </insert>
+</mapper>

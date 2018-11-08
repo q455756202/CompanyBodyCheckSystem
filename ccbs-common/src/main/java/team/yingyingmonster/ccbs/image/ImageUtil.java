@@ -1,8 +1,5 @@
 package team.yingyingmonster.ccbs.image;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,7 +13,7 @@ import java.util.Random;
  * @author Juer Whang <br/>
  * - project: CompanyBodyCheckSystem
  * - create: 15:46 2018/11/2
- * -
+ * - 负责者已转移至赵寒威。
  **/
 public class ImageUtil {
     /**
@@ -84,13 +81,11 @@ public class ImageUtil {
     public static InputStream getInputStream(BufferedImage image)
             throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
-        encoder.encode(image);
+        ImageIO.write(image, "PNG", bos);
         byte[] imageBts = bos.toByteArray();
         InputStream in = new ByteArrayInputStream(imageBts);
         return in;
     }
-
 
     // ���������ɫ�ķ���
     private static Color getRandomColor() {

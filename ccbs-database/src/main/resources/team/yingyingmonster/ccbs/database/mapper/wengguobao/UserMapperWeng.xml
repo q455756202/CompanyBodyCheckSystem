@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.UserMapperWeng">
+    <select id="selectUserByUserId" parameterType="java.lang.Long" resultMap="userMap">
+        select a.*,c.ACCOUNTNAME from USER_TABLE a ,COMPANY_TABLE b,ACCOUNT_TABLE c where a.USERID =#{userId} AND a.COMPANYID=b.COMPANYID AND b.ACCOUNTID=c.ACCOUNTID
+    </select>
+
+
+
+    <resultMap type="team.yingyingmonster.ccbs.database.bean.User" id="userMap">
+        <id property="userid" column="USERID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="usergender" column="USERGENDER"/>
+        <result property="userage" column="USERAGE"/>
+        <result property="usercardcode" column="USERCARDCODE"/>
+        <result property="userphone" column="USERPHONE"/>
+        <association property="companyByCompanyid" resultMap="companyMap" ></association>
+    </resultMap>
+
+    <resultMap id="companyMap" type="team.yingyingmonster.ccbs.database.bean.Company">
+        <id property="companyid" column="COMPANYID"/>
+        <result property="accountid" column="ACCOUNTID"/>
+        <result property="companyprice" column="COMPANYPRICE"/>
+        <result property="companyemail" column="COMPANYEMAIL"/>
+        <result property="companyphone" column="COMPANYPHONE"/>
+        <association property="accountByAccountid" resultMap="accountMap"></association>
+    </resultMap>
+
+    <resultMap id="accountMap" type="team.yingyingmonster.ccbs.database.bean.Account">
+        <id property="accountid" column="ACCOUNTID"/>
+        <result property="accountname" column="ACCOUNTNAME"/>
+        <result property="accountpassword" column="ACCOUNTPASSWORD"/>
+        <result property="accountstate" column="ACCOUNTSTATE"/>
+        <result property="registerdate" column="REGISTERDATE"/>
+    </resultMap>
+
+</mapper>

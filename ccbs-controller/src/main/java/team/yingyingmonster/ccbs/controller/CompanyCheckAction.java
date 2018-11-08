@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
-import team.yingyingmonster.ccbs.database.bean.Account;
-import team.yingyingmonster.ccbs.database.bean.Company;
-import team.yingyingmonster.ccbs.database.bean.User;
+import team.yingyingmonster.ccbs.database.bean.*;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
@@ -18,6 +16,7 @@ import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author Juer Whang <br/>
@@ -52,6 +51,11 @@ public class CompanyCheckAction {
         return "company-check/error";
     }
 
+    /**
+     * 获取团检组织名下的所有人员名单。
+     * @param session
+     * @return
+     */
     @RequestMapping("/get-company-user")
     @ResponseBody
     public ResultMessage getCompanyUser(HttpSession session) {
@@ -64,24 +68,37 @@ public class CompanyCheckAction {
         }
     }
 
+    /**
+     * 获取所有套餐。
+     * @return
+     */
     @RequestMapping("/get-combo")
     @ResponseBody
     public ResultMessage getCombo() {
-        return ResultMessage.createSuccessMessage("success!", juerComboMapper.selectComboByCondition(null));
+        Combo combo = new Combo();
+        combo.setCombotype(Constant.COMBO_TYPE_LASTING);
+        List<Combo> comboList = juerComboMapper.selectComboByCondition(combo);
+
+        return ResultMessage.createSuccessMessage("success!", comboList);
     }
 
     @RequestMapping("/get-company-entity")
     @ResponseBody
-    public ResultMessage getCompanyEntity() {
-        JuerCompanyCheckEntity entity = juerCompanyCheckSystemService.getCompanyCheckEntity(1l);
-        System.out.println("\n========"+JsonUtil.beanToJson(entity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL)+"\n========");
-        return ResultMessage.createSuccessMessage("success!", entity);
+    public ResultMessage getCompanyEntity(HttpSession session) {
+        Account account = (Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
+        JuerCompanyCheckEntity entity = juerCompanyCheckSystemService.getCompanyCheckEntity(account.getAccountid());
+        return entity==null?ResultMessage.createErrorMessage("未取到数据！"):ResultMessage.createSuccessMessage("success!", entity);
     }
 
     @RequestMapping("/submit-company-check")
     @ResponseBody
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
-        System.out.println(JsonUtil.beanToJson(juerCompanyCheckEntity, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL));
-        return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+        try {
+            juerCompanyCheckSystemService.registerCompanyCheck(juerCompanyCheckEntity);
+            return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMessage.createErrorMessage(e.getMessage());
+        }
     }
 }
