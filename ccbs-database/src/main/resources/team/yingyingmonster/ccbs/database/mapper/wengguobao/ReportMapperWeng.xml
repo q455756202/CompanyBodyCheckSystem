@@ -1,23 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.ReportMapperWeng" >
-  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Report" >
+  <resultMap id="ReportMap" type="team.yingyingmonster.ccbs.database.bean.Report" >
     <id column="REPORTID" property="reportid" jdbcType="DECIMAL" />
     <result column="BILLID" property="billid" jdbcType="DECIMAL" />
+    <result column="DOCTORID" property="doctorid"/>
     <result column="REPORTDATE" property="reportdate" jdbcType="TIMESTAMP" />
+    <result column="REPORTSUMMARY" property="reportsummary" jdbcType="CLOB" />
+    <association property="billByBillid" resultMap="BillMap"/>
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="team.yingyingmonster.ccbs.database.bean.Report" extends="BaseResultMap" >
+  <resultMap id="BillMap" type="team.yingyingmonster.ccbs.database.bean.Bill" >
+    <id column="BILLID" property="billid" jdbcType="DECIMAL" />
+    <result column="BILLSTATE" property="billstate" jdbcType="DECIMAL" />
+    <result column="BILLDATE" property="billdate" jdbcType="TIMESTAMP" />
+    <result column="USERCHECKID" property="usercheckid" jdbcType="TIMESTAMP" />
+    <association property="userCheckByUsercheckid" resultMap="UserCheckMap"/>
+    <association property="checkByCheckid" resultMap="CheckMap"/>
+  </resultMap>
+  <resultMap id="UserCheckMap" type="team.yingyingmonster.ccbs.database.bean.UserCheck">
+    <id property="usercheckid" column="USERCHECKID"/>
+    <result property="userid" column="USERID"/>
+    <result property="teamformcombocheckid" column="TEAMFORMCOMBOCHECKID"/>
+    <association property="userByUserid" resultMap="UserMap"/>
+  </resultMap>
+  <resultMap id="UserMap" type="team.yingyingmonster.ccbs.database.bean.User">
+    <id property="userid" column="USERID"/>
+    <result property="companyid" column="COMPANYID"/>
+    <result property="username" column="USERNAME"/>
+    <result property="usergender" column="USERGENDER"/>
+    <result property="userage" column="USERAGE"/>
+    <result property="userphone" column="USERPHONE"/>
+    <result property="usercardcode" column="USERCARDCODE"/>
+  </resultMap>
+  <resultMap id="CheckMap" type="team.yingyingmonster.ccbs.database.bean.Check">
+    <id property="checkid" column="CHECKID"/>
+    <result property="checkname" column="CHECKNAME"/>
+    <result property="checkprice" column="CHECKPRICE"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="team.yingyingmonster.ccbs.database.bean.Report" extends="ReportMap" >
     <result column="REPORTSUMMARY" property="reportsummary" jdbcType="CLOB" />
   </resultMap>
-  <insert id="insertdefaultreport" parameterType="java.lang.Long">
-    insert into REPORT_TABLE(BILLID,REPORTID) values (#{billid},REPORT_SEQUENCE.nextval)
+
+  <insert id="insertdefaultreport" parameterType="team.yingyingmonster.ccbs.database.bean.Report">
+    insert into REPORT_TABLE(BILLID,REPORTID,DOCTORID) values (#{billid},REPORT_SEQUENCE.nextval,#{doctorid})
   </insert>
+
   <select id="selectbybillid" parameterType="java.lang.Long" resultType="team.yingyingmonster.ccbs.database.bean.Report">
     select billid,REPORTID from REPORT_TABLE where BILLID=#{billid}
   </select>
   
-  <update id="updatesummarybyrepo" parameterType="team.yingyingmonster.ccbs.database.bean.Report">
+  <update id="updateSummaryByBillid" parameterType="team.yingyingmonster.ccbs.database.bean.Report">
     update REPORT_TABLE set REPORTSUMMARY=#{reportsummary} where BILLID=#{billid}
   </update>
 
+  <select id="selectsummarybydoctorid" parameterType="java.lang.Long" resultMap="ReportMap">
+    select a.REPORTID,d.CHECKNAME,e.USERNAME from REPORT_TABLE a,BILL_TABLE b,USER_CHECK_TABLE c,CHECK_TABLE d,USER_TABLE e where
+  a.BILLID=b.BILLID and b.USERCHECKID=C.USERCHECKID and b.CHECKID=D.CHECKID and c.USERID=e.USERID and a.DOCTORID=#{doctorid}
+  and a.REPORTSTATE=0
+  </select>
+
+  <select id="selectByReportId" parameterType="java.lang.Long" resultType="team.yingyingmonster.ccbs.database.bean.Report">
+    select REPORTSUMMARY from REPORT_TABLE where REPORTID=#{reportid}
+  </select>
+
+  <update id="updateStateByReportId" parameterType="java.lang.Long">
+    update REPORT_TABLE set REPORTSTATE=1 where REPORTID=#{reportid}
+  </update>
+
+  <update id="updateSummaryByReportid" parameterType="team.yingyingmonster.ccbs.database.bean.Report">
+    update REPORT_TABLE set REPORTSUMMARY=#{reportsummary} where REPORTID=#{reportid}
+  </update>
+
+  <select id="selectAllSummaryName" resultMap="ReportMap">
+    select USER_CHECK_TABLE.*,USER_TABLE.USERNAME,USER_TABLE.USERID
+    from USER_CHECK_TABLE,USER_TABLE
+    where USER_CHECK_TABLE.USERID=USER_TABLE.USERID
+      and USERCHECKID not in (
+    select BILL_TABLE.USERCHECKID
+    from BILL_TABLE
+      left join REPORT_TABLE
+      on BILL_TABLE.BILLID = REPORT_TABLE.BILLID
+    where BILLSTATE != 2
+        or REPORTSTATE != 1
+        or BILL_TABLE.BILLID in (
+    select BILLID
+    from REPORT_TABLE
+    where REPORTSTATE = 1
+          and BILLID in (
+      select BILLID
+      from BILL_TABLE
+      where CHECKID = 1)
+  )
+)
+  </select>
+
+  <select id="selectAllSummaryByUsercheckId" parameterType="java.lang.Long" resultMap="ReportMap">
+    select REPORTID,CHECKNAME from USER_CHECK_TABLE a,BILL_TABLE b,REPORT_TABLE c,CHECK_TABLE d where
+    a.USERCHECKID=b.USERCHECKID and b.BILLID=c.BILLID and b.CHECKID=d.CHECKID and a.USERCHECKID=#{usercheckid}
+  </select>
+
+  <insert id="addSummaryAllReport" parameterType="team.yingyingmonster.ccbs.database.bean.Report">
+    insert into REPORT_TABLE(REPORTID,BILLID,REPORTSUMMARY,REPORTSTATE)
+    values (REPORT_SEQUENCE.nextval,#{billid},#{reportsummary},2)
+  </insert>
 </mapper>

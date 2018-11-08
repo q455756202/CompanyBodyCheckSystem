@@ -32,8 +32,11 @@
 
   <select id="selectByDeptIdAndUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select b.USERCHECKID,b.BILLID,b.BILLSTATE,e.CHECKID,e.CHECKNAME from USER_CHECK_TABLE a,BILL_TABLE b,
-    (select d.CHECKID,d.CHECKNAME from DEPT_TABLE c,CHECK_TABLE d where c.DEPTID=d.DEPTID and c.DEPTID=#{deptId})e
-    where a.USERID=#{userId} and a.USERCHECKID=b.USERCHECKID and b.CHECKID=e.CHECKID
+    (select d.CHECKID,d.CHECKNAME from DEPT_TABLE c,CHECK_TABLE d where c.DEPTID=d.DEPTID <!--and c.DEPTID=#{deptId}-->)e
+    where a.USERID=#{userId} and a.USERCHECKID=b.USERCHECKID and b.CHECKID=e.CHECKID and b.BILLSTATE=0
   </select>
+  <insert id="addAllSummaryBill" parameterType="team.yingyingmonster.ccbs.database.bean.Bill">
+    insert into BILL_TABLE(BILLID, USERCHECKID, CHECKID) values (#{billid},#{usercheckid},1)
+  </insert>
 
 </mapper>
