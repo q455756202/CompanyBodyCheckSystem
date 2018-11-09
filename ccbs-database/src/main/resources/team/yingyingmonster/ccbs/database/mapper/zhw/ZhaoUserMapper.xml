@@ -28,4 +28,9 @@
         </foreach>
     </insert>
 
+    <insert id="insertUser" parameterType="team.yingyingmonster.ccbs.database.bean.User">
+        insert into USER_TABLE(USERID, COMPANYID, USERNAME, USERGENDER, USERAGE, USERPHONE, USERCARDCODE)
+        values (#{userid}, #{companyid}, #{username}, #{usergender}, #{userage}, #{userphone}, #{usercardcode})
+    </insert>
+
 </mapper>
