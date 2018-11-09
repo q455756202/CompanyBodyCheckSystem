@@ -7,7 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Role;
-import team.yingyingmonster.ccbs.database.dingli.RoleListMapper;
+import team.yingyingmonster.ccbs.database.mapper.RoleMapper;
+import team.yingyingmonster.ccbs.database.mapper.dingli.DingRoleMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.RoleService;
 
 import java.util.List;
@@ -21,15 +22,13 @@ import java.util.List;
 @Service
 public class RoleServiceImplement implements RoleService {
 
-    private List roleList;
-    private String flag;
+
     @Autowired
-    public RoleListMapper roleListMapper;
-
-
+    public DingRoleMapper dingRoleMapper;
     @Override
-    public List<Role> selectAllRoleList(@Param("roleid") Long roleid, @Param("rolename") String rolename) throws Exception {
-        return roleListMapper.selectAllRole();
+    public List<Role> selectAllRole()
+    {
+        return dingRoleMapper.selectAllRole();
     }
 
     @Override
@@ -46,10 +45,11 @@ public class RoleServiceImplement implements RoleService {
 
         Page<Role> page = PageHelper.startPage(pageNum, pageSize);
 
-        List<Role> list = roleListMapper.selectAllRole();
+        List<Role> list = dingRoleMapper.selectAllRole();
 
 
 
         return new PageInfo<>(page);
     }
+
 }

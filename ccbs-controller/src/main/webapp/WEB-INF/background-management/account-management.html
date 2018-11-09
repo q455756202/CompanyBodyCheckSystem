@@ -23,7 +23,7 @@
             </span>
             <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
         </div>
-        <div class="x-body" ng-controller="selectAccountController">
+        <div class="x-body" >
           <form ng-submit="submitFrom" name="selectFrom" class="layui-form x-center" action="" style="width:85%">
                 <div class="layui-form-pane">
                   <div class="layui-form-item">
@@ -164,12 +164,12 @@
                         });
             });
             //创建模糊查询控制器
-            ngApp.controller("selectAccountController",function ($scopr,$http) {
+            /*ngApp.controller("selectAccountController",function ($scopr,$http) {
                 $scope.submitForm=function (){
                     let accountid=$("#accountid").val();
 
                 }
-            })
+            })*/
 
 
         </script>
