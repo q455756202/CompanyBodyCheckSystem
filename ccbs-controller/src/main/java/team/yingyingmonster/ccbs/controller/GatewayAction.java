@@ -100,8 +100,7 @@ public class GatewayAction {
     @RequestMapping("/account-register")
     @ResponseBody
     public ResultMessage register(String accountName,String accountPassword,String companyPhone,String companyEmail){
-        Long accountId=accountService.addAccount(accountName,accountPassword);
-        boolean result=accountService.addCompany(accountId,companyPhone,companyEmail);
+        Long accountId=accountService.addAccount(accountName, accountPassword, companyPhone, companyEmail);
         String msg="";
         if (accountId>0){
             msg="注册成功";

@@ -3,6 +3,7 @@ package team.yingyingmonster.ccbs.database.mapper.zhw;
 import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
+import team.yingyingmonster.ccbs.database.bean.User;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface ZhaoAccountMapper {
     Long addAccount(Account account);
     Integer addCompany(Company company);
     Company selectCompany(Long accountId);
+    Integer insertUsers(List<User> userList);//插入体检人员信息
 }

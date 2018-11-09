@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.BillMapperWeng" >
+
+
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Bill" >
+    <id column="BILLID" property="billid" jdbcType="DECIMAL" />
+    <result column="BILLSTATE" property="billstate" jdbcType="DECIMAL" />
+    <result column="BILLDATE" property="billdate" jdbcType="TIMESTAMP" />
+    <result column="USERCHECKID" property="usercheckid" jdbcType="TIMESTAMP" />
+    <association property="userCheckByUsercheckid" resultMap="UserCheckMap"/>
+    <association property="checkByCheckid" resultMap="CheckMap"/>
+  </resultMap>
+
+  <resultMap id="UserCheckMap" type="team.yingyingmonster.ccbs.database.bean.UserCheck">
+    <id property="usercheckid" column="USERCHECKID"/>
+    <result property="userid" column="USERID"/>
+    <result property="teamformcombocheckid" column="TEAMFORMCOMBOCHECKID"/>
+  </resultMap>
+
+  <resultMap id="CheckMap" type="team.yingyingmonster.ccbs.database.bean.Check">
+    <id property="checkid" column="CHECKID"/>
+    <result property="checkname" column="CHECKNAME"/>
+    <result property="checkprice" column="CHECKPRICE"/>
+    <association property="deptByDeptid" resultMap="DeptMap"/>
+  </resultMap>
+
+  <resultMap id="DeptMap" type="team.yingyingmonster.ccbs.database.bean.Dept">
+    <id property="deptid" column="DEPTID"/>
+    <result property="deptname" column="DEPTNAME"/>
+  </resultMap>
+
+  <select id="selectByDeptIdAndUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select b.USERCHECKID,b.BILLID,b.BILLSTATE,e.CHECKID,e.CHECKNAME from USER_CHECK_TABLE a,BILL_TABLE b,
+    (select d.CHECKID,d.CHECKNAME from DEPT_TABLE c,CHECK_TABLE d where c.DEPTID=d.DEPTID <!--and c.DEPTID=#{deptId}-->)e
+    where a.USERID=#{userId} and a.USERCHECKID=b.USERCHECKID and b.CHECKID=e.CHECKID and b.BILLSTATE=0
+  </select>
+  <insert id="addAllSummaryBill" parameterType="team.yingyingmonster.ccbs.database.bean.Bill">
+    insert into BILL_TABLE(BILLID, USERCHECKID, CHECKID) values (#{billid},#{usercheckid},1)
+  </insert>
+
+</mapper>
