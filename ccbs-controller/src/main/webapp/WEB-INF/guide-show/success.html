@@ -9,12 +9,13 @@
     <link href="/assets/css/juer-style.css" rel="stylesheet"/>
 </head>
 <body ng-app="guideShowApp">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-10 text-center">
                 <h3>导检单预览</h3>
             </div>
         </div>
+        <hr/>
         <div class="row justify-content-center align-items-start">
             <div class="col-10 text-center" ng-controller="showGuideController">
                 <select class="form-control font-size-16px" ng-model="selectedUser" ng-options="x.username for x in userList"></select>
@@ -57,7 +58,7 @@
                     <tbody>
                     <tr ng-repeat="x in selectedUser.checkList">
                         <td>{{x.checkname}}</td>
-                        <td>{{x.checkdept}}</td>
+                        <td>{{x.dept}}</td>
                     </tr>
                     </tbody>
                 </table>

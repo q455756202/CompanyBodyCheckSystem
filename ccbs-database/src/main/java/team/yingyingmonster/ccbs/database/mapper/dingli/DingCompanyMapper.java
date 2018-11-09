@@ -1,4 +1,4 @@
 package team.yingyingmonster.ccbs.database.mapper.dingli;
 
-public interface dingCompanyMapper {
+public interface DingCompanyMapper {
 }
