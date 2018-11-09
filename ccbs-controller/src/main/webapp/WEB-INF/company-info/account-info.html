@@ -153,7 +153,9 @@
 </div>
 
 <!--体检人员信息-->
-<div align="cenger">
+<div align="cenger" ng-controller="selectUsersController">
+    <p align="cengter">已添加体检人员信息</p>
+    <button type="button" class="btn btn-primary" ng-click="selectUsers()">查看</button>
     <table>
         <thead>
             <tr>
@@ -244,6 +246,20 @@
                 window.alert("请先添加体检人员名单！");
             }
 
+        }
+
+    });
+    //查看体检人员名单
+    app.controller('selectUsersController',function ($scope,$http) {
+        $scope.selectUsers=function () {
+            $http.post("/company-info/select-users"
+            ).then(
+                function success (response) {
+
+                },function error (response) {
+
+                }
+            )
         }
 
     })

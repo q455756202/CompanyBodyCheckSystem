@@ -25,27 +25,6 @@
         #{accountpassword,jdbcType=VARCHAR}, 0, sysdate)
     </insert>
 
-    <insert id="addCompany" parameterType="team.yingyingmonster.ccbs.database.bean.Company">
-        <selectKey keyProperty="companyid" order="BEFORE" resultType="java.lang.Long">
-            select COMPANY_SEQUENCE.nextval from dual
-        </selectKey>
-        insert into COMPANY_TABLE (COMPANYID,ACCOUNTID,COMPANYPHONE,COMPANYEMAIL)
-        values (#{companyid,jdbcType=DECIMAL}, #{accountid,jdbcType=DECIMAL}, #{companyphone,jdbcType=VARCHAR},
-        #{companyemail,jdbcType=VARCHAR})
-    </insert>
 
-    <select id="selectCompany" parameterType="java.lang.Long"
-            resultType="team.yingyingmonster.ccbs.database.bean.Company">
-        select * from COMPANY_TABLE where ACCOUNTID=#{accountId}
-    </select>
-
-    <insert id="insertUsers" parameterType="list">
-        insert into USER_TABLE(USERID, COMPANYID, USERNAME, USERGENDER, USERAGE, USERPHONE, USERCARDCODE)
-        select * from
-        <foreach collection="list" item="item" open="(" separator="union all" close=")">
-            select #{item.userid}, #{item.companyid}, #{item.username} ,#{item.usergender}, #{item.userage},
-            #{item.userphone}, #{item.usercardcode} from dual
-        </foreach>
-    </insert>
 
 </mapper>

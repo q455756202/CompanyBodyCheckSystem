@@ -19,4 +19,13 @@
         select * from USER_TABLE where COMPANYID = #{companyId}
     </select>
 
+    <insert id="insertUsers" parameterType="list">
+        insert into USER_TABLE(USERID, COMPANYID, USERNAME, USERGENDER, USERAGE, USERPHONE, USERCARDCODE)
+        select * from
+        <foreach collection="list" item="item" open="(" separator="union all" close=")">
+            select #{item.userid}, #{item.companyid}, #{item.username} ,#{item.usergender}, #{item.userage},
+            #{item.userphone}, #{item.usercardcode} from dual
+        </foreach>
+    </insert>
+
 </mapper>

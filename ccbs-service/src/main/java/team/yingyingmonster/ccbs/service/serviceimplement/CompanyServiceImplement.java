@@ -1,28 +1,27 @@
 package team.yingyingmonster.ccbs.service.serviceimplement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Company;
-import team.yingyingmonster.ccbs.database.mapper.dingli.DingCompanyMapper;
+import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoCompanyMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.CompanyService;
 
 /**
- * @author DingLi <br/>
+ * @author Zhao Han Wei <br/>
  * - project: CompanyBodyCheckSystem
- * - create: 17:11 2018/11/6
- * -
+ * - create: 9:43 2018/11/9
+ * - Company接口实现类
  **/
-
+@Service
 public class CompanyServiceImplement implements CompanyService {
 
     @Autowired
-    private DingCompanyMapper dingCompanyMapper;
-    @Override
-    public Long addCompany(String accountName, String accountPassword) {
-        return null;
-    }
+    private ZhaoCompanyMapper zhaoCompanyMapper;
 
     @Override
-    public Integer updateByPrimaryKeySelective(Company company) {
-        return dingCompanyMapper.updateByPrimaryKeySelective(company);
+    public Company selectCompany(Long accountId) {
+        Company company = null;
+        company = zhaoCompanyMapper.selectCompany(accountId);
+        return company;
     }
 }

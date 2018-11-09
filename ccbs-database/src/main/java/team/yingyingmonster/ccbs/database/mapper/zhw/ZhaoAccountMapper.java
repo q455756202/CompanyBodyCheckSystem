@@ -17,7 +17,4 @@ import java.util.List;
 public interface ZhaoAccountMapper {
     List<Account> selectAccountByCondition(Account condition);
     Long addAccount(Account account);
-    Integer addCompany(Company company);
-    Company selectCompany(Long accountId);
-    Integer insertUsers(List<User> userList);//插入体检人员信息
 }
