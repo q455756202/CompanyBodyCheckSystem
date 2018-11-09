@@ -246,7 +246,7 @@
                         addUserForm.userAge.$dirty && addUserForm.userAge.$invalid ||
                         addUserForm.userPhone.$dirty && addUserForm.userPhone.$invalid ||
                         addUserForm.userCardcode.$dirty && addUserForm.userCardcode.$invalid"
-                                data-dismiss="modal">确定
+                                >确定
                         </button>
                     </div>
 
@@ -301,7 +301,6 @@
                     function (msg) {
                         if (msg.state == 200) {
                             $scope.userList = msg.data;
-                            console.log($scope.userList);
                             $scope.$apply();
                         } else {
                             window.alert(msg.message);
@@ -334,9 +333,6 @@
     app.controller('addUserController', function ($scope, $http) {
         $scope.submitUserForm = function () {
             console.log("体检单个信息", $scope.user);
-            // juerCore.post("/company-info/add-user", {"user": $scope.user}, function success(response) {
-            //     window.alert("提交成功！共提交" + response.data.data + "条信息");
-            // })
             $http.post("/company-info/add-user", $scope.user)
                 .then(
                 function success(response) {
@@ -355,9 +351,7 @@
             ).then(
                 function success(response) {
                     $scope.userList = response.data.data;
-                    if ($scope.userList.size() != 0) {
-                        $scope.$apply();
-                    } else {
+                    if ($scope.userList.length == 0) {
                         window.alert("未添加体检人员信息！");
                     }
                 }
