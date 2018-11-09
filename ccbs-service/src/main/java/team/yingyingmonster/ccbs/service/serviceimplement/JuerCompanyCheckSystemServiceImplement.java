@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.*;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCombo;
+import team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser;
 import team.yingyingmonster.ccbs.database.mapper.ComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.CompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.TeamformMapper;
@@ -147,6 +148,11 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             throw new Exception("插入错误 - comboMapper.insert");
         // TODO: 继续插入项目中的检查项目
         return null;
+    }
+
+    @Override
+    public List<JuerUser> getJuerUser(Long companyid) {
+        return juerUserMapper.selectJuerUsersByCompanyid(companyid);
     }
 
     private List<TeamformCombocheck> generatTeamformCombocheckList(List<JuerCombo> list, Long teamformid) {

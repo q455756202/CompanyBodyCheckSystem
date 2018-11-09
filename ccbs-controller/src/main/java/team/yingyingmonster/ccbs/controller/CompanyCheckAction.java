@@ -10,7 +10,6 @@ import team.yingyingmonster.ccbs.database.bean.*;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
-import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
 import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
@@ -43,7 +42,7 @@ public class CompanyCheckAction {
 
     @RequestMapping("/success")
     public String success() {
-        return "company-check/success";
+        return "guide-show/success";
     }
 
     @RequestMapping("/error")
@@ -90,12 +89,19 @@ public class CompanyCheckAction {
         return entity==null?ResultMessage.createErrorMessage("未取到数据！"):ResultMessage.createSuccessMessage("success!", entity);
     }
 
+    @RequestMapping("/check-user-list")
+    @ResponseBody
+    public ResultMessage getCheckUserList(HttpSession session) {
+        Long companyid = juerCompanyMapper.selectCompanyByAccountId(((Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid()).getCompanyid();
+        return ResultMessage.createSuccessMessage("success!", juerCompanyCheckSystemService.getJuerUser(companyid));
+    }
+
     @RequestMapping("/submit-company-check")
     @ResponseBody
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
         try {
             juerCompanyCheckSystemService.registerCompanyCheck(juerCompanyCheckEntity);
-            return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+            return ResultMessage.createSuccessMessage("success!", "/guide-show/index");
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMessage.createErrorMessage(e.getMessage());
