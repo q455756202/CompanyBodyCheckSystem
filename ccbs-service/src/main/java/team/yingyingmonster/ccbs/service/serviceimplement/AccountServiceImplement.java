@@ -7,6 +7,7 @@ import team.yingyingmonster.ccbs.database.bean.Company;
 import team.yingyingmonster.ccbs.database.bean.User;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoAccountMapper;
+import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoUserMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
 
@@ -28,7 +29,8 @@ public class AccountServiceImplement implements AccountService {
     private JuerCompanyMapper juerCompanyMapper;
 
     @Autowired
-    private ZhaoUserMapper zhaoUserMapper;
+    private ZhaoCompanyMapper zhaoCompanyMapper;
+
 
     @Override
     public Account login(Long accountId, String accountPassword) {
@@ -57,7 +59,7 @@ public class AccountServiceImplement implements AccountService {
             company.setAccountid(account.getAccountid());
             company.setCompanyphone(companyPhone);
             company.setCompanyemail(companyEmail);
-            Integer result = zhaoAccountMapper.addCompany(company);
+            Integer result = zhaoCompanyMapper.addCompany(company);
             if (result > 0) {
                 return account.getAccountid();
             } else {
@@ -68,13 +70,6 @@ public class AccountServiceImplement implements AccountService {
         }
     }
 
-    @Override
-    public Company selectCompany(Long accountId) {
-        Company company = null;
-        company = zhaoAccountMapper.selectCompany(accountId);
-        return company;
-    }
-
     /**
      * 通过账户ID查找公司ID
      */
@@ -82,41 +77,6 @@ public class AccountServiceImplement implements AccountService {
     public Long findCompanyId(Long accountId) {
         Long companyId = juerCompanyMapper.selectCompanyByAccountId(accountId).getCompanyid();
         return companyId;
-    }
-
-    /**
-     * 插入体检人员信息
-     */
-    @Override
-    public Integer insertUsers(Long companyId, List<String[]> userList) {
-        Integer result=0;
-        User user = new User();
-        List<User> users = new ArrayList<User>();
-        for (String[] userInfo : userList) {
-            Long userId = zhaoUserMapper.getNewUserId();
-            user.setUserid(userId);
-            user.setCompanyid(companyId);
-            user.setUsername(userInfo[0]);
-            user.setUsergender((short)(userInfo[1].equals("男")?0:1));
-            user.setUserage(Short.valueOf(userInfo[2]));
-            user.setUserphone(userInfo[3]);
-            user.setUsercardcode(userInfo[4]);
-            users.add(user);
-        }
-        List<User> beforeUsers = new ArrayList<User>();
-        beforeUsers=zhaoUserMapper.selectBeforeUsers(companyId);
-        for(int i=0; i<beforeUsers.size(); i++){
-            for(int j=0;j<users.size();j++){
-                if(beforeUsers.get(i).equals(users.get(j).getUsercardcode())){
-                    users.remove(users.get(j));
-                }
-            }
-        }
-        if (users!=null){
-            result = zhaoAccountMapper.insertUsers(users);
-        }
-        System.out.println("插入信息的条数：" + result);
-        return result;
     }
 
 }

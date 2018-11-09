@@ -1,6 +1,5 @@
 package team.yingyingmonster.ccbs.controller;
 
-import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Controller;
@@ -9,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
-import team.yingyingmonster.ccbs.json.JsonUtil;
+import team.yingyingmonster.ccbs.database.bean.User;
 import team.yingyingmonster.ccbs.poi.POIUtils;
 import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
+import team.yingyingmonster.ccbs.service.serviceinterface.CompanyService;
+import team.yingyingmonster.ccbs.service.serviceinterface.UserService;
 import team.yingyingmonster.ccbs.web.WebUtil;
 
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +36,12 @@ import java.util.Map;
 public class AccountAction {
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CompanyService companyService;
 
     @RequestMapping("/index")
     public String index(){
@@ -63,7 +68,7 @@ public class AccountAction {
     public ResultMessage accountInfo(HttpSession session) {
         Account account = (Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
         if (account != null) {
-            Company company = accountService.selectCompany(account.getAccountid());
+            Company company = companyService.selectCompany(account.getAccountid());
             if (company != null) {
                 Map<String, Object> map = new ManagedMap<>();
                 map.put("account", account);
@@ -104,17 +109,28 @@ public class AccountAction {
     /*
     * 提交提交人员名单
     */
-    @RequestMapping("submit-users")
+    @RequestMapping("/submit-users")
     @ResponseBody
     public ResultMessage submitUsers(@RequestBody List<String[]> userList, HttpSession session){
         Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
         Long companyId=accountService.findCompanyId(accountId);
-        Integer result=accountService.insertUsers(companyId,userList);
+        Integer result=userService.insertUsers(companyId,userList);
         if (result>0){
             return ResultMessage.createSuccessMessage("success",result);
         }else {
             return ResultMessage.createErrorMessage(null);
         }
+    }
+
+    /*
+     * 查询体检人员名单
+     */
+    @RequestMapping("/select-users")
+    @ResponseBody
+    public ResultMessage selectUsers(HttpSession session){
+        Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
+        Long companyId=accountService.findCompanyId(accountId);
+        return ResultMessage.createSuccessMessage(null,null);
     }
 
 }
