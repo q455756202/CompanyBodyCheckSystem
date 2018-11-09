@@ -1,5 +1,6 @@
 package team.yingyingmonster.ccbs.service.serviceimplement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
@@ -9,6 +10,8 @@ import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoAccountMapper;
 import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoUserMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
+
+import java.util.List;
 
 /**
  * @author Juer Whang <br/>
