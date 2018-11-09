@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.dingli.DingCompanyMapper" >
+  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Company" >
+    <id column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
+    <result column="ACCOUNTID" property="accountid" jdbcType="DECIMAL" />
+    <result column="COMPANYPRICE" property="companyprice" jdbcType="DECIMAL" />
+    <result column="COMPANYEMAIL" property="companyemail" jdbcType="VARCHAR" />
+    <result column="COMPANYPHONE" property="companyphone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COMPANYID, ACCOUNTID, COMPANYPRICE, COMPANYEMAIL, COMPANYPHONE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from COMPANY_TABLE
+    where COMPANYID = #{companyid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from COMPANY_TABLE
+    where COMPANYID = #{companyid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="addCompany" parameterType="team.yingyingmonster.ccbs.database.bean.Company" >
+    insert into COMPANY_TABLE (COMPANYID, ACCOUNTID, COMPANYPRICE, 
+      COMPANYEMAIL, COMPANYPHONE)
+    values (#{companyid,jdbcType=DECIMAL}, #{accountid,jdbcType=DECIMAL}, #{companyprice,jdbcType=DECIMAL}, 
+      #{companyemail,jdbcType=VARCHAR}, #{companyphone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yingyingmonster.ccbs.database.bean.Company" >
+    insert into COMPANY_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        COMPANYID,
+      </if>
+      <if test="accountid != null" >
+        ACCOUNTID,
+      </if>
+      <if test="companyprice != null" >
+        COMPANYPRICE,
+      </if>
+      <if test="companyemail != null" >
+        COMPANYEMAIL,
+      </if>
+      <if test="companyphone != null" >
+        COMPANYPHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        #{companyid,jdbcType=DECIMAL},
+      </if>
+      <if test="accountid != null" >
+        #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyprice != null" >
+        #{companyprice,jdbcType=DECIMAL},
+      </if>
+      <if test="companyemail != null" >
+        #{companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyphone != null" >
+        #{companyphone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yingyingmonster.ccbs.database.bean.Company" >
+    update COMPANY_TABLE
+    <set >
+      <if test="accountid != null" >
+        ACCOUNTID = #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="companyprice != null" >
+        COMPANYPRICE = #{companyprice,jdbcType=DECIMAL},
+      </if>
+      <if test="companyemail != null" >
+        COMPANYEMAIL = #{companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyphone != null" >
+        COMPANYPHONE = #{companyphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COMPANYID = #{companyid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yingyingmonster.ccbs.database.bean.Company" >
+    update COMPANY_TABLE
+    set ACCOUNTID = #{accountid,jdbcType=DECIMAL},
+      COMPANYPRICE = #{companyprice,jdbcType=DECIMAL},
+      COMPANYEMAIL = #{companyemail,jdbcType=VARCHAR},
+      COMPANYPHONE = #{companyphone,jdbcType=VARCHAR}
+    where COMPANYID = #{companyid,jdbcType=DECIMAL}
+  </update>
+</mapper>
