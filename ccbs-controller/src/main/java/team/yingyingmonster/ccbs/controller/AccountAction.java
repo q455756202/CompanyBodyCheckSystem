@@ -3,9 +3,7 @@ package team.yingyingmonster.ccbs.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
@@ -32,7 +30,7 @@ import java.util.Map;
  **/
 
 @Controller
-@RequestMapping("/company-info")
+@RequestMapping("/account")
 public class AccountAction {
     @Autowired
     private AccountService accountService;
@@ -120,6 +118,7 @@ public class AccountAction {
         }else {
             return ResultMessage.createErrorMessage(null);
         }
+
     }
 
     /*

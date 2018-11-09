@@ -1,6 +1,5 @@
 package team.yingyingmonster.ccbs.service.serviceimplement;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
@@ -11,14 +10,11 @@ import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoUserMapper;
 import team.yingyingmonster.ccbs.service.serviceinterface.AccountService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Juer Whang <br/>
  * - project: CompanyBodyCheckSystem
  * - create: 11:51 2018/11/2
- * -   该文件由赵寒威接管
+ * -
  **/
 @Service
 public class AccountServiceImplement implements AccountService {
@@ -78,5 +74,4 @@ public class AccountServiceImplement implements AccountService {
         Long companyId = juerCompanyMapper.selectCompanyByAccountId(accountId).getCompanyid();
         return companyId;
     }
-
 }

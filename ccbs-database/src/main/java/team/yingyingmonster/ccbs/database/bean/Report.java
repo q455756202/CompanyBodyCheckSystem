@@ -17,6 +17,8 @@ public class Report {
     private Date reportdate;
     private String reportsummary;
     private Short reportstate;
+    private Long doctorid;
 
     private Bill billByBillid;
+    private Doctor doctorByDoctorid;
 }

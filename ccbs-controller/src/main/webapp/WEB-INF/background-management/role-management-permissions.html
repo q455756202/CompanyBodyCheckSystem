@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>
+            角色管理-权限分配
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="/assets/css/x-admin.css" media="all">
+    </head>
+    
+    <body>
+        <div class="x-body">
+            <form action="" method="post" class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label for="name" class="layui-form-label">
+                        <span class="x-red">*</span>用户名
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="name" name="name" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="name" class="layui-form-label">
+                        <span class="x-red">*</span>角色名称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="title" name="name"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        拥有的权限
+                    </label>
+                    <table  class="layui-table layui-input-block">
+                        <tbody>
+                            <tr>
+                                <td width="10%">
+                                    用户访问权限
+                                </td>
+                                <td width="81%">
+                                    <div class="layui-input-block">
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检开单
+                                        <input name="id[]" type="checkbox" value="2"> 记账
+                                        <input name="id[]" type="checkbox" value="2"> 团检结算
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检单位结款
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 打印导检单和条码
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检报告打印
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检退费
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检综合查询
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检人员查询
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检单位对账
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 项目接收
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检小结
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 体检总结
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 团检单位设置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 人员设置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 角色配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 权限配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 菜单配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 科室设置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 细项配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 项目配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 套餐配置
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 日志查看
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 参数管理
+                                        <input name="id[]" checked="" type="checkbox" value="2"> 修改密码
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label for="desc" class="layui-form-label">
+                        备注信息
+                    </label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="内容" id="desc" name="desc" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                <button class="layui-btn">保存</button>
+                <button class="layui-btn">取消</button>
+              </div>
+            </form>
+        </div>
+        <script src="/assets/scripts/angular.min.js"></script>
+        <script src="/assets/lib/layui/layui.js" charset="utf-8">
+        </script>
+        <script src="/assets/js/x-layui.js" charset="utf-8">
+        </script>
+        <script>
+            layui.use(['form','layer'], function(){
+                $ = layui.jquery;
+              var form = layui.form()
+              ,layer = layui.layer;
+            });
+			
+        </script>
+    </body>
+
+</html>
