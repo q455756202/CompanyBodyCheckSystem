@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="/assets/css/x-admin.css" media="all">
         <link rel="stylesheet" href="/assets/css/pag.css" media="all">
     </head>
-    <body>
+    <body ng-app="accountListApp">
         <div class="x-nav">
             <span class="layui-breadcrumb">
               <a><cite>首页</cite></a>
@@ -23,24 +23,21 @@
             </span>
             <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
         </div>
-        <div class="x-body">
-          <form class="layui-form x-center" action="" style="width:85%">
+        <div class="x-body" >
+          <form ng-submit="submitFrom" name="selectFrom" class="layui-form x-center" action="" style="width:85%">
                 <div class="layui-form-pane">
                   <div class="layui-form-item">
                     <label class="layui-form-label">编号</label>
                     <div class="layui-input-inline" style="width:100px">
-                      <input type="text" name="name"  placeholder="编号" autocomplete="off" class="layui-input">
+                      <input type="text" name="accountid" ng-model="accountid" placeholder="编号" autocomplete="off" class="layui-input">
                     </div>
                     <label class="layui-form-label">账户名</label>
                     <div class="layui-input-inline" style="width:100px">
-                      <input type="text" name="name"  placeholder="姓名" autocomplete="off" class="layui-input">
+                      <input type="text" name="accountname" ng-model="accountname" placeholder="账户名" autocomplete="off" class="layui-input">
                     </div>
-                    <label class="layui-form-label">注册时间</label>
+                    <label class="layui-form-label">角色</label>
                     <div class="layui-input-inline" style="width:150px">
-                      <input type="text" name="name"  placeholder="注册时间" autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-input-inline" style="width:200px">
-                      <input type="text" name="link"  placeholder="搜索" autocomplete="off" class="layui-input">
+                      <input type="text" name="rolename" ng-model="rolename" placeholder="角色名称" autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-input-inline" style="width:80px">
                         <button class="layui-btn"  lay-submit="" lay-filter="*">搜索</button>
@@ -59,7 +56,7 @@
     </ul>
     <span class="x-right" style="line-height:25px">共有数据：88 条</span></xblock>
   </div>
-            <table class="tablelist" ng-controller="accountListController">
+            <table class="tablelist">
                 <thead>
                     <tr>
                         <th>
@@ -87,22 +84,22 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody ng-app="ngApp">
+                <tbody  ng-controller="accountController">
                     <tr  ng-repeat="account in accountList">
                         <td>
                             <input type="checkbox" value="1" name="selected">
                         </td>
                         <td>
-                            {{account.accountId}}
+                            {{account.accountid}}
                         </td>
-                        <td><u style="cursor:pointer" onclick="user_management_show('宋加加','user_management_show.html','10001','360','400')">{{accountbean.accountName}}</u></td>
+                        <td><u style="cursor:pointer" onclick="user_management_show('宋加加','user_management_show.html','10001','360','400')">{{account.accountname}}</u></td>
                         <td >
-                        {{account.accountPassword}}</td>
+                        {{account.accountpassword}}</td>
                         <td >
-                            {{account.accountRole}}</td>
+                            {{account.accountrole}}</td>
 
                         <td>
-                            {{account.registerDate}}
+                            {{account.registerdate}}
                         </td>
                         <td class="td-status">
                             <button class="sp">已启用</button>
@@ -128,9 +125,7 @@
                 </tbody>
             </table>
 <div class="page"  v-show="show">
-  <div class="pagelist"> <span class="jump">上一页</span> <span class="jump">1</span> <span class="jump">2</span> <span class="jump">3</span> <span class="jump">4</span> <span class="jump">5</span> <span class="jump">6</span> <span class="ellipsis">...</span> <span class="jump">下一页</span> <span class="jumppoint">跳转到：</span> <span class="jumpinp">
-    <input type="text">
-    </span> <span class="jump gobtn">GO</span> </div>
+  <div class="pagelist"> <span class="jump">上一页</span> <span class="jump">下一页</span>  </div>
 </div>
 </div>
 <br />
@@ -142,27 +137,41 @@
         <script src="/assets/js/jquery2.js" charset="utf-8"></script>
         <script src="/assets/js/js.js" charset="utf-8"></script>
         <script>
-            //创建angularjs模块
-            let ngApp = angular.module('ngApp', []);
-            //创建账户列表控制器
-            ngApp.controller('accountListController', function ($scope, $http) {
+            // 创建angularjs模块
+            let ngApp = angular.module('accountListApp', []);
+
+            // 创建人员列表控制器
+            ngApp.controller('accountController', function ($scope, $http) {
                 $scope.accountList = [];
-                $http.post("/account-management/account-list-action")
+                $http.post("/accountList/get-accountList")
                     .then(
                         function success(response) {
-                            $(response.data).each(function (i, v) {
-                                $scope.accountList.push(v);
-                            });
-                            $("#accountListContent").removeClass("d-none");
+                            resultMessage = response.data;
+                            console.log(response);
+                            if (resultMessage.state == 200) {
+                                $(resultMessage.data).each(function (i, v) {
+                                    $scope.accountList.push(v);
+                                });
+
+                            } else {
+                                //console.error(response);
+                                console.log(resultMessage);
+                                toastr.error("Get menu info unsuccessful!");
+                            }
                         }, function error(response) {
                             console.error(response);
-                            toastr.error("账户列表获取失败,可能是网络原因!");
+                            toastr.error("获取菜单信息失败,可能是网络原因!");
                         });
-
-                $scope.menuClick = function (button) {
-                    alert(`some button on click!, name is "${button.menuName}", and url is "${button.menuUrl}"`);
-                };
             });
+            //创建模糊查询控制器
+            /*ngApp.controller("selectAccountController",function ($scopr,$http) {
+                $scope.submitForm=function (){
+                    let accountid=$("#accountid").val();
+
+                }
+            })*/
+
+
         </script>
         <script>
             layui.use(['laydate','element','laypage','layer'], function(){

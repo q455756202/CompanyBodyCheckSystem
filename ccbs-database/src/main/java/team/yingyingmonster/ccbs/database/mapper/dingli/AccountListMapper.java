@@ -1,4 +1,4 @@
-package team.yingyingmonster.ccbs.database.dingli;
+package team.yingyingmonster.ccbs.database.mapper.dingli;
 
 
 import org.springframework.stereotype.Repository;

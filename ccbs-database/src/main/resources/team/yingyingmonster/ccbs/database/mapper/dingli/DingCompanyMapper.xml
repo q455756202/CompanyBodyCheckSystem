@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.yingyingmonster.ccbs.database.mapper.CompanyMapper" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.dingli.DingCompanyMapper" >
   <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Company" >
     <id column="COMPANYID" property="companyid" jdbcType="DECIMAL" />
     <result column="ACCOUNTID" property="accountid" jdbcType="DECIMAL" />
@@ -21,7 +21,7 @@
     delete from COMPANY_TABLE
     where COMPANYID = #{companyid,jdbcType=DECIMAL}
   </delete>
-  <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Company" >
+  <insert id="addCompany" parameterType="team.yingyingmonster.ccbs.database.bean.Company" >
     insert into COMPANY_TABLE (COMPANYID, ACCOUNTID, COMPANYPRICE, 
       COMPANYEMAIL, COMPANYPHONE)
     values (#{companyid,jdbcType=DECIMAL}, #{accountid,jdbcType=DECIMAL}, #{companyprice,jdbcType=DECIMAL}, 
