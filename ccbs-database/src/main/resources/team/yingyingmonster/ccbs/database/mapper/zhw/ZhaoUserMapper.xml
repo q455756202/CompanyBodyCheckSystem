@@ -33,4 +33,12 @@
         values (#{userid}, #{companyid}, #{username}, #{usergender}, #{userage}, #{userphone}, #{usercardcode})
     </insert>
 
+    <delete id="deleteUser" parameterType="java.lang.Long">
+        delete from USER_TABLE where USERID = #{userId}
+    </delete>
+
+    <update id="updateUser" parameterType="team.yingyingmonster.ccbs.database.bean.User">
+        update USER_TABLE set USERNAME = #{username}, USERGENDER = #{usergender}, USERAGE = #{userage},
+         USERPHONE = #{userphone}, USERCARDCODE = #{usercardcode} where USERID = #{userid}
+    </update>
 </mapper>

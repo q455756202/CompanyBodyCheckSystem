@@ -142,4 +142,29 @@ public class AccountAction {
         return ResultMessage.createSuccessMessage("success",result);
     }
 
+    /*
+     * 删除单个体检人员名单
+     */
+    @RequestMapping("/delete-user")
+    @ResponseBody
+    public ResultMessage deleteUser(@RequestBody Long userId){
+        boolean result=userService.deleteUser(userId);
+        if (result){
+            return ResultMessage.createSuccessMessage("删除成功",null);
+        }else {
+            return ResultMessage.createErrorMessage("删除失败");
+        }
+    }
+
+    @RequestMapping("/update-user")
+    @ResponseBody
+    public ResultMessage updateUser(@RequestBody User user){
+        boolean result = userService.updateUser(user);
+        if (result){
+            return ResultMessage.createSuccessMessage("修改成功",null);
+        }else {
+            return ResultMessage.createErrorMessage("修改失败");
+        }
+    }
+
 }

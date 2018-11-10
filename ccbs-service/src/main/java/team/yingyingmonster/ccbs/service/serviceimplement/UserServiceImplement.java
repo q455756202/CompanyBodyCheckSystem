@@ -79,4 +79,20 @@ public class UserServiceImplement implements UserService {
         }
         return result;
     }
+
+    //删除用户
+    @Override
+    public boolean deleteUser(Long userId) {
+        Integer result=0;
+        result = zhaoUserMapper.deleteUser(userId);
+        return result>0;
+    }
+
+    //修改用户
+    @Override
+    public boolean updateUser(User user) {
+        Integer result=0;
+        result = zhaoUserMapper.updateUser(user);
+        return result>0;
+    }
 }
