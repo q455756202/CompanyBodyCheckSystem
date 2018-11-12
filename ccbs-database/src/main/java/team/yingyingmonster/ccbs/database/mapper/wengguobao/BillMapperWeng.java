@@ -10,4 +10,5 @@ import java.util.List;
 public interface BillMapperWeng {
     List<Bill> selectByDeptIdAndUserId(@Param("deptId")Long deptid,@Param("userId")Long userid);
     int addAllSummaryBill(Bill bill);
+    List<Bill> selectAllUserByDeptId(Long Deptid);
 }

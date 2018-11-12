@@ -89,13 +89,6 @@ public class CompanyCheckAction {
         return entity==null?ResultMessage.createErrorMessage("未取到数据！"):ResultMessage.createSuccessMessage("success!", entity);
     }
 
-    @RequestMapping("/check-user-list")
-    @ResponseBody
-    public ResultMessage getCheckUserList(HttpSession session) {
-        Long companyid = juerCompanyMapper.selectCompanyByAccountId(((Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid()).getCompanyid();
-        return ResultMessage.createSuccessMessage("success!", juerCompanyCheckSystemService.getJuerUser(companyid));
-    }
-
     @RequestMapping("/submit-company-check")
     @ResponseBody
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
