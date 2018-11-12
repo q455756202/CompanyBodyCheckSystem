@@ -12,4 +12,5 @@ public interface JuerCompanyCheckSystemService {
     boolean registerCompanyCheck(JuerCompanyCheckEntity juerCompanyCheckEntity) throws Exception;
     JuerCombo addCustomCombo(List<Check> checkList) throws Exception;
     List<JuerUser> getJuerUser(Long companyid);
+    List<JuerUser> getJuerUsersByTeamformId(Long teamformid);
 }

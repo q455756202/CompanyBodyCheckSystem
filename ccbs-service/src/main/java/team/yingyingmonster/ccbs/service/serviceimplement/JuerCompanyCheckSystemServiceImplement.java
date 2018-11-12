@@ -155,6 +155,12 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
         return juerUserMapper.selectJuerUsersByCompanyid(companyid);
     }
 
+    @Override
+    public List<JuerUser> getJuerUsersByTeamformId(Long teamformid) {
+        List<UserCheck> userCheckList = juerUserCheckMapper.selectUserChecksByTeamformid(teamformid);
+        return juerUserMapper.selectJuerUsersByUserCheckList(userCheckList);
+    }
+
     private List<TeamformCombocheck> generatTeamformCombocheckList(List<JuerCombo> list, Long teamformid) {
         List<TeamformCombocheck> result = new LinkedList<>();
         for (int i = 0; i < list.size(); i++) {

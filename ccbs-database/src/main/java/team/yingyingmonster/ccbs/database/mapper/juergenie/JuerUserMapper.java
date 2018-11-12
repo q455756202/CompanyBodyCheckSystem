@@ -2,6 +2,7 @@ package team.yingyingmonster.ccbs.database.mapper.juergenie;
 
 import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.User;
+import team.yingyingmonster.ccbs.database.bean.UserCheck;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface JuerUserMapper {
     List<User> selectUsersByCondition(User condition);
     List<User> selectUsersByCompanyid(Long companyid);
     List<JuerUser> selectJuerUsersByCompanyid(Long companyid);
+    List<JuerUser> selectJuerUsersByUserCheckList(List<UserCheck> userCheckList);
 }

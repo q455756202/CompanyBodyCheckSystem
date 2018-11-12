@@ -38,4 +38,11 @@
     <select id="selectJuerUsersByCompanyid" resultMap="JuerResultMap">
         select * from USER_TABLE where COMPANYID=#{companyid}
     </select>
+
+    <select id="selectJuerUsersByUserCheckList" resultMap="JuerResultMap">
+        select * from USER_TABLE where USERID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.userid}
+        </foreach>
+    </select>
 </mapper>
