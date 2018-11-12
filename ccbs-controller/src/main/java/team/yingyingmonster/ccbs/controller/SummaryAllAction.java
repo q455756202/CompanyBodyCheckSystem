@@ -32,11 +32,13 @@ public class SummaryAllAction {
     @Autowired
     private DoctorCheckService doctorCheckService;
 
-    @RequestMapping("/summaryall")
+    //跳转到总结界面
+    @RequestMapping("/summaryall/index")
     public String summaryall(){
         return "doctorcheck/summaryall";
     }
 
+    //获取可总结列表
     @RequestMapping("/getsummaryall")
     @ResponseBody
     public ResultMessage getsummaryall(){
@@ -44,6 +46,7 @@ public class SummaryAllAction {
         return ResultMessage.createSuccessMessage("获取可总结人员成功",reports);
     }
 
+    //总结界面查看小结信息
     @RequestMapping("/getsummarybyuser")
     @ResponseBody
     public ResultMessage getSummaryByUser(@RequestBody Long usercheckid){
@@ -51,6 +54,7 @@ public class SummaryAllAction {
         return ResultMessage.createSuccessMessage("获取该人员体检小结成功",reports);
     }
 
+    //总结界面查看小结
     @RequestMapping("/getsummarydata")
     @ResponseBody
     public ResultMessage getSummaryData(@RequestBody Long reportid){
@@ -58,6 +62,7 @@ public class SummaryAllAction {
         return ResultMessage.createSuccessMessage("获取小结数据成功",report);
     }
 
+    //提交总结
     @RequestMapping("/summaryallcommit")
     @ResponseBody
     public ResultMessage summaryAllCommit(@RequestParam("summaryall") String summaryall,@RequestParam("usercheckid") Long usercheckid) throws Exception {
