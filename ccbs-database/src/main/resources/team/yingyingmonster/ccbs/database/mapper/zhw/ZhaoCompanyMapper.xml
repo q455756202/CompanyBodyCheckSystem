@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.zhw.ZhaoCompanyMapper">
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Company">
+        <id column="COMPANYID" property="companyid" jdbcType="DECIMAL"/>
+        <result column="ACCOUNTID" property="accountid" jdbcType="DECIMAL"/>
+        <result column="COMPANYPRICE" property="companyprice" jdbcType="DECIMAL"/>
+        <result column="COMPANYPHONE" property="companyphone" jdbcType="VARCHAR"/>
+        <result column="COMPANYEMAIL" property="companyemail" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addCompany" parameterType="team.yingyingmonster.ccbs.database.bean.Company">
+        <selectKey keyProperty="companyid" order="BEFORE" resultType="java.lang.Long">
+            select COMPANY_SEQUENCE.nextval from dual
+        </selectKey>
+        insert into COMPANY_TABLE (COMPANYID,ACCOUNTID,COMPANYPHONE,COMPANYEMAIL)
+        values (#{companyid,jdbcType=DECIMAL}, #{accountid,jdbcType=DECIMAL}, #{companyphone,jdbcType=VARCHAR},
+        #{companyemail,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectCompany" parameterType="java.lang.Long"
+            resultType="team.yingyingmonster.ccbs.database.bean.Company">
+        select * from COMPANY_TABLE where ACCOUNTID=#{accountId}
+    </select>
+
+</mapper>

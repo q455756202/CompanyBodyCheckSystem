@@ -22,6 +22,7 @@
     <url>http://www.juerwhang.cn:8080/CompanyCheckSystem/</url>
 
     <properties>
+        <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 编译版本声明，此处使用Java1.8 -->
         <version.compiler>1.8</version.compiler>

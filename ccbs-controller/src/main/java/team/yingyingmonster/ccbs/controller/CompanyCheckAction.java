@@ -10,7 +10,6 @@ import team.yingyingmonster.ccbs.database.bean.*;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
-import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
 import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
@@ -43,7 +42,7 @@ public class CompanyCheckAction {
 
     @RequestMapping("/success")
     public String success() {
-        return "company-check/success";
+        return "guide-show/success";
     }
 
     @RequestMapping("/error")
@@ -95,7 +94,7 @@ public class CompanyCheckAction {
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
         try {
             juerCompanyCheckSystemService.registerCompanyCheck(juerCompanyCheckEntity);
-            return ResultMessage.createSuccessMessage("success!", "/company-check/success");
+            return ResultMessage.createSuccessMessage("success!", "/guide-show/index");
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMessage.createErrorMessage(e.getMessage());
