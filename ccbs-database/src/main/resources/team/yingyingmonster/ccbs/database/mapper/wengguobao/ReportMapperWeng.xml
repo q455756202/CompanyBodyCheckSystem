@@ -22,6 +22,18 @@
     <result property="userid" column="USERID"/>
     <result property="teamformcombocheckid" column="TEAMFORMCOMBOCHECKID"/>
     <association property="userByUserid" resultMap="UserMap"/>
+    <association property="teamformCombocheckByTeamformCombocheckid" resultMap="TeamFormComboCheckMap"/>
+  </resultMap>
+  <resultMap id="TeamFormComboCheckMap" type="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck">
+    <id property="teamformcombocheckid" column="TEAMFORMCOMBOCHECKID"/>
+    <result property="teamformid" column="TEAMFORMID"/>
+    <result property="comboid" column="COMBOID"/>
+    <association property="teamformByTeamformid" resultMap="TeamFormMap"/>
+  </resultMap>
+  <resultMap id="TeamFormMap" type="team.yingyingmonster.ccbs.database.bean.Teamform">
+    <id property="teamformid" column="TEAMFORMID"/>
+    <result property="companyid" column="COMPANYID"/>
+    <result property="teamformstate" column="TEAMFORMSTATE"/>
   </resultMap>
   <resultMap id="UserMap" type="team.yingyingmonster.ccbs.database.bean.User">
     <id property="userid" column="USERID"/>
