@@ -87,8 +87,19 @@
 <script src="/assets/scripts/juer-script.js"></script>
 <script>
     let renderApp = angular.module("renderApp", []);
-    renderApp.controller("renderController", function() {
+    renderApp.controller("renderController", ["$scope", "$location", "$http", function($scope, $location, $http) {
+        let usercheckid = $location.search().usercheckid;
 
-    });
+        $http.post("/guide-show/get-user-check", usercheckid)
+            .then(
+                function success(response) {
+                    let msg = response.data;
+                    $scope.user = msg.data;
+                }, function error(response) {
+                    toastr.error("发生了一些意料之外的错误，详情已输出至控制台。");
+                    console.error(response.data);
+                }
+            )
+    }]);
 </script>
 </html>

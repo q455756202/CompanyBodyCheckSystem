@@ -12,5 +12,6 @@ import java.util.List;
  * -
  **/
 public class JuerUser extends User {
+    Long usercheckid;
     List<Check> checkList;
 }

@@ -45,4 +45,8 @@
             #{item.userid}
         </foreach>
     </select>
+
+    <select id="selectJuerUserByUsercheckid" parameterType="long" resultMap="JuerResultMap">
+        select * from USER_TABLE where USERID=(select USERID from USER_CHECK_TABLE where USERCHECKID=#{usercheckid})
+    </select>
 </mapper>
