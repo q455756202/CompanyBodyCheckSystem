@@ -32,7 +32,7 @@ import java.util.Map;
  **/
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/company-info")
 public class AccountAction {
     @Autowired
     private AccountService accountService;
@@ -115,12 +115,7 @@ public class AccountAction {
         Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
         Long companyId=accountService.findCompanyId(accountId);
         Integer result=userService.insertUsers(companyId,userList);
-        if (result>0){
-            return ResultMessage.createSuccessMessage("success",result);
-        }else {
-            return ResultMessage.createErrorMessage(null);
-        }
-
+        return ResultMessage.createSuccessMessage("success",result);
     }
 
     /*
@@ -131,7 +126,45 @@ public class AccountAction {
     public ResultMessage selectUsers(HttpSession session){
         Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
         Long companyId=accountService.findCompanyId(accountId);
-        return ResultMessage.createSuccessMessage(null,null);
+        List<User> userList=userService.selectUsers(companyId);
+        return ResultMessage.createSuccessMessage("success",userList);
+    }
+
+    /*
+     * 插入单个体检人员名单
+     */
+    @RequestMapping("/add-user")
+    @ResponseBody
+    public ResultMessage addUser(@RequestBody User user, HttpSession session){
+        Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
+        Long companyId=accountService.findCompanyId(accountId);
+        Integer result=userService.insertUser(companyId,user);
+        return ResultMessage.createSuccessMessage("success",result);
+    }
+
+    /*
+     * 删除单个体检人员名单
+     */
+    @RequestMapping("/delete-user")
+    @ResponseBody
+    public ResultMessage deleteUser(@RequestBody Long userId){
+        boolean result=userService.deleteUser(userId);
+        if (result){
+            return ResultMessage.createSuccessMessage("删除成功",null);
+        }else {
+            return ResultMessage.createErrorMessage("删除失败");
+        }
+    }
+
+    @RequestMapping("/update-user")
+    @ResponseBody
+    public ResultMessage updateUser(@RequestBody User user){
+        boolean result = userService.updateUser(user);
+        if (result){
+            return ResultMessage.createSuccessMessage("修改成功",null);
+        }else {
+            return ResultMessage.createErrorMessage("修改失败");
+        }
     }
 
 }

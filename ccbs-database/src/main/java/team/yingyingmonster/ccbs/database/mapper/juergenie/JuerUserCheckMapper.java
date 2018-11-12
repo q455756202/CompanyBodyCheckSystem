@@ -8,4 +8,5 @@ import java.util.List;
 public interface JuerUserCheckMapper {
     Long getNewId();
     int insertBatch(List<UserCheck> list);
+    List<UserCheck> selectUserChecksByTeamformid(Long teamformid);
 }
