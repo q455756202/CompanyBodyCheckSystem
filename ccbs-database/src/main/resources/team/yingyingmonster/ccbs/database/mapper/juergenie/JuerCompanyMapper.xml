@@ -15,6 +15,6 @@
         select
         <include refid="Base_Column_List" />
         from COMPANY_TABLE
-        <where>COMPANYID=#{accountid}</where>
+        <where>ACCOUNTID=#{accountid}</where>
     </select>
 </mapper>

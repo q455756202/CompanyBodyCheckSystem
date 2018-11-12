@@ -3,7 +3,7 @@
 <mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.BillMapperWeng" >
 
 
-  <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Bill" >
+  <resultMap id="BillMap" type="team.yingyingmonster.ccbs.database.bean.Bill" >
     <id column="BILLID" property="billid" jdbcType="DECIMAL" />
     <result column="BILLSTATE" property="billstate" jdbcType="DECIMAL" />
     <result column="BILLDATE" property="billdate" jdbcType="TIMESTAMP" />
@@ -16,6 +16,29 @@
     <id property="usercheckid" column="USERCHECKID"/>
     <result property="userid" column="USERID"/>
     <result property="teamformcombocheckid" column="TEAMFORMCOMBOCHECKID"/>
+    <association property="userByUserid" resultMap="UserMap"/>
+    <association property="teamformCombocheckByTeamformCombocheckid" resultMap="TeamFormComboCheckMap"/>
+  </resultMap>
+  <resultMap id="TeamFormComboCheckMap" type="team.yingyingmonster.ccbs.database.bean.TeamformCombocheck">
+    <id property="teamformcombocheckid" column="TEAMFORMCOMBOCHECKID"/>
+    <result property="teamformid" column="TEAMFORMID"/>
+    <result property="comboid" column="COMBOID"/>
+    <association property="teamformByTeamformid" resultMap="TeamFormMap"/>
+  </resultMap>
+  <resultMap id="TeamFormMap" type="team.yingyingmonster.ccbs.database.bean.Teamform">
+    <id property="teamformid" column="TEAMFORMID"/>
+    <result property="companyid" column="COMPANYID"/>
+    <result property="teamformstate" column="TEAMFORMSTATE"/>
+  </resultMap>
+
+  <resultMap id="UserMap" type="team.yingyingmonster.ccbs.database.bean.User">
+    <id property="userid" column="USERID"/>
+    <result property="companyid" column="COMPANYID"/>
+    <result property="username" column="USERNAME"/>
+    <result property="usergender" column="USERGENDER"/>
+    <result property="userage" column="USERAGE"/>
+    <result property="userphone" column="USERPHONE"/>
+    <result property="usercardcode" column="USERCARDCODE"/>
   </resultMap>
 
   <resultMap id="CheckMap" type="team.yingyingmonster.ccbs.database.bean.Check">
@@ -30,10 +53,18 @@
     <result property="deptname" column="DEPTNAME"/>
   </resultMap>
 
-  <select id="selectByDeptIdAndUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByDeptIdAndUserId" parameterType="java.lang.Long" resultMap="BillMap">
     select b.USERCHECKID,b.BILLID,b.BILLSTATE,e.CHECKID,e.CHECKNAME from USER_CHECK_TABLE a,BILL_TABLE b,
-    (select d.CHECKID,d.CHECKNAME from DEPT_TABLE c,CHECK_TABLE d where c.DEPTID=d.DEPTID and c.DEPTID=#{deptId})e
-    where a.USERID=#{userId} and a.USERCHECKID=b.USERCHECKID and b.CHECKID=e.CHECKID
+    (select d.CHECKID,d.CHECKNAME from DEPT_TABLE c,CHECK_TABLE d where c.DEPTID=d.DEPTID <!--and c.DEPTID=#{deptId}-->)e
+    where a.USERID=#{userId} and a.USERCHECKID=b.USERCHECKID and b.CHECKID=e.CHECKID and b.BILLSTATE=0
+  </select>
+  <insert id="addAllSummaryBill" parameterType="team.yingyingmonster.ccbs.database.bean.Bill">
+    insert into BILL_TABLE(BILLID, USERCHECKID, CHECKID,BILLSTATE) values (#{billid},#{usercheckid},1,2)
+  </insert>
+  <select id="selectAllUserByDeptId" parameterType="java.lang.Long" resultMap="BillMap">
+    select a.BILLID,c.USERID,c.USERNAME from BILL_TABLE a,USER_CHECK_TABLE b,USER_TABLE c,TEAMFORM_COMBOCHECK_TABLE d,TEAMFORM_TABLE e,CHECK_TABLE f where
+  a.USERCHECKID=b.USERCHECKID and b.USERID=c.USERID and b.TEAMFORMCOMBOCHECKID=d.TEAMFORMCOMBOCHECKID and
+    d.TEAMFORMID=e.TEAMFORMID and a.CHECKID=f.CHECKID and e.TEAMFORMSTATE=1 and BILLSTATE=0 and f.DEPTID=#{deptid}
   </select>
 
 </mapper>

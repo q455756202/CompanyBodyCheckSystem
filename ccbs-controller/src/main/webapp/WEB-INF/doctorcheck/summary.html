@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">体检小结录入</div>
                     <div class="card-body">
-                            <textarea id="summary" name="summary" ng-model="summary" style="width: 700px; height: 400px;"></textarea>
+                            <textarea id="summary" name="summary" ng-model="summary" style="width: 700px; height: 1000px;"></textarea>
                         <button class="btn btn-primary" ng-click="submitsummary()">提交</button>
                     </div>
                 </div>
@@ -33,11 +33,6 @@
         filebrowserImageUploadUrl : '/upload/uploadsumaryimage',
         language : 'zh-cn',
     } );
-    // CKEDITOR.replace('content',
-    //     {
-    //         filebrowserImageUploadUrl : '/upload/uploadsumaryimage',
-    //         language : 'zh-cn',
-    //     } );
     var summaryapp = angular.module('summaryapp',[]);
     summaryapp.config(['$locationProvider', function($locationProvider) {
         $locationProvider.html5Mode({

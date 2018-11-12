@@ -6,6 +6,7 @@ import team.yingyingmonster.ccbs.database.bean.Bill;
 import team.yingyingmonster.ccbs.database.bean.ModelData;
 import team.yingyingmonster.ccbs.database.bean.Report;
 import team.yingyingmonster.ccbs.database.mapper.BillMapper;
+import team.yingyingmonster.ccbs.database.mapper.wengguobao.BillMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.ModelDataMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.ReportMapperWeng;
 import team.yingyingmonster.ccbs.service.serviceinterface.DoctorCheckService;
@@ -27,17 +28,28 @@ public class DoctorCheckServiceImplement implements DoctorCheckService {
     private BillMapper billMapper;
     @Autowired
     private ReportMapperWeng reportMapperWeng;
+    @Autowired
+    private BillMapperWeng billMapperWeng;
+    Report report = new Report();
     @Override
-    public void insertModelDataAndChangeBill(List<ModelData> modelDatas, Long billid) throws Exception{
+    public void insertModelDataAndChangeBill(List<ModelData> modelDatas, Long billid,Long doctorid) throws Exception{
         Bill bill = new Bill();
         bill.setBillid(billid);
         bill.setBillstate((short)2);
         modelDataMapperWeng.insertInBatch(modelDatas);
         billMapper.updateByPrimaryKeySelective(bill);
         List<Report> reports = reportMapperWeng.selectbybillid(billid);
+        report = new Report();
+        report.setBillid(billid);
+        report.setDoctorid(doctorid);
         if (reports.size()==0){
-            reportMapperWeng.insertdefaultreport(billid);
+            reportMapperWeng.insertdefaultreport(report);
         }
     }
 
+    @Override
+    public void insertSummaryAllReport(Bill bill, Report report) throws Exception {
+        billMapperWeng.addAllSummaryBill(bill);
+        reportMapperWeng.addSummaryAllReport(report);
+    }
 }
