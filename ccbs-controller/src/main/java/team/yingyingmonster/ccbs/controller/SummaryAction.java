@@ -24,11 +24,13 @@ public class SummaryAction {
     @Autowired
     private ReportMapperWeng reportMapperWeng;
 
-    @RequestMapping("/summarytable")
+    //跳转到小结管理界面
+    @RequestMapping("/summarytable/index")
     public String summarytable(){
         return "doctorcheck/summarycommit";
     }
 
+    //获取当前医生的小结
     @RequestMapping("/summarytableget")
     @ResponseBody
     public ResultMessage getSummaryList(){
@@ -36,6 +38,7 @@ public class SummaryAction {
         return ResultMessage.createSuccessMessage("获取成功",reports);
     }
 
+    //获取小结详情
     @RequestMapping("/getsummarybyid")
     @ResponseBody
     public ResultMessage getSummaryById(@RequestBody Long reportid){
@@ -43,13 +46,14 @@ public class SummaryAction {
         return ResultMessage.createSuccessMessage("获取成功",report.getReportsummary());
     }
 
+    //管理界面提交小结
     @RequestMapping("/summarycommit")
     @ResponseBody
     public ResultMessage summaryCommit(@RequestBody Long reportid){
         reportMapperWeng.updateStateByReportId(reportid);
         return ResultMessage.createSuccessMessage("提交成功","/summary/summarytable");
     }
-
+    //管理界面保存小结
     @RequestMapping("/summarysave")
     @ResponseBody
     public ResultMessage summarySave(@RequestParam("summary") String summary, @RequestParam("reportid") Long reportid){
