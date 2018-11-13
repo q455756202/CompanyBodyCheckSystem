@@ -3,7 +3,7 @@
 <mapper namespace="team.yingyingmonster.ccbs.database.mapper.wengguobao.DoctorMapperWeng" >
 
   <select id="selectDeptByAccountId" parameterType="java.lang.Long" resultMap="doctorMap">
-    select a.DEPTID,DEPTNAME from DOCTOR_TABLE a,ACCOUNT_TABLE b,DEPT_TABLE c where b.ACCOUNTID=#{AccountId} and a.ACCOUNTID=b.ACCOUNTID and a.DEPTID=c.DEPTID
+    select a.DEPTID,DEPTNAME,DOCTORID from DOCTOR_TABLE a,ACCOUNT_TABLE b,DEPT_TABLE c where b.ACCOUNTID=#{AccountId} and a.ACCOUNTID=b.ACCOUNTID and a.DEPTID=c.DEPTID
   </select>
 
   <resultMap id="doctorMap" type="team.yingyingmonster.ccbs.database.bean.Doctor" >
