@@ -79,7 +79,6 @@
                 </div>
                 <!--模态框内容-->
                 <div class="modal-body">
-
                     <p>充值金额：
                         <input type="text" name="rechargePrice" ng-model="rechargePrice"
                                ng-maxlength="6" placeholder="请输入充值金额" required>
@@ -106,14 +105,13 @@
 <!--体检人员信息-->
 <div ng-controller="selectUsersController">
     <h4 align="center">已添加体检人员信息</h4>
+    <button type="button" class="btn btn-primary" ng-click="downlondTemplate()">下载人员信息模板</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-users">批量添加体检人员</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-user">添加体检人员</button>
-    <button type="button" class="btn btn-primary" ng-click="selectUsers()">查看</button>
-    <table align="center">
+    <button type="button" class="btn btn-primary" ng-click="selectUsers(1)">查看</button>
+    <table align="center" class="table">
         <thead>
         <tr>
-           <!-- <td>体检人编号</td>
-            <td>体检单位编号</td>-->
             <td>姓名</td>
             <td>性别</td>
             <td>年龄</td>
@@ -123,21 +121,31 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="u in userList">
-            <!--<td>{{user.userid}}</td>
-            <td>{{user.companyid}}</td>-->
+        <tr ng-repeat="u in pageInfo.list">
             <td>{{u.username}}</td>
             <td>{{u.usergender==0?"男":"女"}}</td>
             <td>{{u.userage}}</td>
             <td>{{u.userphone}}</td>
             <td>{{u.usercardcode}}</td>
             <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update-user" ng-click="saveU(u)">修改</button>
-                <button type="button" ng-click="deleteUser()">删除</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update-user"
+                        ng-click="saveU(u)">修改
+                </button>
+                <button type="button" class="btn btn-danger" ng-click="deleteUser()">删除</button>
             </td>
         </tr>
         </tbody>
     </table>
+    <input type="button" class="btn btn-primary float-right" ng-click="selectUsers(pageInfo.pages)"
+           ng-disabled="pageInfo.pages==null" value="末页"></input>
+    <input type="button" class="btn btn-primary float-right" ng-click="selectUsers(pageInfo.nextPage)"
+           ng-disabled="pageInfo.hasNextPage==false||pageInfo.hasNextPage==null" value="下一页"></input>
+    <input type="button" class="btn btn-primary float-right" ng-click="selectUsers(pageInfo.prePage)"
+           ng-disabled="pageInfo.hasPreviousPage==false||pageInfo.hasPreviousPage==null" value="上一页"></input>
+    <input type="button" class="btn btn-primary float-right" ng-click="selectUsers(1)" value="首页"></input>
+
+
+
 
     <!--修改体检人员-->
     <div class="modal fade" id="update-user" aria-labelledby="update-user-title" aria-hidden="true">
@@ -155,9 +163,11 @@
                     <div class="modal-body">
                         <p>
                             <span>体检人：</span>
-                            <input type="text" ng-value="1111" name="userName" ng-model="user.username" class="form-control" maxlength="32" required>
+                            <input type="text" ng-value="1111" name="userName" ng-model="user.username"
+                                   class="form-control" maxlength="32" required>
                             <span class="text-danger" ng-show="updateUserForm.userName.$error.required">必须输入用户名</span>
-                            <span class="text-danger" ng-show="updateUserForm.userName.$error.maxlength">用户名长度必须不多于32位</span>
+                            <span class="text-danger"
+                                  ng-show="updateUserForm.userName.$error.maxlength">用户名长度必须不多于32位</span>
                         </p>
                         <p>
                             <span>性别：</span>
@@ -169,7 +179,8 @@
                         </p>
                         <p>
                             <span>年龄：</span>
-                            <input type="number" name="userAge" ng-model="user.userage" class="form-control" maxlength="4"
+                            <input type="number" name="userAge" ng-model="user.userage" class="form-control"
+                                   maxlength="4"
                                    required>
                             <span class="text-danger" ng-show="updateUserForm.userAge.$error.required">必须输入年龄</span>
                             <span class="text-danger" ng-show="updateUserForm.userAge.$error.maxlength">输入正确年龄</span>
@@ -186,7 +197,8 @@
                             <span>身份证：</span>
                             <input type="text" name="userCardcode" ng-model="user.usercardcode" class="form-control"
                                    required>
-                            <span class="text-danger" ng-show="updateUserForm.userCardcode.$error.required">必须输入身份证</span>
+                            <span class="text-danger"
+                                  ng-show="updateUserForm.userCardcode.$error.required">必须输入身份证</span>
                         </p>
                         <!--模态框底部-->
                         <div class="modal-footer">
@@ -315,7 +327,7 @@
                         addUserForm.userAge.$dirty && addUserForm.userAge.$invalid ||
                         addUserForm.userPhone.$dirty && addUserForm.userPhone.$invalid ||
                         addUserForm.userCardcode.$dirty && addUserForm.userCardcode.$invalid"
-                                >确定
+                        >确定
                         </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     </div>
@@ -353,11 +365,12 @@
             )
     });
     //充值
-    app.controller('rechargeController', function ($scope) {
+    app.controller('rechargeController', function ($scope, $http) {
         $scope.rechargeSubmitForm = function () {
 
         }
     })
+
     //批量添加体检人员名单
     app.controller('addUsersController', function ($scope, $http) {
         $scope.userList = [];
@@ -406,10 +419,10 @@
             console.log("体检单个信息", $scope.user);
             $http.post("/company-info/add-user", $scope.user)
                 .then(
-                function success(response) {
-                    window.alert("提交成功！共提交" + response.data.data + "条信息");
-                }
-            )
+                    function success(response) {
+                        window.alert("提交成功！共提交" + response.data.data + "条信息");
+                    }
+                )
         }
 
     });
@@ -417,17 +430,27 @@
 
     //查看体检人员名单
     app.controller('selectUsersController', function ($scope, $http) {
-        $scope.selectUsers = function () {
-            $http.post("/company-info/select-users"
+        //下载体检人员信息模板
+        $scope.downlondTemplate = function () {
+            window.location.href = "/company-info/downlond-template";
+        };
+
+        //查看体检人员信息
+        $scope.selectUsers = function (pageNum) {
+            if (pageNum == null) {
+                pageNum = 1;
+            }
+            $http.post("/company-info/select-users", pageNum
             ).then(
                 function success(response) {
-                    $scope.userList = response.data.data;
-                    if ($scope.userList.length == 0) {
+                    $scope.pageInfo = response.data.data;
+                    if ($scope.pageInfo.list.length == 0 && $scope.pageInfo.pageNum == 1) {
                         window.alert("未添加体检人员信息！");
                     }
                 }
             )
         };
+
         //删除体检人员信息
         $scope.deleteUser = function () {
             if (confirm("是否删除？")) {
@@ -442,12 +465,12 @@
 
         $scope.saveU = function (u) {
             $scope.user = u;
-            console.log("user",$scope.user);
+            console.log("user", $scope.user);
         }
 
         //修改体检人员信息
         $scope.updateForm = function () {
-            console.log("修改：",$scope.user);
+            console.log("修改：", $scope.user);
             $http.post("/company-info/update-user", $scope.user
             ).then(
                 function success(response) {
