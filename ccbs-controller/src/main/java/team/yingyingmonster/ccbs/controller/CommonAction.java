@@ -42,4 +42,11 @@ public class CommonAction {
     public ResultMessage userInfo(HttpSession session) {
         return ResultMessage.createSuccessMessage("success!", session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT));
     }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public ResultMessage logout(HttpSession session){
+        session.removeAttribute(Constant.SESSION_LOGIN_ACCOUNT);
+        return ResultMessage.createSuccessMessage("success",null);
+    }
 }
