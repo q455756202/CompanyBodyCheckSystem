@@ -12,7 +12,7 @@
     <div class="container" ng-controller="showGuideController">
         <div class="row justify-content-center align-items-center">
             <div class="col-10 text-center">
-                <h3>导检单预览 <button class="btn btn-success">下载PDF</button></h3>
+                <h3>导检单预览 <button class="btn btn-success" ng-click="downPDF()">下载PDF</button></h3>
                 <hr/>
                 <h4>导检单号：</h4>
                 <br/>
@@ -116,6 +116,10 @@
                         console.log(msg);
                     }
                 });
+        };
+
+        $scope.downPDF = function () {
+            window.location.href = `/guide-show/render?#usercheckid=${selectedUser.usercheckid}`
         }
     });
 </script>

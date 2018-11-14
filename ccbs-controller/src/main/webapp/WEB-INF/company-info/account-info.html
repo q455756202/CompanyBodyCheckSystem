@@ -32,60 +32,43 @@
 <body ng-app="accountApp">
 <h1 align="center">账户信息</h1>
 
-<div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-users">添加体检人员</button>
+<!--账户信息显示-->
+<div ng-controller="accountController">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#recharge">账户充值</button>
+    <table align="center">
+        <thead>
+        <tr>
+            <td colspan="2">
+                <p>账户信息</p>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>单位名称：</td>
+            <td>{{account.accountname}}</td>
+        </tr>
+        <tr>
+            <td>单位手机：</td>
+            <td>{{company.companyphone}}</td>
+        </tr>
+        <tr>
+            <td>单位邮箱：</td>
+            <td>{{company.companyemail}}</td>
+        </tr>
+        <tr>
+            <td>账户余额：</td>
+            <td>{{company.companyprice | currency}}元</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-<!--添加体检人员模态框-->
-<div class="modal fade" id="add-users" aria-labelledby="add-users-title" aria-hidden="true" ng-controller="addUsersController">
-    <div class="modal-dialog">
-        <div class="modal-content">
-                <!--模态框标题-->
-                <div class="modal-header">
-                    <h4 class="modal-title" id="add-users-title">
-                        添加体检人员
-                    </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <!--模态框内容-->
-                <div class="modal-body">
-                    <p>选择文件:</p><input type="file" id="userNameList" name="userNameList" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ng-model="userNameList">
-                    <button type="button" class="btn btn-primary float-right" ng-click="onload()">确定</button>
-                    <!--人员显示-->
-                    <div align="center">
-                        <table>
-                            <thead>
-                            <tr>
-                                <td>姓名</td>
-                                <td>性别</td>
-                                <td>年龄</td>
-                                <td>手机号</td>
-                                <td>身份证</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="user in userList">
-                                <td ng-repeat="x in user">{{x}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!--模态框底部-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitUsers()">提交
-                    </button>
-                </div>
-        </div>
-    </div>
-</div>
-
 
 <!--充值模态框-->
-<div class="modal fade" id="recharge" aria-labelledby="recharge-title" aria-hidden="true" ng-controller="rechargeController">
+<div class="modal fade" id="recharge" aria-labelledby="recharge-title" aria-hidden="true"
+     ng-controller="rechargeController">
     <div class="modal-dialog">
-        <div class="modal-content" >
+        <div class="modal-content">
             <form ng-submit="rechargeSubmitForm()" name="rechargeForm" novalidate>
                 <!--模态框标题-->
                 <div class="modal-header">
@@ -117,62 +100,233 @@
             </form>
         </div>
     </div>
-
 </div>
 
-
-<!--账户信息显示-->
-<div align="center" ng-controller="accountController">
-    <table>
-        <thead>
-        <tr>
-            <td colspan="2">
-                <p>账户信息</p>
-            </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>单位名称：</td>
-            <td>{{account.accountname}}</td>
-        </tr>
-        <tr>
-            <td>单位手机：</td>
-            <td>{{company.companyphone}}</td>
-        </tr>
-        <tr>
-            <td>单位邮箱：</td>
-            <td>{{company.companyemail}}</td>
-        </tr>
-        <tr>
-            <td>账户余额：</td>
-            <td>{{company.companyprice | currency}}元</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
 <!--体检人员信息-->
-<div align="cenger" ng-controller="selectUsersController">
-    <p align="cengter">已添加体检人员信息</p>
+<div ng-controller="selectUsersController">
+    <h4 align="center">已添加体检人员信息</h4>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-users">批量添加体检人员</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-user">添加体检人员</button>
     <button type="button" class="btn btn-primary" ng-click="selectUsers()">查看</button>
-    <table>
+    <table align="center">
         <thead>
-            <tr>
-                <td>姓名</td>
-                <td>性别</td>
-                <td>年龄</td>
-                <td>手机</td>
-                <td>身份证</td>
-            </tr>
+        <tr>
+           <!-- <td>体检人编号</td>
+            <td>体检单位编号</td>-->
+            <td>姓名</td>
+            <td>性别</td>
+            <td>年龄</td>
+            <td>手机</td>
+            <td>身份证</td>
+            <td>操作</td>
+        </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="user in userList">
-            <td ng-repeat="x in user">{{x}}</td>
+        <tr ng-repeat="u in userList">
+            <!--<td>{{user.userid}}</td>
+            <td>{{user.companyid}}</td>-->
+            <td>{{u.username}}</td>
+            <td>{{u.usergender==0?"男":"女"}}</td>
+            <td>{{u.userage}}</td>
+            <td>{{u.userphone}}</td>
+            <td>{{u.usercardcode}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update-user" ng-click="saveU(u)">修改</button>
+                <button type="button" ng-click="deleteUser()">删除</button>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <!--修改体检人员-->
+    <div class="modal fade" id="update-user" aria-labelledby="update-user-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form ng-submit="updateForm()" name="updateUserForm" novalidate role="form">
+                    <!--模态框标题-->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="update-user-title">
+                            修改体检人员信息
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <!--模态框内容-->
+                    <div class="modal-body">
+                        <p>
+                            <span>体检人：</span>
+                            <input type="text" ng-value="1111" name="userName" ng-model="user.username" class="form-control" maxlength="32" required>
+                            <span class="text-danger" ng-show="updateUserForm.userName.$error.required">必须输入用户名</span>
+                            <span class="text-danger" ng-show="updateUserForm.userName.$error.maxlength">用户名长度必须不多于32位</span>
+                        </p>
+                        <p>
+                            <span>性别：</span>
+                            <select name="userGender" ng-model="user.usergender" class="form-control" required>
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                            <span class="text-danger" ng-show="updateUserForm.userGender.$error.required">必须选择性别</span>
+                        </p>
+                        <p>
+                            <span>年龄：</span>
+                            <input type="number" name="userAge" ng-model="user.userage" class="form-control" maxlength="4"
+                                   required>
+                            <span class="text-danger" ng-show="updateUserForm.userAge.$error.required">必须输入年龄</span>
+                            <span class="text-danger" ng-show="updateUserForm.userAge.$error.maxlength">输入正确年龄</span>
+                        </p>
+                        <p>
+                            <span>手机号:</span>
+                            <input type="text" name="userPhone" ng-model="user.userphone" class="form-control"
+                                   ng-pattern="/(^$)|^(((\+86)|(86))?1[3456789]\d{9})$/" required>
+                            <span class="text-danger" ng-show="updateUserForm.userPhone.$error.required">必须输入电话号码</span>
+                            <span class="text-danger"
+                                  ng-show="updateUserForm.userPhone.$dirty&&updateUserForm.userPhone.$invalid">非法的电话号码</span>
+                        </p>
+                        <p>
+                            <span>身份证：</span>
+                            <input type="text" name="userCardcode" ng-model="user.usercardcode" class="form-control"
+                                   required>
+                            <span class="text-danger" ng-show="updateUserForm.userCardcode.$error.required">必须输入身份证</span>
+                        </p>
+                        <!--模态框底部-->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary float-right"
+                                    ng-disabled="updateUserForm.userName.$dirty && updateUserForm.userName.$invalid ||
+                        updateUserForm.userGender.$dirty && updateUserForm.userGender.$invalid ||
+                        updateUserForm.userAge.$dirty && updateUserForm.userAge.$invalid ||
+                        updateUserForm.userPhone.$dirty && updateUserForm.userPhone.$invalid ||
+                        updateUserForm.userCardcode.$dirty && updateUserForm.userCardcode.$invalid"
+                            >确定
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!--批量添加体检人员模态框-->
+<div class="modal fade" id="add-users" aria-labelledby="add-users-title" aria-hidden="true"
+     ng-controller="addUsersController">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--模态框标题-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="add-users-title">
+                    批量添加体检人员
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <!--模态框内容-->
+            <div class="modal-body">
+                <p>选择文件:</p><input type="file" id="userNameList" name="userNameList"
+                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                   ng-model="userNameList">
+                <button type="button" class="btn btn-primary float-right" ng-click="onloadFile()">确定</button>
+                <!--人员显示-->
+                <div align="center">
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>姓名</td>
+                            <td>性别</td>
+                            <td>年龄</td>
+                            <td>手机号</td>
+                            <td>身份证</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="user in userList">
+                            <td ng-repeat="x in user">{{x}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--模态框底部-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="submitUsers()">提交
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--单个添加体检人员-->
+<div class="modal fade" id="add-user" aria-labelledby="add-user-title" aria-hidden="true"
+     ng-controller="addUserController">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form ng-submit="submitUserForm()" name="addUserForm" novalidate role="form">
+                <!--模态框标题-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="add-user-title">
+                        添加单个体检人员
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <!--模态框内容-->
+                <div class="modal-body">
+                    <p>
+                        <span>体检人：</span>
+                        <input type="text" name="userName" ng-model="user.username" class="form-control" maxlength="32"
+                               required>
+                        <span class="text-danger" ng-show="addUserForm.userName.$error.required">必须输入用户名</span>
+                        <span class="text-danger" ng-show="addUserForm.userName.$error.maxlength">用户名长度必须不多于32位</span>
+                    </p>
+                    <p>
+                        <span>性别：</span>
+                        <select name="userGender" ng-model="user.usergender" class="form-control" required>
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                        <span class="text-danger" ng-show="addUserForm.userGender.$error.required">必须选择性别</span>
+                    </p>
+                    <p>
+                        <span>年龄：</span>
+                        <input type="number" name="userAge" ng-model="user.userage" class="form-control" maxlength="4"
+                               required>
+                        <span class="text-danger" ng-show="addUserForm.userAge.$error.required">必须输入年龄</span>
+                        <span class="text-danger" ng-show="addUserForm.userAge.$error.maxlength">输入正确年龄</span>
+                    </p>
+                    <p>
+                        <span>手机号:</span>
+                        <input type="text" name="userPhone" ng-model="user.userphone" class="form-control"
+                               ng-pattern="/(^$)|^(((\+86)|(86))?1[3456789]\d{9})$/" required>
+                        <span class="text-danger" ng-show="addUserForm.userPhone.$error.required">必须输入电话号码</span>
+                        <span class="text-danger"
+                              ng-show="addUserForm.userPhone.$dirty&&addUserForm.userPhone.$invalid">非法的电话号码</span>
+                    </p>
+                    <p>
+                        <span>身份证：</span>
+                        <input type="text" name="userCardcode" ng-model="user.usercardcode" class="form-control"
+                               required>
+                        <span class="text-danger" ng-show="addUserForm.userCardcode.$error.required">必须输入身份证</span>
+                    </p>
+                    <!--模态框底部-->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary float-right"
+                                ng-disabled="addUserForm.userName.$dirty && addUserForm.userName.$invalid ||
+                        addUserForm.userGender.$dirty && addUserForm.userGender.$invalid ||
+                        addUserForm.userAge.$dirty && addUserForm.userAge.$invalid ||
+                        addUserForm.userPhone.$dirty && addUserForm.userPhone.$invalid ||
+                        addUserForm.userCardcode.$dirty && addUserForm.userCardcode.$invalid"
+                                >确定
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
 <script src="/assets/scripts/jquery.min.js"></script>
@@ -199,26 +353,25 @@
             )
     });
     //充值
-    app.controller('rechargeController',function ($scope) {
-        $scope.rechargeSubmitForm=function () {
+    app.controller('rechargeController', function ($scope) {
+        $scope.rechargeSubmitForm = function () {
 
         }
     })
-    //添加体检人员名单
-    app.controller('addUsersController',function ($scope,$http) {
+    //批量添加体检人员名单
+    app.controller('addUsersController', function ($scope, $http) {
         $scope.userList = [];
         //上传人员名单
-        $scope.onload=function () {
+        $scope.onloadFile = function () {
             var form = new FormData();
             var file = document.getElementById("userNameList").files[0];
-            if (file!=null) {
+            if (file != null) {
                 form.append('userNameList', file);
                 juerCore.post("/company-info/user-list",
                     form,
                     function (msg) {
                         if (msg.state == 200) {
                             $scope.userList = msg.data;
-                            console.log($scope.userList);
                             $scope.$apply();
                         } else {
                             window.alert(msg.message);
@@ -226,20 +379,17 @@
                     },
                     true
                 );
-            }else {
+            } else {
                 window.alert("请选择Excel文档！");
             }
         };
         //提交人员名单
-        $scope.submitUsers=function () {
-            console.log("体检人信息："+$scope.userList);
-            if ($scope.userList!=null){
-                $http.post("/company-info/submit-users",$scope.userList
+        $scope.submitUsers = function () {
+            if ($scope.userList.length != 0) {
+                $http.post("/company-info/submit-users", $scope.userList
                 ).then(
-                    function success (response) {
-                        window.alert("提交成功！共提交"+response.data.data+"条信息")
-                    },function error (response) {
-                        window.alert("提交失败！")
+                    function success(response) {
+                        window.alert("提交成功！共提交" + response.data.data + "条信息");
                     }
                 )
             } else {
@@ -249,19 +399,63 @@
         }
 
     });
-    //查看体检人员名单
-    app.controller('selectUsersController',function ($scope,$http) {
-        $scope.selectUsers=function () {
-            $http.post("/company-info/select-users"
-            ).then(
-                function success (response) {
 
-                },function error (response) {
-
+    //添加单个体检人员信息
+    app.controller('addUserController', function ($scope, $http) {
+        $scope.submitUserForm = function () {
+            console.log("体检单个信息", $scope.user);
+            $http.post("/company-info/add-user", $scope.user)
+                .then(
+                function success(response) {
+                    window.alert("提交成功！共提交" + response.data.data + "条信息");
                 }
             )
         }
 
-    })
+    });
+
+
+    //查看体检人员名单
+    app.controller('selectUsersController', function ($scope, $http) {
+        $scope.selectUsers = function () {
+            $http.post("/company-info/select-users"
+            ).then(
+                function success(response) {
+                    $scope.userList = response.data.data;
+                    if ($scope.userList.length == 0) {
+                        window.alert("未添加体检人员信息！");
+                    }
+                }
+            )
+        };
+        //删除体检人员信息
+        $scope.deleteUser = function () {
+            if (confirm("是否删除？")) {
+                $http.post("/company-info/delete-user", $scope.user.userid
+                ).then(
+                    function success(response) {
+                        window.alert(response.data.message);
+                    }
+                )
+            }
+        }
+
+        $scope.saveU = function (u) {
+            $scope.user = u;
+            console.log("user",$scope.user);
+        }
+
+        //修改体检人员信息
+        $scope.updateForm = function () {
+            console.log("修改：",$scope.user);
+            $http.post("/company-info/update-user", $scope.user
+            ).then(
+                function success(response) {
+                    window.alert(response.data.message);
+                }
+            )
+        }
+    });
+
 </script>
 </html>

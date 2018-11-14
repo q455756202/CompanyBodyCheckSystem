@@ -13,7 +13,7 @@
                     <div class="card-header">体检小结录入</div>
                     <div class="card-body">
                             <textarea id="summary" name="summary" ng-model="summary" style="width: 700px; height: 1000px;"></textarea>
-                        <button class="btn btn-primary" ng-click="submitsummary()">提交</button>
+                        <button class="btn btn-primary" id="submit" ng-click="submitsummary()">提交</button>
                     </div>
                 </div>
             </div>
@@ -46,13 +46,13 @@
     summaryapp.controller('summarytemplet',function ($scope,$http,$location) {
         var billid = $location.search().billid;
         $scope.submitsummary=function(){
+            $("#submit").attr("disabled", true);
             var summary= summarydata.document.getBody().getHtml().toBase64();
-            console.log(summary);
-            console.log(billid);
             $.post("/doctorcheck/submitsummary?billid="+billid, {"summary":summary,"billid":billid}, function success(response) {
-                        alert(response.message);
-                        window.location=response.data;
-                    })
+                alert(response.message);
+                window.location=response.data;
+            })
+            $("#submit").attr("disabled", false);
         }
     })
 </script>
