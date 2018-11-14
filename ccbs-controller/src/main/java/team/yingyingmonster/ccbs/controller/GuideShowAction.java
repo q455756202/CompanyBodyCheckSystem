@@ -1,5 +1,7 @@
 package team.yingyingmonster.ccbs.controller;
 
+import com.google.gson.JsonObject;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
+import team.yingyingmonster.ccbs.database.bean.UserCheck;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserCheckMapper;
@@ -35,6 +38,8 @@ public class GuideShowAction {
     private JuerCompanyMapper juerCompanyMapper;
     @Autowired
     private JuerUserMapper juerUserMapper;
+    @Autowired
+    private JuerUserCheckMapper juerUserCheckMapper;
     @Autowired
     private JuerCompanyCheckSystemService juerCompanyCheckSystemService;
 
@@ -74,6 +79,24 @@ public class GuideShowAction {
     @RequestMapping("/get-user-check")
     @ResponseBody
     public ResultMessage getUserCheck(@RequestBody Long usercheckid) {
-        return ResultMessage.createSuccessMessage("success!", juerUserMapper.selectJuerUserByUsercheckid(usercheckid));
+        return ResultMessage.createSuccessMessage("success!", juerUserCheckMapper.selectUserCheckByUsercheckid(usercheckid));
+    }
+
+    @RequestMapping("/get-user-qrcode")
+    @ResponseBody
+    public ResultMessage getUserQrcode(@RequestBody UserCheck userCheck) {
+        byte[] array = juerCompanyCheckSystemService.getUserQrcodeByteArray(userCheck);
+        if (array != null)
+            return ResultMessage.createSuccessMessage("success!", array);
+        else
+            return ResultMessage.createErrorMessage("error!");
+    }
+
+    @RequestMapping("/get-qrcode-data")
+    @ResponseBody
+    public ResultMessage getQrcodeData(@RequestBody String base64) {
+        byte[] array = Base64.decodeBase64(base64);
+        String str = new String(array);
+        return ResultMessage.createSuccessMessage("success!", JsonUtil.jsonToBean(str, JsonObject.class));
     }
 }

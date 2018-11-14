@@ -6,6 +6,10 @@
         <result column="USERID" property="userid" jdbcType="DECIMAL" />
         <result column="TEAMFORMCOMBOCHECKID" property="teamformcombocheckid" jdbcType="DECIMAL" />
     </resultMap>
+    <resultMap id="JuerResultMap" type="team.yingyingmonster.ccbs.database.bean.UserCheck" extends="BaseResultMap">
+        <association property="userByUserid" column="USERID" select="team.yingyingmonster.ccbs.database.mapper.UserMapper.selectByPrimaryKey"/>
+    </resultMap>
+
     <sql id="Base_Column_List" >
         USERCHECKID, USERID, TEAMFORMCOMBOCHECKID
     </sql>
@@ -18,6 +22,10 @@
         select <include refid="Base_Column_List"/> from USER_CHECK_TABLE where TEAMFORMCOMBOCHECKID in (
           select TEAMFORMCOMBOCHECKID from TEAMFORM_COMBOCHECK_TABLE where TEAMFORMID=#{teamformid}
         )
+    </select>
+
+    <select id="selectUserCheckByUsercheckid" parameterType="long" resultMap="JuerResultMap">
+        select <include refid="Base_Column_List"/> from USER_CHECK_TABLE where USERCHECKID=#{usercheckid}
     </select>
 
     <insert id="insertBatch" parameterType="list">

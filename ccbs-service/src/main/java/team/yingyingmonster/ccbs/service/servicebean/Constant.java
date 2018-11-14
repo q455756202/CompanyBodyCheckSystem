@@ -33,6 +33,19 @@ public class Constant {
     public static final Integer ROLE_SUPERADMIN         = 6;
 
     /**
+     * 账号状态 - 默认
+     */
+    public static final Integer ACCOUNT_STATE_DEFAULT   = 0;
+    /**
+     * 账号状态 - 关闭
+     */
+    public static final Integer ACCOUNT_STATE_CLOSE     = 1;
+    /**
+     * 账号状态 - 删除
+     */
+    public static final Integer ACCOUNT_STATE_DELETE    = 2;
+
+    /**
      * 会话域中储存的登入账号的key值
      */
     public static final String SESSION_LOGIN_ACCOUNT    = "login-account";

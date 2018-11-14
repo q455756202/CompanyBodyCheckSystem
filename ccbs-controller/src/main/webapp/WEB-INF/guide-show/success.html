@@ -23,7 +23,7 @@
         <div class="row justify-content-center align-items-start">
             <div class="col-10 text-center">
                 <h4>体检人员：</h4>
-                <select class="form-control font-size-16px" ng-model="selectedUser" ng-options="x.username for x in userList"></select>
+                <select class="form-control font-size-16px" ng-model="selectedUser" ng-options="x.username for x in userList" ng-change="getUserQrCode()"></select>
                 <hr/>
                 <table class="w-100">
                     <thead>
@@ -40,7 +40,7 @@
                         <td></td>
                         <td class="font-size-16px text-left">{{selectedUser.username}}</td>
                         <td rowspan="3">
-                            <img class="img-thumbnail" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAAEECAIAAABBat1dAAAD4klEQVR4nO3du47bMABFQTnY//9lp8iBizSyQYJLSzN1sH7lgM0F9Xg+nwdwHH9++w3ALsQAEQNEDBAxQMQAEQNEDBAxQMQA+Tn9F4/HY8H72MTpOOWdb2N84XL6KlNGNH7Z/zgZIGKAiAEiBogYIGKAiAEiBogYIGKAnM8xTn3R/RrjA4Q1O4hNViG3+mUPJwO8iAEiBogYIGKAiAEiBogYIGKAiAEyYY5xas0tDPtsB9bcbbGJK/24TgaIGCBigIgBIgaIGCBigIgBIgaIGCBigKzYJl3JlCnOrcZLX8TJABEDRAwQMUDEABEDRAwQMUDEABEDxBzjM+8MJcYnG/Yav8LJABEDRAwQMUDEABEDRAwQMUDEABEDZMUc427bgdPPO762eGfxseZrv9KP62SAiAEiBogYIGKAiAEiBogYIGKAiAEiBsiEbdKUh9l8i31GQQvc6pc9nAzwIgaIGCBigIgBIgaIGCBigIgBIgbI4zLbARjkZICIASIGiBggYoCIASIGiBggYoCIAbLiyT1TbpRYc1PDJo/MGX+0z6w/Mm7N25jyKk4GiBggYoCIASIGiBggYoCIASIGiBggYoCcXxWzyeNbNhnSvGPBNmmNW33nh5MBXsQAEQNEDBAxQMQAEQNEDBAxQMQA2WWOcau3sWavMf5Z7nYhjZMBIgaIGCBigIgBIgaIGCBigIgBIgbI+Rxjwmtssx1YY8FyZMpQYsqrjNtk4XI4GeBFDBAxQMQAEQNEDBAxQMQAEQNEDJAJt2NscqPEJg/4OK41LTm1yX+PU27HgA+IASIGiBggYoCIASIGiBggYoCIASIGyIqrYq7kbjurU1d6PpCTASIGiBggYoCIASIGiBggYoCIASIGyISrYq7kVuOUW01LXBUDHxADRAwQMUDEABEDRAwQMUDEABED5Gf8T3zRhGF8GvDOXxj/QtZcBjFlSTH+lbodA7YjBogYIGKAiAEiBogYIGKAiAEiBogYIBO2SafWXBayz0Rqk8tRTm1yVcyUudeU8ZKTASIGiBggYoCIASIGiBggYoCIASIGyIo5xpVMuddk3Joba77oQhpXxcBMYoCIASIGiBggYoCIASIGiBggYoCYY3xmkyf37GN8KDFlSeF2DJhJDBAxQMQAEQNEDBAxQMQAEQNEDBAxQFZsk/Z5ps64K32WKdYMsdYMnJwMEDFAxAARA0QMEDFAxAARA0QMEDFAJswxvuhekzXGv5A1T7uZYs0zdda8DScDRAwQMUDEABEDRAwQMUDEABEDRAyQh+se4B8nA0QMEDFAxAARA0QMEDFAxAARA0QMEDFA/gKBoBkN+Mh5FAAAAABJRU5ErkJggg==" alt="个人二维码"/>
+                            <img class="img-thumbnail" alt="个人二维码" src="{{qrcode}}"/>
                         </td>
                     </tr>
                     <tr>
@@ -107,6 +107,7 @@
 
         $scope.changeGuide = function (guideId) {
             $scope.selectedUser = {};
+            toastr.info("正在加载用户列表……");
 
             $.post(`/guide-show/get-user-list`, {teamformid: guideId}, function success(msg) {
                     if (msg.state == 200) {
@@ -119,8 +120,28 @@
         };
 
         $scope.downPDF = function () {
-            window.location.href = `/guide-show/render?#usercheckid=${selectedUser.usercheckid}`
-        }
+            window.location.href = `/guide-show/render?usercheckid=${selectedUser.usercheckid}`
+        };
+
+        $scope.getUserQrCode = function () {
+            console.log("getUserQrCode!", $scope.selectedUser)
+            $http.post("/guide-show/get-user-qrcode", $scope.selectedUser)
+                .then(
+                    function success (response) {
+                        let msg = response.data;
+                        if (msg.state == 200) {
+                            $scope.qrcode = `data:image/png;base64,${msg.data}`;
+                        } else {
+                            toastr.error(msg.message);
+                            console.log(msg);
+                        }
+                    },
+                    function error (response) {
+                        toastr.error("获取数据时出现了未知错误，详细信息已输出至控制台。", "数据获取");
+                        console.error(response);
+                    }
+                );
+        };
     });
 </script>
 </html>
