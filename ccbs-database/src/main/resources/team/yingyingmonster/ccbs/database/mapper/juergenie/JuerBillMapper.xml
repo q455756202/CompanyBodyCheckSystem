@@ -12,7 +12,7 @@
         BILLID, USERCHECKID, CHECKID, BILLSTATE, BILLDATE
     </sql>
 
-    <select id="getNewId" resultType="long">
+    <select id="getNewId" resultType="long" flushCache="true">
         select BILL_SEQUENCE.nextval from dual
     </select>
 

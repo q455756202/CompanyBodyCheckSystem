@@ -3,6 +3,7 @@ package team.yingyingmonster.ccbs.database.mapper.zhw;
 import org.springframework.stereotype.Repository;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
+import team.yingyingmonster.ccbs.database.bean.User;
 
 import java.util.List;
 
@@ -16,6 +17,4 @@ import java.util.List;
 public interface ZhaoAccountMapper {
     List<Account> selectAccountByCondition(Account condition);
     Long addAccount(Account account);
-    Integer addCompany(Company company);
-    Company selectCompany(Long accountId);
 }

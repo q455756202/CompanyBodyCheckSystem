@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.*;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCombo;
+import team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser;
+import team.yingyingmonster.ccbs.database.mapper.ComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.CompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.TeamformMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.*;
@@ -24,7 +26,9 @@ import java.util.List;
 @Service
 public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckSystemService {
     @Autowired
-    private CompanyMapper companyMapper;
+    private JuerCompanyMapper juerCompanyMapper;
+    @Autowired
+    private ComboMapper comboMapper;
     @Autowired
     private JuerComboMapper juerComboMapper;
     @Autowired
@@ -46,15 +50,26 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
      * @return
      */
     @Override
-    public JuerCompanyCheckEntity getCompanyCheckEntity(Long companyid) {
-        JuerCompanyCheckEntity entity = new JuerCompanyCheckEntity();
-        entity.setCompany(companyMapper.selectByPrimaryKey(companyid));
-        entity.setComboList(juerComboMapper.selectAllJuerCombo());
-        User condition = new User();
-        condition.setCompanyid(companyid);
-        entity.setUserList(juerUserMapper.selectUsersByCondition(condition));
+    public JuerCompanyCheckEntity getCompanyCheckEntity(Long accountid) {
+        Company company = juerCompanyMapper.selectCompanyByAccountId(accountid);
+        if (company != null) {
+            // 取出所有持久套餐
+            JuerCombo comboCondition = new JuerCombo();
+            comboCondition.setCombotype(Constant.COMBO_TYPE_LASTING);
+            List<JuerCombo> comboList = juerComboMapper.selectJuerComboByCondition(comboCondition);
 
-        return entity;
+            JuerCompanyCheckEntity entity = new JuerCompanyCheckEntity();
+            entity.setCompany(company);
+            entity.setComboList(comboList);
+
+            User condition = new User();
+            condition.setCompanyid(company.getCompanyid());
+            entity.setUserList(juerUserMapper.selectUsersByCondition(condition));
+
+            return entity;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -122,6 +137,30 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
         return true;
     }
 
+    @Override
+    public JuerCombo addCustomCombo(List<Check> checkList) throws Exception {
+        JuerCombo combo = new JuerCombo();
+        combo.setCombotype(Constant.COMBO_TYPE_TEMP);
+        combo.setComboid(juerComboMapper.getNewId());
+        combo.setComboname("自选套餐");
+        combo.setCombosummary(joinCheckName(checkList));
+        if (comboMapper.insert(combo) < 1)
+            throw new Exception("插入错误 - comboMapper.insert");
+        // TODO: 继续插入项目中的检查项目
+        return null;
+    }
+
+    @Override
+    public List<JuerUser> getJuerUser(Long companyid) {
+        return juerUserMapper.selectJuerUsersByCompanyid(companyid);
+    }
+
+    @Override
+    public List<JuerUser> getJuerUsersByTeamformId(Long teamformid) {
+        List<UserCheck> userCheckList = juerUserCheckMapper.selectUserChecksByTeamformid(teamformid);
+        return juerUserMapper.selectJuerUsersByUserCheckList(userCheckList);
+    }
+
     private List<TeamformCombocheck> generatTeamformCombocheckList(List<JuerCombo> list, Long teamformid) {
         List<TeamformCombocheck> result = new LinkedList<>();
         for (int i = 0; i < list.size(); i++) {
@@ -132,5 +171,13 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             result.add(combocheck);
         }
         return result;
+    }
+
+    private String joinCheckName(List<Check> checkList) {
+        StringBuilder builder = new StringBuilder();
+        for(Check check: checkList) {
+            builder.append(check.getCheckname()).append("、");
+        }
+        return builder.replace(builder.length()-1, builder.length(), "").toString();
     }
 }

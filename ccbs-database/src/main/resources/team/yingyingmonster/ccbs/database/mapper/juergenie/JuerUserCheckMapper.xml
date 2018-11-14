@@ -10,8 +10,14 @@
         USERCHECKID, USERID, TEAMFORMCOMBOCHECKID
     </sql>
 
-    <select id="getNewId" resultType="long">
+    <select id="getNewId" resultType="long" flushCache="true">
         select USER_CHECK_SEQUENCE.nextval from dual
+    </select>
+
+    <select id="selectUserChecksByTeamformid" parameterType="long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from USER_CHECK_TABLE where TEAMFORMCOMBOCHECKID in (
+          select TEAMFORMCOMBOCHECKID from TEAMFORM_COMBOCHECK_TABLE where TEAMFORMID=#{teamformid}
+        )
     </select>
 
     <insert id="insertBatch" parameterType="list">

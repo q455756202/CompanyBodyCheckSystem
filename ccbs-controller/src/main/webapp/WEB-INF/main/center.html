@@ -10,30 +10,31 @@
 </head>
 <body ng-app="leftFrameApp">
 <div class="container-fluid h-100">
-<!--创建一个行-->
-<div class="row h-100">
-    <!--菜单栏-->
-    <div id="leftMenuContent" class="col-2 p-0" ng-controller="leftMenuController">
-        <div class="panel-box">
-            <div class="panel-group" id="accordion" data-spy="scroll">
-                <div class="panel panel-default" ng-repeat="menu in menuList">
-                    <div class="panel-heading">
+    <!--创建一个行-->
+    <div class="row h-100">
+        <!--菜单栏-->
+        <div id="leftMenuContent" class="col-2 p-0" ng-controller="leftMenuController">
+            <div class="panel-box">
+                <div class="panel-group" id="accordion" data-spy="scroll">
+                    <div class="panel panel-default" ng-repeat="menu in menuList">
+                        <div class="panel-heading">
                             <span class="panel-title rectangle non-margin btn btn-block btn-primary"
                                   ng-click="menuClick(menu)"
                                   data-parent="#accordion">
                                 {{menu.menuname}}
                             </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-10 p-0">
+            <iframe name="mainPageFrame" id="mainPageFrame" frameborder="none" src="/main/account-info"
+                    class="w-100 h-100">
+                用户操作页面.
+            </iframe>
+        </div>
     </div>
-    <div class="col-10 p-0">
-        <iframe name="mainPageFrame" id="mainPageFrame" frameborder="none" src="/main/account-info" class="w-100 h-100">
-            用户操作页面.
-        </iframe>
-    </div>
-</div>
 </div>
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
@@ -54,6 +55,7 @@
             .then(
                 function success(response) {
                     let resultMessage = response.data;
+                    console.log("菜单", resultMessage.data);
                     if (resultMessage.state == 200) {
                         $(resultMessage.data).each(function (i, v) {
                             $scope.menuList.push(v);

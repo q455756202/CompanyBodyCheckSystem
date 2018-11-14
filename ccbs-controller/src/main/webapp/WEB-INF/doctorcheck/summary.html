@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>体检小结录入</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+</head>
+<body ng-app="summaryapp">
+    <div class="container">
+        <div class="row" ng-controller="summarytemplet">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">体检小结录入</div>
+                    <div class="card-body">
+                            <textarea id="summary" name="summary" ng-model="summary" style="width: 700px; height: 1000px;"></textarea>
+                        <button class="btn btn-primary" id="submit" ng-click="submitsummary()">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+<script>
+    var summarydata=CKEDITOR.replace('summary',{
+        filebrowserImageUploadUrl : '/upload/uploadsumaryimage',
+        language : 'zh-cn',
+    } );
+    var summaryapp = angular.module('summaryapp',[]);
+    summaryapp.config(['$locationProvider', function($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+    }]);
+
+
+
+    summaryapp.controller('summarytemplet',function ($scope,$http,$location) {
+        var billid = $location.search().billid;
+        $scope.submitsummary=function(){
+            $("#submit").attr("disabled", true);
+            var summary= summarydata.document.getBody().getHtml().toBase64();
+            $.post("/doctorcheck/submitsummary?billid="+billid, {"summary":summary,"billid":billid}, function success(response) {
+                alert(response.message);
+                window.location=response.data;
+            })
+            $("#submit").attr("disabled", false);
+        }
+    })
+</script>
+
+</html>

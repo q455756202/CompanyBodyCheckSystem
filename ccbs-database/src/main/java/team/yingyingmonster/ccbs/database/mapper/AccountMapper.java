@@ -1,11 +1,10 @@
 package team.yingyingmonster.ccbs.database.mapper;
 
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 import team.yingyingmonster.ccbs.database.bean.Account;
 
 import java.util.List;
 
-@Repository
 public interface AccountMapper {
     List<Account> selectByPrimaryKey(Long accountid);
     int deleteByPrimaryKey(Long accountid);
@@ -13,4 +12,6 @@ public interface AccountMapper {
     int insertSelective(Account list);
     int updateByPrimaryKeySelective(Account list);
     int updateByPrimaryKey(Account account);
+    Account loginAccount(@Param("accountId")Long accountId, @Param("accountPassword")String accountPassword);
+
 }
