@@ -14,4 +14,5 @@ public interface JuerUserMapper {
     List<User> selectUsersByCompanyid(Long companyid);
     List<JuerUser> selectJuerUsersByCompanyid(Long companyid);
     List<JuerUser> selectJuerUsersByUserCheckList(List<UserCheck> userCheckList);
+    JuerUser selectJuerUserByUsercheckid(Long usercheckid);
 }

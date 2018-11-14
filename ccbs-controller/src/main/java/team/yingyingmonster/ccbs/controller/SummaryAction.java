@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
+import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Report;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.ReportMapperWeng;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -33,8 +35,9 @@ public class SummaryAction {
     //获取当前医生的小结
     @RequestMapping("/summarytableget")
     @ResponseBody
-    public ResultMessage getSummaryList(){
-        List<Report>reports = reportMapperWeng.selectsummarybydoctorid(1l);
+    public ResultMessage getSummaryList(HttpSession session){
+        Long accountid = ((Account)session.getAttribute("login-account")).getAccountid();
+        List<Report>reports = reportMapperWeng.selectsummarybydoctorid(accountid);
         return ResultMessage.createSuccessMessage("获取成功",reports);
     }
 
