@@ -35,17 +35,6 @@ public class GatewayAction {
         return "gateway/index";
     }
 
-  /*  @RequestMapping("/success")
-    public String success(HttpSession session){
-        Account account=(Account) session.getAttribute("login-account");
-        if (account.getAccountid()!=null){
-            return "main/index";
-        }else {
-            return "redirect:/";
-        }
-
-    }*/
-
     @RequestMapping("/login")
     @ResponseBody
     public ResultMessage login(HttpSession session, Long accountId, String accountPassword,String userCode){
