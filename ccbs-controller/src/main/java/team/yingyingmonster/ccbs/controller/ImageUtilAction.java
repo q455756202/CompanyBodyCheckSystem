@@ -7,7 +7,7 @@ package team.yingyingmonster.ccbs.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import team.yingyingmonster.ccbs.common.ImageUtil;
+import team.yingyingmonster.ccbs.image.ImageUtil;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
