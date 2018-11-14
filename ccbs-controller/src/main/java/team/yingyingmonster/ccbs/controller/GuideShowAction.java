@@ -10,6 +10,8 @@ import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
+import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserCheckMapper;
+import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
 import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.GuideShowService;
@@ -32,11 +34,18 @@ public class GuideShowAction {
     @Autowired
     private JuerCompanyMapper juerCompanyMapper;
     @Autowired
+    private JuerUserMapper juerUserMapper;
+    @Autowired
     private JuerCompanyCheckSystemService juerCompanyCheckSystemService;
 
     @RequestMapping("/index")
     public String index() {
         return "guide-show/success";
+    }
+
+    @RequestMapping("/render")
+    public String render() {
+        return "guide-show/render-page";
     }
 
     @RequestMapping("/get-guide-list")
@@ -60,5 +69,11 @@ public class GuideShowAction {
                 "success!",
                 list
         );
+    }
+
+    @RequestMapping("/get-user-check")
+    @ResponseBody
+    public ResultMessage getUserCheck(@RequestBody Long usercheckid) {
+        return ResultMessage.createSuccessMessage("success!", juerUserMapper.selectJuerUserByUsercheckid(usercheckid));
     }
 }

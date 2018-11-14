@@ -1,10 +1,7 @@
 package team.yingyingmonster.ccbs.controller;
 
 
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.Result;
+import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import team.yingyingmonster.ccbs.database.mapper.wengguobao.BillMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.CheckMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.DoctorMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.UserMapperWeng;
+import team.yingyingmonster.ccbs.image.QrCodeUtil;
 
 
 import javax.imageio.ImageIO;
@@ -72,38 +70,24 @@ public class ReadQRcodeAction {
         }
         //上传
         uploadUserCode.transferTo(file);
-        Result result=QRresult(path);
-        if (result != null) {
-            if (result.getText() != null) {
-                Long userId = Long.valueOf(result.getText());
-                user = userMapperWeng.selectUserByUserId(userId);
-                Long accountid = ((Account)session.getAttribute("login-account")).getAccountid();
-                doctor = doctorMapperWeng.selectDeptByAccountId(accountid);//获取部门id和名字
-                bills = billMapperWeng.selectByDeptIdAndUserId(doctor.getDeptByDeptid().getDeptid(),userId);
-                map.put("user",user);
-                map.put("bills",bills);
-            }
-        }
-
-        return map;
-    }
-
-    public Result QRresult(String filePath){
-
-        Result result = null;
+        Result result= null;
         try {
-            File file = new File(filePath);
-            BufferedImage bufferedImage = ImageIO.read(file);
-            BinaryBitmap bitmap = new BinaryBitmap(
-                    new HybridBinarizer(new BufferedImageLuminanceSource(bufferedImage)));
-            HashMap hints = new HashMap<>();
-            hints.put(EncodeHintType.CHARACTER_SET, CHARTSET);
-            result = new MultiFormatReader().decode(bitmap, hints);
-        } catch (IOException e) {
+            result = QrCodeUtil.readQrCode(ImageIO.read(file));
+            if (result != null) {
+                if (result.getText() != null) {
+                    Long userId = Long.valueOf(result.getText());
+                    user = userMapperWeng.selectUserByUserId(userId);
+                    Long accountid = ((Account)session.getAttribute("login-account")).getAccountid();
+                    doctor = doctorMapperWeng.selectDeptByAccountId(accountid);//获取部门id和名字
+                    bills = billMapperWeng.selectByDeptIdAndUserId(doctor.getDeptByDeptid().getDeptid(),userId);
+                    map.put("user",user);
+                    map.put("bills",bills);
+                }
+            }
+            return map;
+        } catch (NotFoundException e) {
             e.printStackTrace();
-        } catch (com.google.zxing.NotFoundException e) {
-            e.printStackTrace();
+            return null;
         }
-        return result;
     }
 }

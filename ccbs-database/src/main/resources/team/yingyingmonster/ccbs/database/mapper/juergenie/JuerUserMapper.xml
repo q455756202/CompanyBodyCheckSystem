@@ -11,6 +11,7 @@
         <result column="USERCARDCODE" property="usercardcode" jdbcType="VARCHAR" />
     </resultMap>
     <resultMap id="JuerResultMap" extends="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser">
+        <result column="USERCHECKID" property="usercheckid" jdbcType="DECIMAL" />
         <collection column="USERID" property="checkList" select="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCheckMapper.selectChecksByUserId"/>
     </resultMap>
 
@@ -44,5 +45,9 @@
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item.userid}
         </foreach>
+    </select>
+
+    <select id="selectJuerUserByUsercheckid" parameterType="long" resultMap="JuerResultMap">
+        select #{usercheckid} as USERCHECKID, USER_TABLE.* from USER_TABLE where USERID=(select USERID from USER_CHECK_TABLE where USERCHECKID=#{usercheckid})
     </select>
 </mapper>
