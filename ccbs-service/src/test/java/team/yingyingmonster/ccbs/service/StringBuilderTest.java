@@ -10,9 +10,16 @@ import org.junit.Test;
  **/
 public class StringBuilderTest {
     @Test
-    public void stirngBuilderReplaceTest() {
+    public void stringBuilderReplaceTest() {
         StringBuilder builder = new StringBuilder("1234567890");
         System.out.println(builder.length());
         System.out.println(builder.replace(builder.length()-1, builder.length(), ""));
+    }
+
+    @Test
+    public void numberObjectEqualsTest() {
+        Long i=1l, j=1l;
+        System.out.println(i.equals(j));
+        System.out.println(i==j);
     }
 }

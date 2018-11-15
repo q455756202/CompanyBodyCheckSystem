@@ -2,25 +2,24 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>渲染页面</title>
+    <title>{{usercheckid}}-{{user.username}}</title>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/toastr.min.css" rel="stylesheet"/>
     <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/juer-style.css" rel="stylesheet"/>
 </head>
-<body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-8 justify-content-center">
-            <h2>导检单</h2>
+<body ng-app="renderApp">
+<div class="container" ng-controller="renderController">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-10 text-center">
+            <h3>导检单</h3>
             <hr/>
-            <h3>POWERED BY @YYM-TEAM</h3>
+            <h4>导检单号：{{usercheckid}}</h4>
         </div>
     </div>
     <hr/>
-    <div class="row">
-        <div class="col justify-content-center">
-            <!--个人基本信息展示-->
+    <div class="row justify-content-center align-items-start">
+        <div class="col-10 text-center">
             <table class="w-100">
                 <thead>
                 <tr>
@@ -32,27 +31,26 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="font-size-16px text-right">姓名: </td>
+                    <td class="font-size-20px text-right">姓名: </td>
                     <td></td>
-                    <td class="font-size-16px text-left">{{user.username}}</td>
+                    <td class="font-size-20px text-left">{{user.username}}</td>
                     <td rowspan="3">
-                        <img class="img-thumbnail" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAAEECAIAAABBat1dAAAD4klEQVR4nO3du47bMABFQTnY//9lp8iBizSyQYJLSzN1sH7lgM0F9Xg+nwdwHH9++w3ALsQAEQNEDBAxQMQAEQNEDBAxQMQA+Tn9F4/HY8H72MTpOOWdb2N84XL6KlNGNH7Z/zgZIGKAiAEiBogYIGKAiAEiBogYIGKAnM8xTn3R/RrjA4Q1O4hNViG3+mUPJwO8iAEiBogYIGKAiAEiBogYIGKAiAEyYY5xas0tDPtsB9bcbbGJK/24TgaIGCBigIgBIgaIGCBigIgBIgaIGCBigKzYJl3JlCnOrcZLX8TJABEDRAwQMUDEABEDRAwQMUDEABEDxBzjM+8MJcYnG/Yav8LJABEDRAwQMUDEABEDRAwQMUDEABEDZMUc427bgdPPO762eGfxseZrv9KP62SAiAEiBogYIGKAiAEiBogYIGKAiAEiBsiEbdKUh9l8i31GQQvc6pc9nAzwIgaIGCBigIgBIgaIGCBigIgBIgbI4zLbARjkZICIASIGiBggYoCIASIGiBggYoCIAbLiyT1TbpRYc1PDJo/MGX+0z6w/Mm7N25jyKk4GiBggYoCIASIGiBggYoCIASIGiBggYoCcXxWzyeNbNhnSvGPBNmmNW33nh5MBXsQAEQNEDBAxQMQAEQNEDBAxQMQA2WWOcau3sWavMf5Z7nYhjZMBIgaIGCBigIgBIgaIGCBigIgBIgbI+Rxjwmtssx1YY8FyZMpQYsqrjNtk4XI4GeBFDBAxQMQAEQNEDBAxQMQAEQNEDJAJt2NscqPEJg/4OK41LTm1yX+PU27HgA+IASIGiBggYoCIASIGiBggYoCIASIGyIqrYq7kbjurU1d6PpCTASIGiBggYoCIASIGiBggYoCIASIGyISrYq7kVuOUW01LXBUDHxADRAwQMUDEABEDRAwQMUDEABED5Gf8T3zRhGF8GvDOXxj/QtZcBjFlSTH+lbodA7YjBogYIGKAiAEiBogYIGKAiAEiBogYIBO2SafWXBayz0Rqk8tRTm1yVcyUudeU8ZKTASIGiBggYoCIASIGiBggYoCIASIGyIo5xpVMuddk3Joba77oQhpXxcBMYoCIASIGiBggYoCIASIGiBggYoCYY3xmkyf37GN8KDFlSeF2DJhJDBAxQMQAEQNEDBAxQMQAEQNEDBAxQFZsk/Z5ps64K32WKdYMsdYMnJwMEDFAxAARA0QMEDFAxAARA0QMEDFAJswxvuhekzXGv5A1T7uZYs0zdda8DScDRAwQMUDEABEDRAwQMUDEABEDRAyQh+se4B8nA0QMEDFAxAARA0QMEDFAxAARA0QMEDFA/gKBoBkN+Mh5FAAAAABJRU5ErkJggg==" alt="个人二维码"/>
+                        <img class="img-thumbnail" alt="个人二维码" src="{{qrcode}}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-size-16px text-right">性别: </td>
+                    <td class="font-size-20px text-right">性别: </td>
                     <td></td>
-                    <td class="font-size-16px text-left">{{user.usergender?"女":"男"}}</td>
+                    <td class="font-size-20px text-left">{{user.usergender?"女":"男"}}</td>
                 </tr>
                 <tr>
-                    <td class="font-size-16px text-right">年龄: </td>
+                    <td class="font-size-20px text-right">年龄: </td>
                     <td></td>
-                    <td class="font-size-16px text-left">{{user.userage}}</td>
+                    <td class="font-size-20px text-left">{{user.userage}}</td>
                 </tr>
                 </tbody>
             </table>
             <hr/>
-            <!--体检项目展示-->
             <table class="w-100 border-right border-bottom">
                 <thead>
                 <tr>
@@ -88,18 +86,33 @@
 <script>
     let renderApp = angular.module("renderApp", []);
     renderApp.controller("renderController", ["$scope", "$location", "$http", function($scope, $location, $http) {
-        let usercheckid = $location.search().usercheckid;
+        $scope.usercheckid = $location.search().usercheckid;
 
-        $http.post("/guide-show/get-user-check", usercheckid)
-            .then(
-                function success(response) {
-                    let msg = response.data;
+        $.post("/guide-show/get-user-check", {usercheckid: $scope.usercheckid},
+                function success(msg) {
                     $scope.user = msg.data;
-                }, function error(response) {
-                    toastr.error("发生了一些意料之外的错误，详情已输出至控制台。");
-                    console.error(response.data);
-                }
-            )
+                    $scope.getUserQrCode();
+                });
+
+        $scope.getUserQrCode = function () {
+            console.log("getUserQrCode!", $scope.selectedUser)
+            $http.post("/guide-show/get-user-qrcode", $scope.selectedUser)
+                .then(
+                    function success (response) {
+                        let msg = response.data;
+                        if (msg.state == 200) {
+                            $scope.qrcode = `data:image/png;base64,${msg.data}`;
+                        } else {
+                            toastr.error(msg.message);
+                            console.log(msg);
+                        }
+                    },
+                    function error (response) {
+                        toastr.error("获取数据时出现了未知错误，详细信息已输出至控制台。", "数据获取");
+                        console.error(response);
+                    }
+                );
+        };
     }]);
 </script>
 </html>
