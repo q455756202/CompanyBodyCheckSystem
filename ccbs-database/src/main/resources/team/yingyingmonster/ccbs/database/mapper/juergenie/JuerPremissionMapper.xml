@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerPremissionMapper">
+    <resultMap id="BaseMenuResultMap" type="team.yingyingmonster.ccbs.database.bean.Menu">
+        <id column="MENUID" property="menuid" jdbcType="DECIMAL"/>
+        <result column="MENUNAME" property="menuname" jdbcType="VARCHAR"/>
+        <result column="MENUURL" property="menuurl" jdbcType="VARCHAR"/>
+        <result column="MENUSTATE" property="menustate" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="BaseRoleResultMap" type="team.yingyingmonster.ccbs.database.bean.Role">
+        <id column="ROLEID" property="roleid" jdbcType="DECIMAL"/>
+        <result column="ROLENAME" property="rolename" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectRoleByMenuname" parameterType="string" resultMap="BaseRoleResultMap">
+        select * from ROLE_TABLE where ROLEID=(select ROLEID from MENU_TABLE where MENUNAME=#{menuname})
+    </select>
+</mapper>

@@ -22,6 +22,7 @@
     <url>http://www.juerwhang.cn:8080/CompanyCheckSystem/</url>
 
     <properties>
+        <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 编译版本声明，此处使用Java1.8 -->
         <version.compiler>1.8</version.compiler>
@@ -64,6 +65,8 @@
         <version.xdocreport>2.0.1</version.xdocreport>
         <!--前端富文本编辑器图片上传依赖包-->
         <version.ckeditor>4.8.0</version.ckeditor>
+        <!--HTML页面渲染器依赖包-->
+        <version.htmlunit>2.33</version.htmlunit>
     </properties>
 
     <dependencies>
@@ -316,6 +319,32 @@
             <groupId>org.webjars</groupId>
             <artifactId>ckeditor</artifactId>
             <version>${version.ckeditor}</version>
+        </dependency>
+
+        <!--HTML页面渲染器依赖包-->
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit-core-js</artifactId>
+            <version>${version.htmlunit}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>${version.htmlunit}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xhtmlrenderer</groupId>
+            <artifactId>core-renderer</artifactId>
+            <version>R8</version>
+        </dependency>
+
+        <!--支付宝开发套件-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.4.27.ALL</version>
         </dependency>
     </dependencies>
 

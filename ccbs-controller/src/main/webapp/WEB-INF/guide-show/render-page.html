@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{usercheckid}}-{{user.username}}</title>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/toastr.min.css" rel="stylesheet"/>
+    <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/juer-style.css" rel="stylesheet"/>
+</head>
+<body ng-app="renderApp">
+<div class="container" ng-controller="renderController">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-10 text-center">
+            <h3>导检单</h3>
+            <hr/>
+            <h4>导检单号：{{usercheckid}}</h4>
+        </div>
+    </div>
+    <hr/>
+    <div class="row justify-content-center align-items-start">
+        <div class="col-10 text-center">
+            <table class="w-100">
+                <thead>
+                <tr>
+                    <th class="th-width-20p"></th>
+                    <th class="th-width-10p"></th>
+                    <th class="th-width-40p"></th>
+                    <th class="th-width-30p"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="font-size-20px text-right">姓名: </td>
+                    <td></td>
+                    <td class="font-size-20px text-left">{{user.username}}</td>
+                    <td rowspan="3">
+                        <img class="img-thumbnail" alt="个人二维码" src="{{qrcode}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-size-20px text-right">性别: </td>
+                    <td></td>
+                    <td class="font-size-20px text-left">{{user.usergender?"女":"男"}}</td>
+                </tr>
+                <tr>
+                    <td class="font-size-20px text-right">年龄: </td>
+                    <td></td>
+                    <td class="font-size-20px text-left">{{user.userage}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr/>
+            <table class="w-100 border-right border-bottom">
+                <thead>
+                <tr>
+                    <th class="font-size-20px font-weight-bold th-width-30p">体检项目</th>
+                    <th class="th-width-5p"></th>
+                    <th class="font-size-20px font-weight-bold th-width-30p">体检科室</th>
+                    <th class="th-width-5p"></th>
+                    <th class="font-size-20px font-weight-bold th-width-30p">主检医生签名</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in user.checkList" class="juer-row">
+                    <td class="border-left border-top"><span title="{{x.checkname}}">{{x.checkname}}</span></td>
+                    <td></td>
+                    <td class="border-left border-top">{{x.dept.deptname}}</td>
+                    <td></td>
+                    <td class="border-left border-top"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/assets/scripts/angular.min.js"></script>
+<script src="/assets/scripts/jquery.min.js"></script>
+<script src="/assets/scripts/bootstrap.min.js"></script>
+<script src="/assets/scripts/bootstrap.bundle.min.js"></script>
+<script src="/assets/scripts/toastr.min.js"></script>
+<script src="/assets/scripts/md5.min.js"></script>
+<script src="/assets/scripts/base64.min.js"></script>
+<script src="/assets/scripts/juer-script.js"></script>
+<script>
+    let renderApp = angular.module("renderApp", []);
+    renderApp.controller("renderController", ["$scope", "$location", "$http", function($scope, $location, $http) {
+        $scope.usercheckid = $location.search().usercheckid;
+
+        $.post("/guide-show/get-user-check", {usercheckid: $scope.usercheckid},
+                function success(msg) {
+                    $scope.user = msg.data;
+                    $scope.getUserQrCode();
+                });
+
+        $scope.getUserQrCode = function () {
+            console.log("getUserQrCode!", $scope.selectedUser)
+            $http.post("/guide-show/get-user-qrcode", $scope.selectedUser)
+                .then(
+                    function success (response) {
+                        let msg = response.data;
+                        if (msg.state == 200) {
+                            $scope.qrcode = `data:image/png;base64,${msg.data}`;
+                        } else {
+                            toastr.error(msg.message);
+                            console.log(msg);
+                        }
+                    },
+                    function error (response) {
+                        toastr.error("获取数据时出现了未知错误，详细信息已输出至控制台。", "数据获取");
+                        console.error(response);
+                    }
+                );
+        };
+    }]);
+</script>
+</html>
