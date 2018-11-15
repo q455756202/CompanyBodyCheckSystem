@@ -8,42 +8,46 @@ package team.yingyingmonster.ccbs.service.servicebean;
  **/
 public class Constant {
     /**
+     * 角色 - 未登入（游客）
+     */
+    public static final Long ROLE_UNLOGIN               = 0L;
+    /**
      * 角色 - 团检单位
      */
-    public static final Integer ROLE_COMPANY            = 1;
+    public static final Long ROLE_COMPANY               = 1L;
     /**
      * 角色 - 医生
      */
-    public static final Integer ROLE_DOCTOR             = 2;
+    public static final Long ROLE_DOCTOR                = 2L;
     /**
      * 角色 - 总检医生
      */
-    public static final Integer ROLE_GENERALDOC         = 3;
+    public static final Long ROLE_GENERALDOC            = 3L;
     /**
      * 角色 - 前台服务
      */
-    public static final Integer ROLE_RECEPTION          = 4;
+    public static final Long ROLE_RECEPTION             = 4L;
     /**
      * 角色 - 管理员
      */
-    public static final Integer ROLE_ADMIN              = 5;
+    public static final Long ROLE_ADMIN                 = 5L;
     /**
      * 角色 - 超级管理员
      */
-    public static final Integer ROLE_SUPERADMIN         = 6;
+    public static final Long ROLE_SUPERADMIN            = 6L;
 
     /**
      * 账号状态 - 默认
      */
-    public static final Integer ACCOUNT_STATE_DEFAULT   = 0;
+    public static final Short ACCOUNT_STATE_DEFAULT   = 0;
     /**
      * 账号状态 - 关闭
      */
-    public static final Integer ACCOUNT_STATE_CLOSE     = 1;
+    public static final Short ACCOUNT_STATE_CLOSE     = 1;
     /**
      * 账号状态 - 删除
      */
-    public static final Integer ACCOUNT_STATE_DELETE    = 2;
+    public static final Short ACCOUNT_STATE_DELETE    = 2;
 
     /**
      * 会话域中储存的登入账号的key值

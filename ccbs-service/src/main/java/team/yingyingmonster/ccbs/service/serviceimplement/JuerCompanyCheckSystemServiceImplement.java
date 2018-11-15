@@ -181,7 +181,7 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
         json.addProperty("userCheckId", userCheck.getUsercheckid());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
-            if (QrCodeUtil.createQrCode(output, json.toString(), 500, "PNG"))
+            if (QrCodeUtil.createQrCode(output, json.toString(), 550, "PNG"))
                 return output.toByteArray();
         } catch (WriterException|IOException e) {
             e.printStackTrace();

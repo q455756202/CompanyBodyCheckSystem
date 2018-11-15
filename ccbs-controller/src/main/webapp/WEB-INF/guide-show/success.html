@@ -112,6 +112,8 @@
             $.post(`/guide-show/get-user-list`, {teamformid: guideId}, function success(msg) {
                     if (msg.state == 200) {
                         $scope.userList = msg.data;
+                        $scope.$apply();
+                        toastr.success("用户列表获取成功！");
                     } else {
                         toastr.error(msg.message, "获取数据");
                         console.log(msg);
@@ -120,7 +122,11 @@
         };
 
         $scope.downPDF = function () {
-            window.location.href = `/guide-show/render?usercheckid=${selectedUser.usercheckid}`
+            toastr.info("正在生成PDF文件……");
+            if (!$scope.selectedUser.usercheckid)
+                toastr.error("请选择一个用户。");
+            else
+                $scope.download("/guide-show/download-pdf", {'url': `${window.location.host}/guide-show/render?usercheckid=${$scope.selectedUser.usercheckid}`}, "application/pdf");
         };
 
         $scope.getUserQrCode = function () {
@@ -141,6 +147,18 @@
                         console.error(response);
                     }
                 );
+        };
+
+        $scope.download = function (url, data, type) {
+            $http.post(url, data, {responseType: 'arraybuffer'})
+                .then(function success (response){
+                    var blob = new Blob([response], {type: type});
+                    var objectUrl = URL.createObjectURL(blob);
+                    var a = $("<a><span class='text-hide'>save file</span></a>").attr("href", objectUrl);
+                    $("body").append(a);
+                    a.click();
+                    a.remove();
+                });
         };
     });
 </script>

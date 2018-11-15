@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerLogMapper" >
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Log" >
+        <id column="LOGID" property="logid" jdbcType="DECIMAL" />
+        <result column="LOGTIME" property="logtime" jdbcType="TIMESTAMP" />
+        <result column="LOGLEVEL" property="loglevel" jdbcType="VARCHAR" />
+        <result column="LOGCLASS" property="logclass" jdbcType="VARCHAR" />
+        <result column="LOGLOCATE" property="loglocate" jdbcType="VARCHAR" />
+        <result column="LOGTHREAD" property="logthread" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="team.yingyingmonster.ccbs.database.bean.Log" extends="BaseResultMap" >
+        <result column="LOGMESSAGE" property="logmessage" jdbcType="CLOB" />
+    </resultMap>
+
+    <select id="getNewId" resultType="long" flushCache="true">
+        select LOG_SEQUENCE.nextval from dual
+    </select>
+
+    <insert id="insert" parameterType="team.yingyingmonster.ccbs.database.bean.Log" >
+        insert into LOG_TABLE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="logid != null" >
+                LOGID,
+            </if>
+            <if test="logtime != null" >
+                LOGTIME,
+            </if>
+            <if test="loglevel != null" >
+                LOGLEVEL,
+            </if>
+            <if test="logclass != null" >
+                LOGCLASS,
+            </if>
+            <if test="loglocate != null" >
+                LOGLOCATE,
+            </if>
+            <if test="logthread != null" >
+                LOGTHREAD,
+            </if>
+            <if test="logmessage != null" >
+                LOGMESSAGE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="logid != null" >
+                #{logid,jdbcType=DECIMAL},
+            </if>
+            <if test="logtime != null" >
+                #{logtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loglevel != null" >
+                #{loglevel,jdbcType=VARCHAR},
+            </if>
+            <if test="logclass != null" >
+                #{logclass,jdbcType=VARCHAR},
+            </if>
+            <if test="loglocate != null" >
+                #{loglocate,jdbcType=VARCHAR},
+            </if>
+            <if test="logthread != null" >
+                #{logthread,jdbcType=VARCHAR},
+            </if>
+            <if test="logmessage != null" >
+                #{logmessage,jdbcType=CLOB},
+            </if>
+        </trim>
+    </insert>
+</mapper>

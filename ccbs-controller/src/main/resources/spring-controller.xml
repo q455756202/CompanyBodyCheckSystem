@@ -12,7 +12,8 @@
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
        default-lazy-init="true">
     <import resource="classpath:spring-service.xml"/>
-
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <context:component-scan base-package="team.yingyingmonster.ccbs.aop"/>
     <context:component-scan base-package="team.yingyingmonster.ccbs.controller"/>
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
@@ -58,5 +59,4 @@
             <value>UTF-8</value>
         </property>
     </bean>
-
 </beans>

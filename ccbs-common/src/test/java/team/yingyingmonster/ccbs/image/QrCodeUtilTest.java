@@ -20,9 +20,8 @@ public class QrCodeUtilTest {
     @Test
     public void createQrCode() throws IOException, WriterException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        QrCodeUtil.createQrCode(outputStream, "test", 500, "png");
+        QrCodeUtil.createQrCode(outputStream, "test", 560, "png");
         System.out.println(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(outputStream.toByteArray()));
-
     }
 }
