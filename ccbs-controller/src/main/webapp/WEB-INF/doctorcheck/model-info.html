@@ -15,11 +15,16 @@
                         体检结果录入
                     </div>
                     <div class="card-body">
+                        <form name="myForm" novalidate>
                         <div ng-repeat="x in models">
-                            <label for="modelsdata"><dt>{{x.recordname}}:</dt></label>
-                            <input type="text" class="form-control" id="modelsdata" ng-model="x.recorddefault" >
+                            <label for="modelsdata{{$index}}"><dt>{{x.recordname}}:</dt></label>
+                            <input type="text" class="form-control" id="modelsdata{{$index}}" name="modelsdata{{$index}}" ng-model="x.recorddefault" ng-maxlength="256">
+                            <span style="color: red" ng-show="myForm.modelsdata{{$index}}+x.$index.$invalid">
+                                <span ng-show="myForm.modelsdata{{$index}}.$error.maxlength">长度必须小于256</span>
+                            </span>
                         </div>
-                        <div><button class="btn btn-primary" ng-click="commitmodel()">提交</button></div>
+                        <div><button class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="commitmodel()">提交</button></div>
+                        </form>
                     </div>
                 </div>
             </div>

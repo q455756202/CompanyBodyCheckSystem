@@ -1,5 +1,6 @@
 package team.yingyingmonster.ccbs.database.bean;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,6 @@ public class Check {
     private String checkname;
     private BigDecimal checkprice;
 
+    @SerializedName("dept")
     private Dept deptByDeptid;
 }

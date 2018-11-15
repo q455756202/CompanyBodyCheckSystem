@@ -1,6 +1,17 @@
 package team.yingyingmonster.ccbs.web;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
+import com.gargoylesoftware.htmlunit.ScriptException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptEngine;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
+
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @author Juer Whang <br/>
@@ -17,5 +28,19 @@ public class WebUtil {
      */
     public static String getRealPath(HttpSession session, String path) {
         return session.getServletContext().getRealPath(path);
+    }
+
+    public static HtmlPage getAjaxHtml(String url, int timeout, JavaScriptErrorListener listener) throws IOException {
+        WebClient webClient = new WebClient(BrowserVersion.CHROME);
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setCssEnabled(true);
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
+        webClient.getOptions().setTimeout(timeout);
+
+        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+        if (listener != null)
+            webClient.setJavaScriptErrorListener(listener);
+
+        return webClient.getPage(url);
     }
 }

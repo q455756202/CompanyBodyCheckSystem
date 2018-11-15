@@ -10,8 +10,9 @@
         <result column="USERPHONE" property="userphone" jdbcType="VARCHAR" />
         <result column="USERCARDCODE" property="usercardcode" jdbcType="VARCHAR" />
     </resultMap>
-    <resultMap id="JuerResultMap" extends="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.User">
-        <collection column="USERID" property="checkList" select="team.yingyingmonster.ccbs.database.mapper.JuerCheckMapper.selectChecksByUserId"/>
+    <resultMap id="JuerResultMap" extends="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser">
+        <result column="USERCHECKID" property="usercheckid" jdbcType="DECIMAL" />
+        <collection column="USERID" property="checkList" select="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCheckMapper.selectChecksByUserId"/>
     </resultMap>
 
     <select id="selectAllUsers" resultMap="BaseResultMap">
@@ -33,5 +34,20 @@
 
     <select id="selectUsersByCompanyid" resultMap="BaseResultMap">
         select * from USER_TABLE where COMPANYID=#{companyid}
+    </select>
+
+    <select id="selectJuerUsersByCompanyid" resultMap="JuerResultMap">
+        select * from USER_TABLE where COMPANYID=#{companyid}
+    </select>
+
+    <select id="selectJuerUsersByUserCheckList" resultMap="JuerResultMap">
+        select * from USER_TABLE where USERID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.userid}
+        </foreach>
+    </select>
+
+    <select id="selectJuerUserByUsercheckid" parameterType="long" resultMap="JuerResultMap">
+        select #{usercheckid} as USERCHECKID, USER_TABLE.* from USER_TABLE where USERID=(select USERID from USER_CHECK_TABLE where USERCHECKID=#{usercheckid})
     </select>
 </mapper>

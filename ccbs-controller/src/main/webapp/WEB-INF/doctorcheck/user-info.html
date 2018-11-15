@@ -13,7 +13,7 @@
                     <tbody>
                     <tr>
                         <td>姓名：{{user.username}}</td>
-                        <td>性别：{{user.usergender}}</td>
+                        <td>性别：{{user.usergender==0?"男":"女"}}</td>
                     </tr>
                     <tr>
                         <td>年龄：{{user.userage}}</td>
@@ -41,9 +41,19 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
+                <div class="dropdown">
+                    <label for="users">可体检人员:</label>
+                    <select class="form-control" id="users" ng-model="userid" ng-change="getuserinfo()">
+                        <option ng-repeat="x in users" value="{{x.userCheckByUsercheckid.userByUserid.userid}}">{{x.userCheckByUsercheckid.userByUserid.username}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
                 <h5>体检项目</h5>
                 <div class="list-group">
-                    <a href="/doctorcheck/modelinfo?billid={{x.billid}}&checkid={{x.checkByCheckid.checkid}}&usercheckid={{x.usercheckid}}" target="main" class="list-group-item list-group-item-action" ng-repeat="x in bills">
+                    <a href="/doctorcheck/modelinfo?billid={{x.billid}}&checkid={{x.checkByCheckid.checkid}}&usercheckid={{x.usercheckid}}" target="mainPageFrame" class="list-group-item list-group-item-action" ng-repeat="x in bills">
                         {{x.checkByCheckid.checkname}}
                     </a>
                 </div>
@@ -74,12 +84,30 @@
                 transformRequest: angular.identity
             }).then(function successCallback(response){
                     //上传成功的操作
+                console.log(response.data);
                 $scope.user = eval(response.data.user);
                 $scope.bills = response.data.bills;
-                    alert("uplaod success");
                 },function errorCallback(response) {
-                    alert("fail")
+                    alert("fail");
             });
+        }
+
+        $http.post("/doctorcheck/getuserbydept").then(
+            function (response) {
+                console.log(response.data.data);
+                $scope.users=response.data.data;
+            }
+        )
+
+        $scope.getuserinfo=function () {
+            $http.post("/doctorcheck/getuserinfo",$scope.userid).then(
+                function (response) {
+                    console.log(response.data);
+                    $scope.user=response.data.data.user;
+                    $scope.bills=response.data.data.bills;
+                    console.log($scope.user);
+                }
+            )
         }
     })
 

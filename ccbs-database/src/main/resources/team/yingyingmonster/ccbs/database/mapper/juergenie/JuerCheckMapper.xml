@@ -6,12 +6,15 @@
         <result column="DEPTID" property="deptid" jdbcType="DECIMAL"/>
         <result column="CHECKNAME" property="checkname" jdbcType="VARCHAR"/>
         <result column="CHECKPRICE" property="checkprice" jdbcType="DECIMAL"/>
+        <association column="DEPTID" property="deptByDeptid" select="team.yingyingmonster.ccbs.database.mapper.DeptMapper.selectByPrimaryKey"/>
     </resultMap>
     <sql id="Base_Column_List">
       CHECKID, DEPTID, CHECKNAME, CHECKPRICE
     </sql>
 
-    <select id="selectChecksByUserId" parameterType="long">
-        select * from CHECK_TABLE where CHECKID in (select CHECKID from USER_CHECK_TABLE where USERID = #{userid})
+    <select id="selectChecksByUserId" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from CHECK_TABLE where CHECKID in (select CHECKID from USER_CHECK_TABLE where USERID = #{userid})
     </select>
 </mapper>

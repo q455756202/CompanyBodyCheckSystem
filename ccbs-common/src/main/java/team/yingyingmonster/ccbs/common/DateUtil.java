@@ -11,7 +11,7 @@ import java.util.Date;
  * - create: 15:27 2018/9/18
  * -
  **/
-public class DateUtils {
+public class DateUtil {
     // date类型转换为String类型
     // formatType格式为yyyy-MM-dd HH:mm:ss
     // yyyy年MM月dd日 HH时mm分ss秒
