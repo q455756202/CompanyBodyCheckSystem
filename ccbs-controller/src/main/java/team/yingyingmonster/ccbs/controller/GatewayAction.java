@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import team.yingyingmonster.ccbs.aop.annotation.Namespace;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.image.ImageUtil;
@@ -59,6 +60,7 @@ public class GatewayAction {
 
     }
 
+    @Namespace(name = "/gateway", premissionLevel = 0)
     @RequestMapping("/code-image")
     @ResponseBody
     public ResultMessage codeImage(HttpSession session){

@@ -46,7 +46,7 @@ public class QrCodeUtil {
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);  // 矫错级别
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         //创建比特矩阵(位矩阵)的QR码编码的字符串
-        BitMatrix byteMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, qrCodeSize, qrCodeSize, hintMap);
+        BitMatrix byteMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, qrCodeSize + 200, qrCodeSize + 200, hintMap);
         // 使BufferedImage勾画QRCode  (matrixWidth 是行二维码像素点)
         int matrixWidth = byteMatrix.getWidth();
         BufferedImage image = new BufferedImage(matrixWidth - 200, matrixWidth - 200, BufferedImage.TYPE_INT_RGB);

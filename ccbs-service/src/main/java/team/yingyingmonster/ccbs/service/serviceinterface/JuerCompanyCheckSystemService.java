@@ -1,6 +1,8 @@
 package team.yingyingmonster.ccbs.service.serviceinterface;
 
 import team.yingyingmonster.ccbs.database.bean.Check;
+import team.yingyingmonster.ccbs.database.bean.User;
+import team.yingyingmonster.ccbs.database.bean.UserCheck;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCombo;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerUser;
@@ -13,4 +15,5 @@ public interface JuerCompanyCheckSystemService {
     JuerCombo addCustomCombo(List<Check> checkList) throws Exception;
     List<JuerUser> getJuerUser(Long companyid);
     List<JuerUser> getJuerUsersByTeamformId(Long teamformid);
+    byte[] getUserQrcodeByteArray(UserCheck user);
 }

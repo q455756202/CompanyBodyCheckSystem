@@ -1,16 +1,20 @@
 package team.yingyingmonster.ccbs.controller;
 
+import com.google.gson.JsonObject;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.*;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerCompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.JuerUserMapper;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
+import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
@@ -28,12 +32,6 @@ import java.util.List;
 public class CompanyCheckAction {
     @Autowired
     private JuerCompanyCheckSystemService juerCompanyCheckSystemService;
-    @Autowired
-    private JuerUserMapper juerUserMapper;
-    @Autowired
-    private JuerComboMapper juerComboMapper;
-    @Autowired
-    private JuerCompanyMapper juerCompanyMapper;
 
     @RequestMapping("/index")
     public String index() {
@@ -51,36 +49,10 @@ public class CompanyCheckAction {
     }
 
     /**
-     * 获取团检组织名下的所有人员名单。
+     * 获取团检报名实体。
      * @param session
      * @return
      */
-    @RequestMapping("/get-company-user")
-    @ResponseBody
-    public ResultMessage getCompanyUser(HttpSession session) {
-        Account account = (Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT);
-        if (account == null || account.getRoleid() != 1) {
-            return ResultMessage.createErrorMessage("获取数据失败！");
-        } else {
-            Company company = juerCompanyMapper.selectCompanyByAccountId(account.getAccountid());
-            return ResultMessage.createSuccessMessage("success!", juerUserMapper.selectUsersByCompanyid(company.getCompanyid()));
-        }
-    }
-
-    /**
-     * 获取所有套餐。
-     * @return
-     */
-    @RequestMapping("/get-combo")
-    @ResponseBody
-    public ResultMessage getCombo() {
-        Combo combo = new Combo();
-        combo.setCombotype(Constant.COMBO_TYPE_LASTING);
-        List<Combo> comboList = juerComboMapper.selectComboByCondition(combo);
-
-        return ResultMessage.createSuccessMessage("success!", comboList);
-    }
-
     @RequestMapping("/get-company-entity")
     @ResponseBody
     public ResultMessage getCompanyEntity(HttpSession session) {
@@ -89,6 +61,11 @@ public class CompanyCheckAction {
         return entity==null?ResultMessage.createErrorMessage("未取到数据！"):ResultMessage.createSuccessMessage("success!", entity);
     }
 
+    /**
+     * 提交团检报名实体
+     * @param juerCompanyCheckEntity
+     * @return
+     */
     @RequestMapping("/submit-company-check")
     @ResponseBody
     public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
