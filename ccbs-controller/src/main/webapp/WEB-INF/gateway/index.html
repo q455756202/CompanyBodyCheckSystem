@@ -47,12 +47,10 @@
                         <div class="input-group input-group-lg">
                             <input type="password" class="form-control" id="accountPassword" name="accountPassword" placeholder="请输入密码"/>
                         </div>
-                        <div>
-                            <a href="#">
-                                <img alt="看不清请点我！" id="codeImage" name="codeImage" height="60" border="1"
-                                     align="absmiddle" style="padding-top: 15px;" onclick="getCodeImage()">
-                            </a>
+                        <div class="input-group input-group-lg">
                             <input type="text" class="form-control" id="userCode" name="userCode" placeholder="请输入验证码"/>
+                            <img class="form-control" alt="看不清请点我！" id="codeImage" name="codeImage" height="60" border="1"
+                                     align="absmiddle" style="padding: 1px;" onclick="getCodeImage()">
                         </div>
                         <br>
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" onclick="adminlogin()">登录

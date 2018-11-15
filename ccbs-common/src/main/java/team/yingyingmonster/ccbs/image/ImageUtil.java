@@ -30,19 +30,15 @@ public class ImageUtil {
     }
 
     private static final char[] chars = { '0', '1', '2', '3', '4', '5', '6',
-            '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
+            '7', '8', '9'};
 
-    private static final int SIZE = 4;      // ��֤��ͼƬ�����ֵĸ���
-    private static final int LINES = 3;     // ��֤��ͼƬ�еĸ����ߵ�����
-    private static final int WIDTH = 80;    // ��֤��ͼƬ�Ŀ��
-    private static final int HEIGHT = 34;   // ��֤��ͼƬ�ĸ߶�
-    private static final int FONT_SIZE = 19;// ��֤��ͼƬ�����ֵĴ�С
+    private static final int SIZE = 4;
+    private static final int LINES = 3;
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 34;
+    private static final int FONT_SIZE = 19;
 
-    /**
-     * ������֤�����֤��ͼƬ�ķ���������װ��Map�С�
-     *
-     * ����Map��key����֤�룬Map��value����֤��ͼƬ��
-     */
+
     public static Map<String, BufferedImage> createImage() {
 
         StringBuffer sb = new StringBuffer();
@@ -53,16 +49,15 @@ public class ImageUtil {
         graphic.setColor(Color.LIGHT_GRAY);
         graphic.fillRect(0, 0, WIDTH, HEIGHT);
         Random ran = new Random();
-        // ������ַ�
+
         for (int i = 1; i <= SIZE; i++) {
             int r = ran.nextInt(chars.length);
             graphic.setColor(getRandomColor());
             graphic.setFont(new Font(null, Font.BOLD + Font.ITALIC, FONT_SIZE));
             graphic.drawString(chars[r] + "", (i - 1) * WIDTH / SIZE,
                     HEIGHT / 2);
-            sb.append(chars[r]);// ���ַ����棬����Session
+            sb.append(chars[r]);
         }
-        // ��������
         for (int i = 1; i <= LINES; i++) {
             graphic.setColor(getRandomColor());
             graphic.drawLine(ran.nextInt(WIDTH), ran.nextInt(HEIGHT), ran
@@ -75,9 +70,7 @@ public class ImageUtil {
 
 
 
-    /**
-     * ��ͼƬ�����������ķ���
-     */
+
     public static InputStream getInputStream(BufferedImage image)
             throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -87,11 +80,11 @@ public class ImageUtil {
         return in;
     }
 
-    // ���������ɫ�ķ���
+
     private static Color getRandomColor() {
 
-        Random ran = new Random();   // �������
-        // ���������RGB��ɫ
+        Random ran = new Random();
+
         Color color = new Color(ran.nextInt(256), ran.nextInt(256), ran
                 .nextInt(256));
         return color;

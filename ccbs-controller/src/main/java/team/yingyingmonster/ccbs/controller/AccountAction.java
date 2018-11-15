@@ -1,7 +1,14 @@
 package team.yingyingmonster.ccbs.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +26,7 @@ import team.yingyingmonster.ccbs.service.serviceinterface.CompanyService;
 import team.yingyingmonster.ccbs.service.serviceinterface.UserService;
 import team.yingyingmonster.ccbs.web.WebUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.List;
@@ -123,11 +131,13 @@ public class AccountAction {
      */
     @RequestMapping("/select-users")
     @ResponseBody
-    public ResultMessage selectUsers(HttpSession session){
+    public ResultMessage selectUsers(HttpSession session, @RequestBody Integer pageNum){
         Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
         Long companyId=accountService.findCompanyId(accountId);
+        PageHelper.startPage(pageNum,5);
         List<User> userList=userService.selectUsers(companyId);
-        return ResultMessage.createSuccessMessage("success",userList);
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        return ResultMessage.createSuccessMessage("success", pageInfo);
     }
 
     /*
@@ -156,6 +166,9 @@ public class AccountAction {
         }
     }
 
+    /*
+     * 修改单个体检人员名单
+     */
     @RequestMapping("/update-user")
     @ResponseBody
     public ResultMessage updateUser(@RequestBody User user){
@@ -165,6 +178,22 @@ public class AccountAction {
         }else {
             return ResultMessage.createErrorMessage("修改失败");
         }
+    }
+
+    /*
+     * 下载体检人员名单
+     */
+    @RequestMapping("/downlond-template")
+    @ResponseBody
+    public ResponseEntity<byte[]> downlondTemplate(HttpSession session, HttpServletRequest request) throws IOException {
+        String filePath = WebUtil.getRealPath(session, "WEB-INF/company-info");
+        String fileName = "体检人员名单模板.xlsx";
+        File file = new File(filePath+File.separator+fileName);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String downloadFileName = new String(fileName.getBytes("utf-8"),"iso-8859-1");
+        httpHeaders.setContentDispositionFormData("attachment", downloadFileName);
+        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), httpHeaders, HttpStatus.CREATED);
     }
 
 }
