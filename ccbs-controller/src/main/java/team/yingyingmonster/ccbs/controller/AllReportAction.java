@@ -1,12 +1,14 @@
 package team.yingyingmonster.ccbs.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
+import team.yingyingmonster.ccbs.common.CommonUtil;
 import team.yingyingmonster.ccbs.czh.PdfUitl;
 import team.yingyingmonster.ccbs.database.bean.Report;
 import team.yingyingmonster.ccbs.database.mapper.czh.AllReportMapper;
@@ -22,6 +24,7 @@ public class AllReportAction {
     @Autowired
     private AllReportMapper allReportMapper;
     private PdfUitl pdfUitl =new PdfUitl();
+    private CommonUtil commonUtil =new CommonUtil();
     /**
      * 跳转界面
      */
@@ -50,7 +53,10 @@ public class AllReportAction {
     @ResponseBody
     private ResultMessage getReportSummary(@RequestBody Long reportid){
         String pdfpath=pdfUitl.PdfPath(reportid);
-        pdfUitl.htmlCodeComeFromFile(String.valueOf(allReportMapper.selectReportSummary(reportid)),pdfpath);
+        Report report;
+        report=allReportMapper.selectReportSummary(reportid);
+        String pdfString=new String(CommonUtil.fromBase64(report.getReportsummary()));
+        pdfUitl.htmlCodeComeFromFile(pdfString,pdfpath);
         return ResultMessage.createSuccessMessage("获取pdf文件的路径",pdfpath);
     }
 }

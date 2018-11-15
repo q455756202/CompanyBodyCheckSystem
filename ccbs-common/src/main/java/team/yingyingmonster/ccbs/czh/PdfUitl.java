@@ -5,29 +5,28 @@ import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.html.simpleparser.StyleSheet;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
-import team.yingyingmonster.ccbs.common.CommonUtil;
-
+import java.io.File;
 import java.io.FileOutputStream;
+import com.itextpdf.*;
 import java.io.FileReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 public class PdfUitl {
     /**
      * 生成pdf文件
      */
     public void htmlCodeComeFromFile(String filePath, String pdfPath) {
-        Document document = new Document();
+        Document document = new Document(PageSize.A4, 25, 25, 25, 25);
         try {
             StyleSheet st = new StyleSheet();
             st.loadTagStyle("body", "leading", "16,0");
             PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
             document.open();
-            List<Element> p = HTMLWorker.parseToList(new FileReader(filePath), st);
-            for(int k = 0; k < p.size(); ++k) {
-                document.add((Element)p.get(k));
-            }
+            HTMLWorker htmlWorker = new HTMLWorker(document);
+            htmlWorker.parse(new StringReader(filePath));
             document.close();
             System.out.println("文档创建成功");
         }catch(Exception e) {
@@ -57,13 +56,8 @@ public class PdfUitl {
      * 生成pdf文档的路径
      */
     public String PdfPath(Long reportid){
-       String path="D:/pfd/";
-       return path+reportid;
+       String path="D://pdf/";
+       String pdf=".pdf";
+       return path+reportid+pdf;
     }
-    /**
-     * 解码
-     */
-//    public String pdfhtml(String clod){
-//        return String.valueOf(CommonUtil.fromBase64(clod));
-//    }
 }

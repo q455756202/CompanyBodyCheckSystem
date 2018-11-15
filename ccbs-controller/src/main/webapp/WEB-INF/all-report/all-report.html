@@ -8,7 +8,7 @@
 <body ng-app="pdfapp">
     <div class="container-fluid" ng-controller="pdfcontrol">
         <div class="row">
-            <div id="pdf" class="col-lg-12">
+            <div  class="col-lg-12">
                 <table class="table">
                     <thead>
                         <tr>
@@ -31,7 +31,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-primary" ></button>
+                <div id="pdf"></div>
             </div>
         </div>
     </div>
@@ -45,6 +45,7 @@
 <script src="/assets/scripts/juer-script.js"></script>
 <script src="/assets/ckeditor/ckeditor.js"></script>
 <script src="/assets/scripts/pdfobject.js"></script>
+<script src="/assets/scripts/pdfobject.min.js"></script>
 <script>
     var pdfapp=angular.module("pdfapp",[]);
     pdfapp.controller("pdfcontrol",['$scope', '$http', function ($scope,$http) {
@@ -62,9 +63,8 @@
             getreportid=reportid;
             console.log(getreportid);
             $http.post("/all-report/report-summary",getreportid).then(function success(response) {
-                window.onload = function() {
-                    PDFObject.embed(response.data, "#pdf");
-                };
+                console.log(response.data.data)
+                PDFObject.embed(response.data.data, "#pdf");
             })
         }
     }])
