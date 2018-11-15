@@ -7,4 +7,5 @@ import team.yingyingmonster.ccbs.database.bean.Company;
 public interface ZhaoCompanyMapper {
     Integer addCompany(Company company);
     Company selectCompany(Long accountId);
+    Integer recharge(Long companyId, Long rechargePrice);//账户充值
 }

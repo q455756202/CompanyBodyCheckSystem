@@ -24,4 +24,10 @@ public class CompanyServiceImplement implements CompanyService {
         company = zhaoCompanyMapper.selectCompany(accountId);
         return company;
     }
+
+    //账户充值
+    @Override
+    public Integer recharge(Long companyId, Long rechargePrice) {
+        return zhaoCompanyMapper.recharge(companyId, rechargePrice);
+    }
 }

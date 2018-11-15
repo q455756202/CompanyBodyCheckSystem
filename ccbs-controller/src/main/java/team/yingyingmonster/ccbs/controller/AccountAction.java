@@ -196,4 +196,20 @@ public class AccountAction {
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), httpHeaders, HttpStatus.CREATED);
     }
 
+    /*
+     * 账户充值
+     */
+    @RequestMapping("/recharge")
+    @ResponseBody
+    public ResultMessage recharge(HttpSession session, @RequestBody Long recharPrice){
+        Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
+        Long companyId=accountService.findCompanyId(accountId);
+        Integer result = companyService.recharge(companyId, recharPrice);
+        if (result>0){
+            return ResultMessage.createSuccessMessage("success", null);
+        }else {
+            return ResultMessage.createErrorMessage("faild");
+        }
+    }
+
 }
