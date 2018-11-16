@@ -5,7 +5,6 @@ import org.junit.Test;
 import team.yingyingmonster.ccbs.controller.bean.CreateQRcodeAction;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -19,6 +18,6 @@ import java.io.IOException;
 public class CreateQRcodeTest {
     @Test
     public void test() throws IOException, WriterException {
-        CreateQRcodeAction.createQrCode(new FileOutputStream(new File("d://testupload/qr.jpg")),"1",600,"JPEG");
+        CreateQRcodeAction.createQrCode(new FileOutputStream(new File("d://testupload/qr.PNG")),"1",700,"PNG");
     }
 }

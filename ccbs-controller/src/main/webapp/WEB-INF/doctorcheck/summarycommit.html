@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>小结查看</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/juer-style.css"/>
 </head>
 <body ng-app="summaryapp">
     <div class="container-fluid" ng-controller="summarymanager">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 justify-content-center">
                 <table class="table">
                     <thead>
                         <tr>
-                            <td>用户名</td>
-                            <td>体检项目</td>
-                            <td>操作</td>
+                            <th class="th-width-25p">用户名</th>
+                            <th class="th-width-60p">体检项目</th>
+                            <th class="th-width-15p">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,10 +23,17 @@
                             <td>{{x.billByBillid.userCheckByUsercheckid.userByUserid.username}}</td>
                             <td>{{x.billByBillid.checkByCheckid.checkname}}</td>
                             <td><button class="btn btn-primary" data-toggle="modal" ng-click="summarydetail(x.reportid)" data-target="#summarywindow">查看</button>
-                                <button class="btn btn-primary" ng-click="summarycommit(x.reportid)">提交</button> </td>
+                                <button class="btn btn-primary" ng-click="summarycommit(x.reportid,pageinfo.pageNum)" id="submit">提交</button> </td>
                         </tr>
                     </tbody>
                 </table>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><input type="button" class="page-link" ng-click="changepage(1)" href="/summary/summarytableget?page=1" value="首页"></input></li>
+                    <li class="page-item"><input type="button" class="page-link" ng-disabled="pageinfo.prePage==0" ng-click="changepage(pageinfo.prePage)" ng-value="pageinfo.prePage==0?'':pageinfo.prePage"></input></li>
+                    <li class="page-item active"><input type="button" class="page-link" ng-click="changepage(pageinfo.pageNum)" value="{{pageinfo.pageNum}}"></input></li>
+                    <li class="page-item"><input type="button" class="page-link" ng-disabled="pageinfo.nextPage==0" ng-click="changepage(pageinfo.nextPage)" ng-value="pageinfo.nextPage==0?'':pageinfo.nextPage"></input></li>
+                    <li class="page-item"><input type="button" class="page-link" ng-click="changepage(pageinfo.pages)" value="尾页"></input></li>
+                </ul>
                 <div class="modal fade" id="summarywindow">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -69,38 +77,51 @@
     var summaryapp=angular.module('summaryapp',[]);
     summaryapp.controller('summarymanager',function ($scope,$http) {
         var savereportid=0;
+        $scope.page=1;
+        var data=$scope.page;
         $scope.summarys = [];
-        $http.post("/summary/summarytableget")
+        $http.post("/summary/summarytableget",data)
             .then(function success(response) {
-                for (let i = 0; i < response.data.data.length; i++) {
-                    $scope.summarys.push(response.data.data[i]);
-                }
+                $scope.summarys=response.data.data.list;
+                $scope.pageinfo=response.data.data;
             });
+        $scope.changepage=function(page){
+            $http.post("/summary/summarytableget",page)
+                .then(function success(response) {
+                    $scope.summarys=response.data.data.list;
+                    $scope.pageinfo=response.data.data;
+                });
+        }
         $scope.summarydetail=function (reportid) {
+            summarydata.setData("");
             savereportid=reportid;
             $http.post("/summary/getsummarybyid",reportid).then(
                 function success(response) {
+                    if (typeof response.data.data == "undefined"){
+                        return;
+                    }
                     var data = decodeURI(response.data.data.fromBase64());
-                    console.log(data);
                     summarydata.setData(data);
                 }
             )
         }
-        $scope.summarycommit=function (reportid) {
-            $http.post("/summary/summarycommit",reportid).then(
+        $scope.summarycommit=function (reportid,page) {
+            $("#submit").attr('disabled', true);
+            var data = {"reportid":reportid,"page":page};
+            $http.post("/summary/summarycommit",data).then(
                 function success(response) {
-                    alert(response.data.message)
-                    window.location = response.data.data;
+                    alert("提交成功");
+                    $("#submit").attr('disabled', false);
+                    $scope.summarys=response.data.data.list;
+                    $scope.pageinfo=response.data.data;
                 }
             )
         }
         $scope.summarysave=function (reportid) {
             var summaryeditor= summarydata.getData().toBase64();
-            console.log(summaryeditor);
-            console.log(savereportid);
-            $.post("/summary/summaryallcommit", {"summary":summaryeditor,"reportid":savereportid}, function success(response) {
+            $.post("/summary/summarysave", {"summary":summaryeditor,"reportid":savereportid}, function success(response) {
                 alert(response.message);
-                window.location=response.data;
+                //window.location=response.data;
             })
         }
     })

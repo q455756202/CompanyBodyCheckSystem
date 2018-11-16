@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface BillMapperWeng {
-    List<Bill> selectByDeptIdAndUserId(@Param("deptId")Long deptid,@Param("userId")Long userid);
+    List<Bill> selectByDeptIdAndUserId(@Param("deptid") Long deptid, @Param("userid") Long userid);
+    List<Bill> selectByDeptIdAndUserIdAndUserCheckId(@Param("deptid") Long deptid, @Param("userid") Long userid, @Param("usercheckid")Long usercheckid);
     int addAllSummaryBill(Bill bill);
     List<Bill> selectAllUserByDeptId(Long Deptid);
 }
