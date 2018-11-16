@@ -23,7 +23,7 @@
                                 <span ng-show="myForm.modelsdata{{$index}}.$error.maxlength">长度必须小于256</span>
                             </span>
                         </div>
-                        <div><button class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="commitmodel()">提交</button></div>
+                        <div><button class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="commitmodel()" id="submit">提交</button></div>
                         </form>
                     </div>
                 </div>
@@ -39,6 +39,10 @@
 <script src="/assets/scripts/angular.min.js"></script>
 
 <script>
+    document.onkeydown = function(e){
+        if((e||event).keyCode==13)
+            $("#submit").click();
+    };
     var app = angular.module('modelinfo',[]);
     app.config(['$locationProvider', function($locationProvider) {
         $locationProvider.html5Mode({

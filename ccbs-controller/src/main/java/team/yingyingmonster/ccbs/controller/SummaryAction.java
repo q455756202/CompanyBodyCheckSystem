@@ -1,5 +1,7 @@
 package team.yingyingmonster.ccbs.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,10 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Report;
+import team.yingyingmonster.ccbs.database.mapper.wengguobao.DoctorMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.ReportMapperWeng;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 翁国宝 <br/>
@@ -25,6 +29,8 @@ import java.util.List;
 public class SummaryAction {
     @Autowired
     private ReportMapperWeng reportMapperWeng;
+    @Autowired
+    private DoctorMapperWeng doctorMapperWeng;
 
     //跳转到小结管理界面
     @RequestMapping("/summarytable/index")
@@ -35,10 +41,13 @@ public class SummaryAction {
     //获取当前医生的小结
     @RequestMapping("/summarytableget")
     @ResponseBody
-    public ResultMessage getSummaryList(HttpSession session){
+    public ResultMessage getSummaryList(@RequestBody int page, HttpSession session){
         Long accountid = ((Account)session.getAttribute("login-account")).getAccountid();
-        List<Report>reports = reportMapperWeng.selectsummarybydoctorid(accountid);
-        return ResultMessage.createSuccessMessage("获取成功",reports);
+        Long doctorid = doctorMapperWeng.selectDeptByAccountId(accountid).getDoctorid();
+        PageHelper.startPage(page,5);
+        List<Report>reports = reportMapperWeng.selectsummarybydoctorid(doctorid);
+        PageInfo<Report> reportPageInfo = new PageInfo<>(reports);
+        return ResultMessage.createSuccessMessage("获取成功",reportPageInfo);
     }
 
     //获取小结详情
@@ -52,10 +61,14 @@ public class SummaryAction {
     //管理界面提交小结
     @RequestMapping("/summarycommit")
     @ResponseBody
-    public ResultMessage summaryCommit(@RequestBody Long reportid){
+    public ResultMessage summaryCommit(@RequestBody Map<String,Number> info,HttpSession session){
+        Long reportid = info.get("reportid").longValue();
+        int page = info.get("page").intValue();
         reportMapperWeng.updateStateByReportId(reportid);
-        return ResultMessage.createSuccessMessage("提交成功","/summary/summarytable");
+//        return ResultMessage.createSuccessMessage("提交成功","/summary/summarytable?page="+page);
+        return getSummaryList(page,session);
     }
+
     //管理界面保存小结
     @RequestMapping("/summarysave")
     @ResponseBody
