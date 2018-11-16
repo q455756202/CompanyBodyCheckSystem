@@ -72,7 +72,7 @@
   </select>
 
   <select id="selectByReportId" parameterType="java.lang.Long" resultType="team.yingyingmonster.ccbs.database.bean.Report">
-    select REPORTSUMMARY from REPORT_TABLE where REPORTID=#{reportid}
+    select REPORTID,REPORTSUMMARY from REPORT_TABLE where REPORTID=#{reportid}
   </select>
 
   <update id="updateStateByReportId" parameterType="java.lang.Long">
@@ -84,7 +84,7 @@
   </update>
 
   <select id="selectAllSummaryName" resultMap="ReportMap">
-    select USER_CHECK_TABLE.*,USER_TABLE.USERNAME,USER_TABLE.USERID
+    select USER_CHECK_TABLE.*,USER_TABLE.USERNAME
     from USER_CHECK_TABLE,USER_TABLE
     where USER_CHECK_TABLE.USERID=USER_TABLE.USERID
       and USERCHECKID not in (

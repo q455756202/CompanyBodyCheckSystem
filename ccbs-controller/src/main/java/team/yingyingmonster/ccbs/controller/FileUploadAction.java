@@ -32,10 +32,10 @@ public class FileUploadAction {
             PrintWriter out = response.getWriter();
             String CKEditorFuncNum = request.getParameter("CKEditorFuncNum");
             String uploadContentType = file.getContentType();
-            if (file.getSize() > 1024 * 1024 * 2) {
+            if (file.getSize() > 1024 * 50) {
                 out.println("<script type=\"text/javascript\">");
                 out.println("window.parent.CKEDITOR.tools.callFunction("
-                        + CKEditorFuncNum + ",''," + "'文件大小不得大于2M');");
+                        + CKEditorFuncNum + ",''," + "'文件大小不得大于50kb');");
                 out.println("</script>");
                 return;
             }

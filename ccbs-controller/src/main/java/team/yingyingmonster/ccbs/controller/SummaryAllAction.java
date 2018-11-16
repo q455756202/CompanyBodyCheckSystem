@@ -1,5 +1,7 @@
 package team.yingyingmonster.ccbs.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,9 +43,11 @@ public class SummaryAllAction {
     //获取可总结列表
     @RequestMapping("/getsummaryall")
     @ResponseBody
-    public ResultMessage getsummaryall(){
+    public ResultMessage getsummaryall(@RequestBody int page){
+        PageHelper.startPage(page,5);
         List<Report> reports = reportMapperWeng.selectAllSummaryName();
-        return ResultMessage.createSuccessMessage("获取可总结人员成功",reports);
+        PageInfo<Report> reportPageInfo = new PageInfo<>(reports);
+        return ResultMessage.createSuccessMessage("获取可总结人员成功",reportPageInfo);
     }
 
     //总结界面查看小结信息
@@ -74,6 +78,6 @@ public class SummaryAllAction {
         report.setBillid(billid);
         report.setReportsummary(summaryall);
         doctorCheckService.insertSummaryAllReport(bill,report);
-        return ResultMessage.createSuccessMessage("总结提交成功","/summaryall/summaryall");
+        return ResultMessage.createSuccessMessage("总结提交成功","/summaryall/summaryall/index");
     }
 }
