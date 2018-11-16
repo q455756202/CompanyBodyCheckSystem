@@ -83,14 +83,11 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
      * @return
      */
     @Override
-    public boolean registerCompanyCheck(JuerCompanyCheckEntity juerCompanyCheckEntity) throws Exception {
+    public boolean registerCompanyCheck(Account account, JuerCompanyCheckEntity juerCompanyCheckEntity) throws Exception {
         Teamform teamform = new Teamform();
         teamform.setCompanyid(juerCompanyCheckEntity.getCompany().getCompanyid());
         teamform.setTeamformstate(Constant.TEAMFORM_UNDONE);
         teamform.setTeamformid(juerTeamformMapper.getNewId());
-
-        if (juerTeamformMapper.insert(teamform)<1)
-            throw new Exception("插入团检数据失败 - juerTeamformMapper.insert");
 
 //        List<TeamformCombocheck> teamformCombocheckList = generatTeamformCombocheckList(juerCompanyCheckEntity.getComboList(), teamform.getTeamformid());
         List<TeamformCombocheck> teamformCombocheckList = new LinkedList<>();
@@ -131,6 +128,12 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             }
         }
 
+        Company company = juerCompanyMapper.selectCompanyByAccountId(account.getAccountid());
+        if (getCompanyCheckPrice(juerCompanyCheckEntity.getSelectCombo()) > company.getCompanyprice().doubleValue())
+            return false;
+
+        if (juerTeamformMapper.insert(teamform)<1)
+            throw new Exception("插入团检数据失败 - juerTeamformMapper.insert");
         // 逐一进行插入，并若插入失败则抛出异常，并执行回滚操作。
         if (juerTeamformCombocheckMapper.insertBatch(teamformCombocheckList)<1)
             throw new Exception("插入团检数据失败 - juerTeamformCombocheckMapper.insertBatch");
@@ -140,6 +143,11 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             throw new Exception("插入团检数据失败 - juerBillMapper.insertBatch");
 
         return true;
+    }
+
+    @Override
+    public Double getCompanyCheckPrice(List<JuerCombo> juerComboList) {
+        return juerComboMapper.selectAllPriceByJuerComboList(juerComboList);
     }
 
     @Override

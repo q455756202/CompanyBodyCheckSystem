@@ -102,6 +102,7 @@
                 </tbody>
             </table>
             <hr/>
+            <p>总金额：{{comboPrice}}</p>
             <button class="btn btn-success w-100" ng-click="submit()">提交名单</button>
         </div>
     </div>
@@ -119,6 +120,8 @@
 <script>
     let companyCheckSystemApp = angular.module("companyCheckSystemApp", ['truncate']);
     let comboCheckShowTable = companyCheckSystemApp.controller("comboCheckShowTable", function ($scope, $http) {
+        $scope.comboPrice = 0.00;
+
         $http.post("/company-check/get-company-entity")
             .then(function success(response) {
                 console.log(response.data);
@@ -144,6 +147,7 @@
             } else {
                 $scope.companyEntity.selectCombo.push(data);
                 toastr.success("套餐添加成功！", "添加套餐");
+                getPrice();
             }
         };
 
@@ -158,6 +162,7 @@
                     break;
                 }
             }
+            getPrice();
         };
 
         /**
@@ -181,6 +186,7 @@
             } else {
                 combo.userList.push(user);
                 $scope.selectAddUser = null;
+                getPrice();
             }
         };
 
@@ -196,6 +202,7 @@
                     break;
                 }
             }
+            getPrice();
         };
 
         $scope.submit = function () {
@@ -214,6 +221,18 @@
                     }
                 );
         };
+
+        let getPrice = function () {
+            $http.post("/company-check/get-company-check-price", $scope.companyEntity)
+                .then(
+                    function success(response) {
+                        let msg = response.data;
+                        $scope.comboPrice = msg.data;
+                    }, function error(response) {
+                        console.error(response);
+                        toastr.error("出现了一些意外，相关信息已输出至控制台。", "获取数据");
+                    });
+        }
     });
 </script>
 </html>

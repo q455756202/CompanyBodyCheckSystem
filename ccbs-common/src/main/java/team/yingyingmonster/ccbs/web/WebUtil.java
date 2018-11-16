@@ -30,17 +30,40 @@ public class WebUtil {
         return session.getServletContext().getRealPath(path);
     }
 
-    public static HtmlPage getAjaxHtml(String url, int timeout, JavaScriptErrorListener listener) throws IOException {
+    public static HtmlPage getAjaxHtml(String url, int timeout, JavaScriptErrorListener listener) throws IOException, InterruptedException {
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(true);
         webClient.getOptions().setCssEnabled(true);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
-        webClient.getOptions().setTimeout(timeout);
-
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+        webClient.setJavaScriptEngine(new JavaScriptEngine(webClient));
         if (listener != null)
             webClient.setJavaScriptErrorListener(listener);
 
-        return webClient.getPage(url);
+        HtmlPage page = webClient.getPage(url);
+        webClient.waitForBackgroundJavaScript(timeout);
+        Thread.sleep(timeout);
+        webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
+            @Override
+            public void scriptException(HtmlPage htmlPage, ScriptException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void timeoutError(HtmlPage htmlPage, long l, long l1) {
+
+            }
+
+            @Override
+            public void malformedScriptURL(HtmlPage htmlPage, String s, MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void loadScriptError(HtmlPage htmlPage, URL url, Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return page;
     }
 }

@@ -16,8 +16,8 @@ import java.io.IOException;
  **/
 public class PdfUtilTest {
     @Test
-    public void createPdfTest() throws IOException, DocumentException {
-        HtmlPage page = WebUtil.getAjaxHtml("https://www.baidu.com/s?ie=UTF-8&wd=Cannot%20assign%20requested%20address%3A%20connect", 10000, null);
+    public void createPdfTest() throws IOException, DocumentException, InterruptedException {
+        HtmlPage page = WebUtil.getAjaxHtml("", 10000, null);
         System.out.println(page.asXml());
         FileOutputStream outputStream = new FileOutputStream("D:/test.pdf");
         PdfUtil.createPdfFromHtmlString(page.asXml(), outputStream);

@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface JuerBillMapper {
     Long getNewId();
+    Double selectAllPriceByBillList(List<Bill> billList);
     int insertBatch(List<Bill> list);
 }

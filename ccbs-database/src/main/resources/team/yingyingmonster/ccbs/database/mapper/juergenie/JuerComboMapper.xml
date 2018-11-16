@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper" >
-    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Combo" >
-        <id column="COMBOID" property="comboid" jdbcType="DECIMAL" />
-        <result column="COMBONAME" property="comboname" jdbcType="VARCHAR" />
-        <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR" />
-        <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL" />
+<mapper namespace="team.yingyingmonster.ccbs.database.mapper.juergenie.JuerComboMapper">
+    <resultMap id="BaseResultMap" type="team.yingyingmonster.ccbs.database.bean.Combo">
+        <id column="COMBOID" property="comboid" jdbcType="DECIMAL"/>
+        <result column="COMBONAME" property="comboname" jdbcType="VARCHAR"/>
+        <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR"/>
+        <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL"/>
     </resultMap>
     <resultMap id="JuerResultMap" type="team.yingyingmonster.ccbs.database.bean.juergenie.JuerCombo">
-        <id column="COMBOID" property="comboid" jdbcType="DECIMAL" />
-        <result column="COMBONAME" property="comboname" jdbcType="VARCHAR" />
-        <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR" />
-        <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL" />
+        <id column="COMBOID" property="comboid" jdbcType="DECIMAL"/>
+        <result column="COMBONAME" property="comboname" jdbcType="VARCHAR"/>
+        <result column="COMBOSUMMARY" property="combosummary" jdbcType="VARCHAR"/>
+        <result column="COMBORATIO" property="comboratio" jdbcType="DECIMAL"/>
     </resultMap>
 
     <select id="selectAllCombo" resultMap="BaseResultMap">
         select * from COMBO_TABLE
     </select>
-    <select id="selectComboByCondition" resultMap="BaseResultMap" parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
+    <select id="selectComboByCondition" resultMap="BaseResultMap"
+            parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
         select * from COMBO_TABLE
         <where>
             <if test="comboid != null">and COMBOID=#{comboid}</if>
@@ -29,7 +30,8 @@
     <select id="selectAllJuerCombo" resultMap="JuerResultMap">
         select * from COMBO_TABLE
     </select>
-    <select id="selectJuerComboByCondition" resultMap="JuerResultMap" parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
+    <select id="selectJuerComboByCondition" resultMap="JuerResultMap"
+            parameterType="team.yingyingmonster.ccbs.database.bean.Combo">
         select * from COMBO_TABLE
         <where>
             <if test="comboid != null">and COMBOID=#{comboid}</if>
@@ -37,6 +39,22 @@
             <if test="comboratio != null">and COMBORATIO=#{comboratio}</if>
             <if test="combosummary != null">and COMBOSUMMARY like #{combosummary}</if>
         </where>
+    </select>
+    <select id="selectAllPriceByComboList" resultType="double">
+        select sum(a) from
+        <foreach collection="list" item="item" open="(" separator="union all" close=")">
+            select sum(CHECKPRICE) a from CHECK_TABLE where CHECKID in (select CHECKID from COMBO_CHECK_TABLE where
+            COMBOID=#{item.comboid})
+        </foreach>
+    </select>
+    <select id="selectAllPriceByJuerComboList" resultType="double">
+        <if test="list != null and list.size() > 0">
+            select sum(a) from
+            <foreach collection="list" item="item" open="(" separator="union all" close=")">
+                select sum(CHECKPRICE)*${item.userList.size} a from CHECK_TABLE where CHECKID in (select CHECKID from
+                COMBO_CHECK_TABLE where COMBOID=#{item.comboid})
+            </foreach>
+        </if>
     </select>
 
     <select id="getNewId" resultType="long" flushCache="true">

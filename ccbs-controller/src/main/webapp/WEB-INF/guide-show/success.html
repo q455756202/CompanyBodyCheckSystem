@@ -9,76 +9,80 @@
     <link href="/assets/css/juer-style.css" rel="stylesheet"/>
 </head>
 <body ng-app="guideShowApp">
-    <div class="container" ng-controller="showGuideController">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-10 text-center">
-                <h3>导检单预览 <button class="btn btn-success" ng-click="downPDF()">下载PDF</button></h3>
-                <hr/>
-                <h4>导检单号：</h4>
-                <br/>
-                <select ng-options="x.teamformid for x in teamformList" ng-change="changeGuide(selectedTeamform.teamformid)" ng-model="selectedTeamform" class="form-control w-100"></select>
-            </div>
-        </div>
-        <hr/>
-        <div class="row justify-content-center align-items-start">
-            <div class="col-10 text-center">
-                <h4>体检人员：</h4>
-                <select class="form-control font-size-16px" ng-model="selectedUser" ng-options="x.username for x in userList" ng-change="getUserQrCode()"></select>
-                <hr/>
-                <table class="w-100">
-                    <thead>
-                    <tr>
-                        <th class="th-width-20p"></th>
-                        <th class="th-width-10p"></th>
-                        <th class="th-width-40p"></th>
-                        <th class="th-width-30p"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="font-size-16px text-right">姓名: </td>
-                        <td></td>
-                        <td class="font-size-16px text-left">{{selectedUser.username}}</td>
-                        <td rowspan="3">
-                            <img class="img-thumbnail" alt="个人二维码" src="{{qrcode}}"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-size-16px text-right">性别: </td>
-                        <td></td>
-                        <td class="font-size-16px text-left">{{selectedUser.usergender?"女":"男"}}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-size-16px text-right">年龄: </td>
-                        <td></td>
-                        <td class="font-size-16px text-left">{{selectedUser.userage}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <hr/>
-                <table class="w-100 border-right border-bottom">
-                    <thead>
-                    <tr>
-                        <th class="font-size-20px font-weight-bold th-width-30p">体检项目</th>
-                        <th class="th-width-5p"></th>
-                        <th class="font-size-20px font-weight-bold th-width-30p">体检科室</th>
-                        <th class="th-width-5p"></th>
-                        <th class="font-size-20px font-weight-bold th-width-30p">主检医生签名</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="x in selectedUser.checkList" class="juer-row">
-                        <td class="border-left border-top"><span title="{{x.checkname}}">{{x.checkname}}</span></td>
-                        <td></td>
-                        <td class="border-left border-top">{{x.dept.deptname}}</td>
-                        <td></td>
-                        <td class="border-left border-top"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+<div class="container" ng-controller="showGuideController">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-10 text-center">
+            <h3>导检单预览
+                <button class="btn btn-success" ng-click="downPDF()">下载PDF</button>
+            </h3>
+            <hr/>
+            <h4>导检单号：</h4>
+            <br/>
+            <select ng-options="x.teamformid for x in teamformList" ng-change="changeGuide(selectedTeamform.teamformid)"
+                    ng-model="selectedTeamform" class="form-control w-100"></select>
         </div>
     </div>
+    <hr/>
+    <div class="row justify-content-center align-items-start">
+        <div class="col-10 text-center">
+            <h4>体检人员：</h4>
+            <select class="form-control font-size-16px" ng-model="selectedUser"
+                    ng-options="x.username for x in userList" ng-change="getUserQrCode()"></select>
+            <hr/>
+            <table class="w-100">
+                <thead>
+                <tr>
+                    <th class="th-width-20p"></th>
+                    <th class="th-width-10p"></th>
+                    <th class="th-width-40p"></th>
+                    <th class="th-width-30p"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="font-size-16px text-right">姓名:</td>
+                    <td></td>
+                    <td class="font-size-16px text-left">{{selectedUser.username}}</td>
+                    <td rowspan="3">
+                        <img class="img-thumbnail" alt="个人二维码" src="{{qrcode}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-size-16px text-right">性别:</td>
+                    <td></td>
+                    <td class="font-size-16px text-left">{{selectedUser.usergender?"女":"男"}}</td>
+                </tr>
+                <tr>
+                    <td class="font-size-16px text-right">年龄:</td>
+                    <td></td>
+                    <td class="font-size-16px text-left">{{selectedUser.userage}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr/>
+            <table class="w-100 border-right border-bottom">
+                <thead>
+                <tr>
+                    <th class="font-size-20px font-weight-bold th-width-30p">体检项目</th>
+                    <th class="th-width-5p"></th>
+                    <th class="font-size-20px font-weight-bold th-width-30p">体检科室</th>
+                    <th class="th-width-5p"></th>
+                    <th class="font-size-20px font-weight-bold th-width-30p">主检医生签名</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in selectedUser.checkList" class="juer-row">
+                    <td class="border-left border-top"><span title="{{x.checkname}}">{{x.checkname}}</span></td>
+                    <td></td>
+                    <td class="border-left border-top">{{x.dept.deptname}}</td>
+                    <td></td>
+                    <td class="border-left border-top"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
 <script src="/assets/scripts/jquery.min.js"></script>
@@ -90,7 +94,7 @@
 <script src="/assets/scripts/juer-script.js"></script>
 <script>
     let guideShowApp = angular.module("guideShowApp", []);
-    guideShowApp.controller('showGuideController', function($scope, $http) {
+    guideShowApp.controller('showGuideController', function ($scope, $http) {
         $http.post("/guide-show/get-guide-list")
             .then(function success(response) {
                 let msg = response.data;
@@ -110,15 +114,15 @@
             toastr.info("正在加载用户列表……");
 
             $.post(`/guide-show/get-user-list`, {teamformid: guideId}, function success(msg) {
-                    if (msg.state == 200) {
-                        $scope.userList = msg.data;
-                        $scope.$apply();
-                        toastr.success("用户列表获取成功！");
-                    } else {
-                        toastr.error(msg.message, "获取数据");
-                        console.log(msg);
-                    }
-                });
+                if (msg.state == 200) {
+                    $scope.userList = msg.data;
+                    $scope.$apply();
+                    toastr.success("用户列表获取成功！");
+                } else {
+                    toastr.error(msg.message, "获取数据");
+                    console.log(msg);
+                }
+            });
         };
 
         $scope.downPDF = function () {
@@ -126,14 +130,14 @@
             if (!$scope.selectedUser.usercheckid)
                 toastr.error("请选择一个用户。");
             else
-                $scope.download("/guide-show/download-pdf", {'url': `${window.location.host}/guide-show/render?usercheckid=${$scope.selectedUser.usercheckid}`}, "application/pdf");
+                $scope.download("/guide-show/download-pdf", `${window.location.host}/guide-show/render?usercheckid=${$scope.selectedUser.usercheckid}`, "application/pdf");
         };
 
         $scope.getUserQrCode = function () {
             console.log("getUserQrCode!", $scope.selectedUser)
             $http.post("/guide-show/get-user-qrcode", $scope.selectedUser)
                 .then(
-                    function success (response) {
+                    function success(response) {
                         let msg = response.data;
                         if (msg.state == 200) {
                             $scope.qrcode = `data:image/png;base64,${msg.data}`;
@@ -142,7 +146,7 @@
                             console.log(msg);
                         }
                     },
-                    function error (response) {
+                    function error(response) {
                         toastr.error("获取数据时出现了未知错误，详细信息已输出至控制台。", "数据获取");
                         console.error(response);
                     }
@@ -150,15 +154,20 @@
         };
 
         $scope.download = function (url, data, type) {
-            $http.post(url, data, {responseType: 'arraybuffer'})
-                .then(function success (response){
-                    var blob = new Blob([response], {type: type});
-                    var objectUrl = URL.createObjectURL(blob);
-                    var a = $("<a><span class='text-hide'>save file</span></a>").attr("href", objectUrl);
-                    $("body").append(a);
-                    a.click();
-                    a.remove();
-                });
+            // $http.post(url, data, {responseType: 'arraybuffer'})
+            //     .then(function success (response){
+            //         var blob = new Blob([response], {type: type});
+            //         var objectUrl = URL.createObjectURL(blob);
+            //         var a = $("<a><span class='text-hide'>save file</span></a>").attr("href", objectUrl);
+            //         $("body").append(a);
+            //         a.click();
+            //         a.remove();
+            //     });
+            let form = $(`<form action="${url}" method="post" target="_blank" class="d-none"></form>`);
+            let _url = $(`<input type="hidden" value="${data}" name="url"/>`)
+            form.append(_url);
+            document.body.appendChild(form.get(0));
+            form.submit();
         };
     });
 </script>
