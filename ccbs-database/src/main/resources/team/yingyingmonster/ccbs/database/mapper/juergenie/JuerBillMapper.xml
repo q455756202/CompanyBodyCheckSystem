@@ -16,6 +16,13 @@
         select BILL_SEQUENCE.nextval from dual
     </select>
 
+    <select id="selectAllPriceByBillList" resultType="double">
+        select sum(CHECKPRICE) from CHECK_TABLE where CHECKID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.checkid}
+        </foreach>
+    </select>
+
     <insert id="insertBatch" parameterType="list">
         insert into BILL_TABLE(BILLID, USERCHECKID, CHECKID)
         select * from
