@@ -32,6 +32,7 @@ import team.yingyingmonster.ccbs.web.WebUtil;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -112,14 +113,13 @@ public class GuideShowAction {
     }
 
     @RequestMapping("/download-pdf")
-    public ResponseEntity<byte[]> downloadPdf(@RequestBody String url) throws DocumentException, IOException {
-        System.out.println("downloadPdf! url='" + url + "'");
+    public ResponseEntity<byte[]> downloadPdf(@RequestBody String url) throws DocumentException, IOException, InterruptedException {
+        System.out.println("downloadPdf! url='" + url.substring(4) + "'");
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-            HtmlPage page = WebUtil.getAjaxHtml(url, 10000, null);
+            HtmlPage page = WebUtil.getAjaxHtml("http://"+URLDecoder.decode(url.substring(4), "UTF-8"), 5000, null);
             PdfUtil.createPdfFromHtmlString(page.asXml(), outputStream);
-
+            System.out.println(page.asXml());
             HttpHeaders headers = new HttpHeaders();
             headers.setContentDispositionFormData("attachment", page.getTitleText()+".pdf");
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -129,6 +129,9 @@ public class GuideShowAction {
             e.printStackTrace();
             throw e;
         } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (InterruptedException e) {
             e.printStackTrace();
             throw e;
         }

@@ -13,5 +13,7 @@ public interface JuerComboMapper {
     List<Combo> selectComboByCondition(Combo condition);
     List<JuerCombo> selectAllJuerCombo();
     List<JuerCombo> selectJuerComboByCondition(Combo condition);
+    Double selectAllPriceByComboList(List<Combo> comboList);
+    Double selectAllPriceByJuerComboList(List<JuerCombo> juerComboList);
     Long getNewId();
 }

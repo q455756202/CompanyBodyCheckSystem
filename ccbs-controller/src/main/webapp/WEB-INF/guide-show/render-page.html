@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="renderApp" ng-controller="renderController">
 <head>
     <meta charset="UTF-8">
     <title>{{usercheckid}}-{{user.username}}</title>
@@ -8,13 +8,15 @@
     <link href="/assets/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/juer-style.css" rel="stylesheet"/>
 </head>
-<body ng-app="renderApp">
-<div class="container" ng-controller="renderController">
+<body>
+<div class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-10 text-center">
             <h3>导检单</h3>
             <hr/>
             <h4>导检单号：{{usercheckid}}</h4>
+            <hr/>
+            <p>{{output}}</p>
         </div>
     </div>
     <hr/>
@@ -31,7 +33,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="font-size-20px text-right">姓名: </td>
+                    <td class="font-size-20px text-right">姓名:</td>
                     <td></td>
                     <td class="font-size-20px text-left">{{user.username}}</td>
                     <td rowspan="3">
@@ -39,12 +41,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-size-20px text-right">性别: </td>
+                    <td class="font-size-20px text-right">性别:</td>
                     <td></td>
                     <td class="font-size-20px text-left">{{user.usergender?"女":"男"}}</td>
                 </tr>
                 <tr>
-                    <td class="font-size-20px text-right">年龄: </td>
+                    <td class="font-size-20px text-right">年龄:</td>
                     <td></td>
                     <td class="font-size-20px text-left">{{user.userage}}</td>
                 </tr>
@@ -85,20 +87,23 @@
 <script src="/assets/scripts/juer-script.js"></script>
 <script>
     let renderApp = angular.module("renderApp", []);
-    renderApp.controller("renderController", ["$scope", "$location", "$http", function($scope, $location, $http) {
+    renderApp.controller("renderController", ["$scope", "$location", "$http", function ($scope, $location, $http) {
+        $scope.output = "ttttttttttt";
         $scope.usercheckid = $location.search().usercheckid;
 
         $.post("/guide-show/get-user-check", {usercheckid: $scope.usercheckid},
-                function success(msg) {
-                    $scope.user = msg.data;
-                    $scope.getUserQrCode();
-                });
+            function success(msg) {
+                $scope.output += "\nsuccess!";
+                $scope.output += "\n" + msg.toSource();
+                $scope.user = msg.data;
+                $scope.getUserQrCode();
+            });
 
         $scope.getUserQrCode = function () {
             console.log("getUserQrCode!", $scope.selectedUser)
             $http.post("/guide-show/get-user-qrcode", $scope.selectedUser)
                 .then(
-                    function success (response) {
+                    function success(response) {
                         let msg = response.data;
                         if (msg.state == 200) {
                             $scope.qrcode = `data:image/png;base64,${msg.data}`;
@@ -107,7 +112,7 @@
                             console.log(msg);
                         }
                     },
-                    function error (response) {
+                    function error(response) {
                         toastr.error("获取数据时出现了未知错误，详细信息已输出至控制台。", "数据获取");
                         console.error(response);
                     }

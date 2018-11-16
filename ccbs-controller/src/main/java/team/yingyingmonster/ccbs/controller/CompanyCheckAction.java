@@ -68,13 +68,21 @@ public class CompanyCheckAction {
      */
     @RequestMapping("/submit-company-check")
     @ResponseBody
-    public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
+    public ResultMessage submitCompanyCheck(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity, HttpSession session) {
         try {
-            juerCompanyCheckSystemService.registerCompanyCheck(juerCompanyCheckEntity);
-            return ResultMessage.createSuccessMessage("success!", "/guide-show/index");
+            if (juerCompanyCheckSystemService.registerCompanyCheck((Account) session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT), juerCompanyCheckEntity))
+                return ResultMessage.createSuccessMessage("success!", "/guide-show/index");
+            else
+                return ResultMessage.createErrorMessage("报名失败，请检查您是否有足够的金额用于支付报名费用！");
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMessage.createErrorMessage(e.getMessage());
         }
+    }
+
+    @RequestMapping("/get-company-check-price")
+    @ResponseBody
+    public ResultMessage getCompanyCheckPrice(@RequestBody JuerCompanyCheckEntity juerCompanyCheckEntity) {
+        return ResultMessage.createSuccessMessage("success!", juerCompanyCheckSystemService.getCompanyCheckPrice(juerCompanyCheckEntity.getSelectCombo()));
     }
 }
