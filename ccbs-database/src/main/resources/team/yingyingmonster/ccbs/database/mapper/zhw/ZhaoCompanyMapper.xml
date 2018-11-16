@@ -23,4 +23,8 @@
         select * from COMPANY_TABLE where ACCOUNTID=#{accountId}
     </select>
 
+    <update id="recharge" parameterType="java.lang.Long">
+        update COMPANY_TABLE set COMPANYPRICE=#{rechargePrice} where COMPANYID=#{companyId}
+    </update>
+
 </mapper>

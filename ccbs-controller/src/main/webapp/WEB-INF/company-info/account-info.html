@@ -80,21 +80,18 @@
                 <!--模态框内容-->
                 <div class="modal-body">
                     <p>充值金额：
-                        <input type="text" name="rechargePrice" ng-model="rechargePrice"
+                        <input type="number" name="rechargePrice" ng-model="rechargePrice"
                                ng-maxlength="6" placeholder="请输入充值金额" required>
                         <span class="text-danger" ng-show="rechargeForm.rechargePrice.$error.required">请输入充值金额</span>
                         <span class="text-danger"
                               ng-show="rechargeForm.rechargePrice.$error.maxlength">充值金额位数最多为6位</span>
-
                     </p>
-
                 </div>
                 <!--模态框底部-->
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" ng-disabled="rechargeForm.rechargePrice.$dirty
                     && rechargeForm.rechargePrice.$invalid">充值
                     </button>
-
                 </div>
             </form>
         </div>
@@ -337,8 +334,8 @@
         </div>
     </div>
 </div>
-
-
+<div id="rechargeCode">
+</div>
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
 <script src="/assets/scripts/jquery.min.js"></script>
@@ -367,7 +364,14 @@
     //充值
     app.controller('rechargeController', function ($scope, $http) {
         $scope.rechargeSubmitForm = function () {
-
+            $http.post("/company-info/recharge", $scope.rechargePrice
+            ).then(
+                function success (response) {
+                    window.alert("充值成功！");
+                },function error (response) {
+                    window.alert("充值失败！");
+                }
+            )
         }
     })
 
@@ -445,7 +449,7 @@
                 function success(response) {
                     $scope.pageInfo = response.data.data;
                     if ($scope.pageInfo.list.length == 0 && $scope.pageInfo.pageNum == 1) {
-                        window.alert("未添加体检人员信息！");
+                        window.alert("未添加体检人员信息!");
                     }
                 }
             )
@@ -479,6 +483,7 @@
             )
         }
     });
+
 
 </script>
 </html>
