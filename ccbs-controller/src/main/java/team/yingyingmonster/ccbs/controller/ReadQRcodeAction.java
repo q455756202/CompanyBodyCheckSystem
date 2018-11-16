@@ -1,6 +1,8 @@
 package team.yingyingmonster.ccbs.controller;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
@@ -19,6 +21,7 @@ import team.yingyingmonster.ccbs.database.mapper.wengguobao.CheckMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.DoctorMapperWeng;
 import team.yingyingmonster.ccbs.database.mapper.wengguobao.UserMapperWeng;
 import team.yingyingmonster.ccbs.image.QrCodeUtil;
+import team.yingyingmonster.ccbs.web.WebUtil;
 
 
 import javax.imageio.ImageIO;
@@ -62,7 +65,7 @@ public class ReadQRcodeAction {
         Doctor doctor = null;
         List<Bill> bills = null;
         Map<String,Object> map = new HashMap<>();
-        String path="D:/testupload/"+uploadUserCode.getOriginalFilename();
+        String path=WebUtil.getRealPath(session,"/QRUpload/"+uploadUserCode.getOriginalFilename()) ;
         File file = new File(path);
         File fileParent = file.getParentFile();
         if (!fileParent.exists()){
@@ -75,11 +78,14 @@ public class ReadQRcodeAction {
             result = QrCodeUtil.readQrCode(ImageIO.read(file));
             if (result != null) {
                 if (result.getText() != null) {
-                    Long userId = Long.valueOf(result.getText());
+                    Gson gson = new Gson();
+                    Map<String,Long> QRinfo = gson.fromJson(result.getText(),new TypeToken<Map<String,Long>>(){}.getType());
+                    Long userId = QRinfo.get("userid");
+                    Long userCheckId = QRinfo.get("userCheckId");
                     user = userMapperWeng.selectUserByUserId(userId);
                     Long accountid = ((Account)session.getAttribute("login-account")).getAccountid();
                     doctor = doctorMapperWeng.selectDeptByAccountId(accountid);//获取部门id和名字
-                    bills = billMapperWeng.selectByDeptIdAndUserId(doctor.getDeptByDeptid().getDeptid(),userId);
+                    bills = billMapperWeng.selectByDeptIdAndUserIdAndUserCheckId(doctor.getDeptByDeptid().getDeptid(),userId,userCheckId);
                     map.put("user",user);
                     map.put("bills",bills);
                 }

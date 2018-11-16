@@ -34,5 +34,6 @@ public class PaperHelperTest {
         List<Menu> menus = juerMenuMapper.selectAllMenu();
         System.out.println(JsonUtil.beanToJson(menus, JsonUtil.TYPE.PRETTY_AND_SERIALIZE_NULL));
         PageInfo<Menu> menuPageInfo = new PageInfo<>(menus);
+        System.out.print(menuPageInfo);
     }
 }

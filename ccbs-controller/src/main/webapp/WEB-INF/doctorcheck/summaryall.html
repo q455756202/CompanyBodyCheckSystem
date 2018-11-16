@@ -10,21 +10,34 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="cardparent" >
-                    <div class="card" ng-repeat="x in reports">
+                    <div class="card">
                         <div class="card-header">
-                            <a class="collapsed card-link" data-toggle="collapse" href="#card{{x.billByBillid.userCheckByUsercheckid.usercheckid}}" ng-click="getsummarys(x.billByBillid.userCheckByUsercheckid.usercheckid)">
-                                {{x.billByBillid.userCheckByUsercheckid.userByUserid.username}}
-                            </a>
+                            总检
                         </div>
-                        <div id="card{{x.billByBillid.userCheckByUsercheckid.usercheckid}}" class="collapse" data-parent="#cardparent">
-                            <div class="card-body">
-                                <a ng-click="getsummarydata(y.reportid)" data-target="#summarymodal" data-toggle="modal" class="list-group-item list-group-item-action" ng-repeat="y in summarys">
-                                    {{y.billByBillid.checkByCheckid.checkname}}
+                        <div class="card-body">
+                            <div ng-repeat="x in reports">
+                                <a class="collapsed card-link list-group-item list-group-item-action" data-toggle="collapse" href="#card{{x.billByBillid.userCheckByUsercheckid.usercheckid}}" ng-click="getsummarys(x.billByBillid.userCheckByUsercheckid.usercheckid)">
+                                    {{x.billByBillid.userCheckByUsercheckid.userByUserid.username}}
                                 </a>
-                                <div><button class="btn btn-primary" data-toggle="modal" data-target="#summaryallmodal" ng-click="getusercheckid(x.billByBillid.usercheckid)">总检</button></div>
+
+                                <div id="card{{x.billByBillid.userCheckByUsercheckid.usercheckid}}" class="collapse" data-parent="#cardparent">
+                                    <div class="card-body">
+                                        <a href="#" ng-click="getsummarydata(y.reportid)" data-target="#summarymodal" data-toggle="modal" class="list-group-item list-group-item-action" ng-repeat="y in summarys">
+                                            {{y.billByBillid.checkByCheckid.checkname}}
+                                        </a>
+                                        <div><button class="btn btn-primary" data-toggle="modal" data-target="#summaryallmodal" ng-click="getusercheckid(x.billByBillid.usercheckid)">总检</button></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><input type="button" class="page-link" ng-click="changepage(1)" href="/summary/summarytableget?page=1" value="首页"></input></li>
+                        <li class="page-item"><input type="button" class="page-link" ng-disabled="pageinfo.prePage==0" ng-click="changepage(pageinfo.prePage)" ng-value="pageinfo.prePage==0?'':pageinfo.prePage"></input></li>
+                        <li class="page-item active"><input type="button" class="page-link" ng-click="changepage(pageinfo.pageNum)" value="{{pageinfo.pageNum}}"></input></li>
+                        <li class="page-item"><input type="button" class="page-link" ng-disabled="pageinfo.nextPage==0" ng-click="changepage(pageinfo.nextPage)" ng-value="pageinfo.nextPage==0?'':pageinfo.nextPage"></input></li>
+                        <li class="page-item"><input type="button" class="page-link" ng-click="changepage(pageinfo.pages)" value="尾页"></input></li>
+                    </ul>
                 </div>
                 <!-- 用于显示小结的模态框 -->
                 <div class="modal fade" id="summarymodal">
@@ -80,11 +93,19 @@
 
     var summaryallapp=angular.module('summaryallapp',[]);
     summaryallapp.controller('summaryallcontroller',function ($scope,$http,$sce) {
-        $http.post("/summaryall/getsummaryall")
+        $http.post("/summaryall/getsummaryall",1)
             .then(function success(response) {
-                $scope.reports=response.data.data;
-                console.log(response);
+                $scope.reports=response.data.data.list;
+                $scope.pageinfo=response.data.data;
             })
+
+        $scope.changepage=function(page){
+            $http.post("/summaryall/getsummaryall",page)
+                .then(function success(response) {
+                    $scope.reports=response.data.data.list;
+                    $scope.pageinfo=response.data.data;
+                });
+        }
 
         $scope.getsummarys=function (usercheckid) {
             $http.post("/summaryall/getsummarybyuser",usercheckid).then(
