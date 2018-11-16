@@ -79,8 +79,6 @@
                 </div>
                 <!--模态框内容-->
                 <div class="modal-body">
-                    <input type="hidden" id="WIDout_trade_no" name="WIDout_trade_no">
-                    <input type="hidden" id="WIDsubject" name="WIDsubject">
                     <p>充值金额：
                         <input type="number" name="rechargePrice" ng-model="rechargePrice"
                                ng-maxlength="6" placeholder="请输入充值金额" required>
@@ -94,7 +92,6 @@
                     <button type="submit" class="btn btn-primary" ng-disabled="rechargeForm.rechargePrice.$dirty
                     && rechargeForm.rechargePrice.$invalid">充值
                     </button>
-
                 </div>
             </form>
         </div>
@@ -337,8 +334,8 @@
         </div>
     </div>
 </div>
-
-
+<div id="rechargeCode">
+</div>
 </body>
 <script src="/assets/scripts/angular.min.js"></script>
 <script src="/assets/scripts/jquery.min.js"></script>
@@ -367,8 +364,7 @@
     //充值
     app.controller('rechargeController', function ($scope, $http) {
         $scope.rechargeSubmitForm = function () {
-            console.log("充值",$scope.rechargePrice);
-            $http.post("/company-info/recharge",$scope.rechargePrice
+            $http.post("/company-info/recharge", $scope.rechargePrice
             ).then(
                 function success (response) {
                     window.alert("充值成功！");
@@ -488,19 +484,6 @@
         }
     });
 
-    function GetDateNow() {
-        var vNow = new Date();
-        var sNow = "";
-        sNow += String(vNow.getFullYear());
-        sNow += String(vNow.getMonth() + 1);
-        sNow += String(vNow.getDate());
-        sNow += String(vNow.getHours());
-        sNow += String(vNow.getMinutes());
-        sNow += String(vNow.getSeconds());
-        sNow += String(vNow.getMilliseconds());
-        document.getElementById("WIDout_trade_no").value =  sNow;
-        document.getElementById("WIDsubject").value = "充值";
-    }
-    GetDateNow();
+
 </script>
 </html>

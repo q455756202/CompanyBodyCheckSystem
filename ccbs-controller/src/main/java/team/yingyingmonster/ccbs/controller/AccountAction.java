@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import team.yingyingmonster.ccbs.alipay.AlipayConfig;
 import team.yingyingmonster.ccbs.bean.ResultMessage;
 import team.yingyingmonster.ccbs.database.bean.Account;
 import team.yingyingmonster.ccbs.database.bean.Company;
@@ -202,30 +201,7 @@ public class AccountAction {
      */
     @RequestMapping("/recharge")
     @ResponseBody
-    public ResultMessage recharge(HttpServletRequest request, HttpSession session, @RequestBody Long recharPrice) throws UnsupportedEncodingException {
-       /* //设置请求参数
-        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-        alipayRequest.setReturnUrl(AlipayConfig.return_url);
-        alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
-
-        //商户订单号，商户网站订单系统中唯一订单号，必填
-        String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-        //付款金额，必填
-        String total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
-        //订单名称，必填
-        String subject = new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
-        //商品描述，可空
-        String body = new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
-
-        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
-                + "\"total_amount\":\""+ total_amount +"\","
-                + "\"subject\":\""+ subject +"\","
-                + "\"body\":\""+ body +"\","
-                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-
-        //请求
-        String result = AlipayConfig.alipayClient.pageExecute(alipayRequest).getBody();*/
-
+    public ResultMessage recharge(HttpSession session, @RequestBody Long recharPrice) {
         Long accountId=((Account)session.getAttribute(Constant.SESSION_LOGIN_ACCOUNT)).getAccountid();
         Long companyId=accountService.findCompanyId(accountId);
         Integer result = companyService.recharge(companyId, recharPrice);
@@ -235,5 +211,7 @@ public class AccountAction {
             return ResultMessage.createErrorMessage("faild");
         }
     }
+
+
 
 }
