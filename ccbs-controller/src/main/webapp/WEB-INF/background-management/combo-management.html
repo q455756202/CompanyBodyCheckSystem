@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>
-            账户管理
+            套餐管理
         </title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -15,104 +15,63 @@
         <link rel="stylesheet" href="/assets/css/x-admin.css" media="all">
         <link rel="stylesheet" href="/assets/css/pag.css" media="all">
     </head>
-    <body ng-app="accountListApp">
+    <body ng-app="comboListApp">
         <div class="x-nav">
             <span class="layui-breadcrumb">
               <a><cite>首页</cite></a>
-              <a><cite>账户管理</cite></a>
+              <a><cite>套餐管理</cite></a>
             </span>
             <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
         </div>
-        <div class="x-body" >
-          <form ng-submit="submitFrom" name="selectFrom" class="layui-form x-center" action="" style="width:85%">
-                <div class="layui-form-pane">
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">编号</label>
-                    <div class="layui-input-inline" style="width:100px">
-                      <input type="text" name="accountid" ng-model="accountid" placeholder="编号" autocomplete="off" class="layui-input">
-                    </div>
-                    <label class="layui-form-label">账户名</label>
-                    <div class="layui-input-inline" style="width:100px">
-                      <input type="text" name="accountname" ng-model="accountname" placeholder="账户名" autocomplete="off" class="layui-input">
-                    </div>
-                    <label class="layui-form-label">角色</label>
-                    <div class="layui-input-inline" style="width:150px">
-                      <input type="text" name="rolename" ng-model="rolename" placeholder="角色名称" autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-input-inline" style="width:80px">
-                        <button class="layui-btn"  lay-submit="" lay-filter="*">搜索</button>
-                    </div>
-                  </div>
-                </div> 
-            </form>
-            <div class="tools">
-    <ul class="toolbar">
-      <!--<li><span><img src="/assets/images/t03.png" /></span>批量删除</li>-->
-      <li onclick="user_management_add('添加用户','account-add','600','500')"><span><img src="/assets/images/t01.png" /></span>添加</li>
+        <ul class="toolbar">
+            <!--<li><span><img src="/assets/images/t03.png" /></span>批量删除</li>-->
+            <li onclick="user_management_add('添加用户','account-add','600','500')"><span><img src="/assets/images/t01.png" /></span>添加</li>
 
-    </ul>
-    <span class="x-right" style="line-height:25px">共有数据： 条</span></xblock>
-  </div>
+        </ul>
             <table class="tablelist">
                 <thead>
                     <tr>
-                        <!--<th>
-                            <input onclick="selectAll()" type="checkbox"   name="controlAll" style="controlAll" id="controlAll">
-                        </th>-->
                         <th>
                             ID
                         </th>
                         <th>
-                            账户名
+                            套餐名
                         </th>
                         <th>
-                            密码</th>
-                        <th>
-                            用户角色</th>
-
-                        <th>
-                            注册时间
+                            套餐总览
                         </th>
                         <th>
-                            状态
+                            套餐折扣
                         </th>
                         <th>
                             操作
                         </th>
                     </tr>
                 </thead>
-                <tbody  ng-controller="accountController">
-                    <tr  ng-repeat="account in accountList">
-                       <!-- <td>
-                            <input type="checkbox" value="1" name="selected">
-                        </td>-->
-                        <td>
-                            {{account.accountid}}
-                        </td>
-                        <td><u style="cursor:pointer" onclick="user_management_show('宋加加','user_management_show.html','10001','360','400')">{{account.accountname}}</u></td>
-                        <td >
-                        {{account.accountpassword}}</td>
-                        <td >
-                            {{account.roleByRoleid.rolename}}</td>
+                <tbody  ng-controller="comboController">
+                    <tr  ng-repeat="combo in comboList">
 
                         <td>
-                            {{account.registerdate}}
+                            {{combo.comboid}}
                         </td>
-                        <td class="td-status">
-                            <button class="sp">已启用</button>
+
+                        <td >
+                        {{combo.comboname}}
                         </td>
+                        <td >
+                            {{combo.combosummary}}</td>
+
+                        <td>
+                            {{combo.comboratio}}
+                        </td>
+
                         <td class="td-manage">
-                            <a style="text-decoration:none"  onclick="member_stop(this,'10001')" href="javascript:;" title="停用">
-                                <i class="layui-icon">&#xe601;</i>
-                            </a>
+
                             <a title="编辑" href="javascript:;" onclick="user_management_edit('修改账户信息','account-edit','4','','510')"
                             class="ml-5" style="text-decoration:none">
                                 <i class="layui-icon">&#xe642;</i>
                             </a>
-                            <a style="text-decoration:none"  onclick="user_management_password('修改密码','user-management-password.html','10001','600','400')"
-                            href="javascript:;" title="修改密码">
-                                <i class="layui-icon">&#xe631;</i>
-                            </a>
+
                             <a title="删除" ng-click="deleteAccount(account.accountid)" href="javascript:;"
                             style="text-decoration:none">
                                 <i class="layui-icon">&#xe640;</i>
@@ -121,9 +80,7 @@
                     </tr>
                 </tbody>
             </table>
-<div class="page"  v-show="show">
-  <div class="pagelist"> <span class="jump">首页</span><span class="jump">上一页</span> <span class="jump">下一页</span> <span class="jump">尾页</span> </div>
-</div>
+
 </div>
 <br />
 <br />
@@ -135,29 +92,29 @@
         <script src="/assets/js/js.js" charset="utf-8"></script>
         <script>
             // 创建angularjs模块
-            let ngApp = angular.module('accountListApp', []);
+            let ngApp = angular.module('comboListApp', []);
 
             // 创建人员列表控制器
-            ngApp.controller('accountController', function ($scope, $http) {
-                $scope.accountList = [];
-                $http.post("/accountList/get-accountList")
+            ngApp.controller('comboController', function ($scope, $http) {
+                $scope.comboList = [];
+                $http.post("/combo-list/get-comboList")
                     .then(
                         function success(response) {
                             resultMessage = response.data;
                             console.log(response);
                             if (resultMessage.state == 200) {
                                 $(resultMessage.data).each(function (i, v) {
-                                    $scope.accountList.push(v);
+                                    $scope.comboList.push(v);
                                 });
 
                             } else {
                                 //console.error(response);
                                 console.log(resultMessage);
-                                toastr.error("获取人员信息失败，可能是网络原因!");
+                                toastr.error("!");
                             }
                         }, function error(response) {
                             console.error(response);
-                            toastr.error("获取人员信息失败,可能是网络原因!");
+                            toastr.error("!");
                         });
                 //删除账户
                 $scope.deleteAccount = function (accountid) {
