@@ -80,9 +80,13 @@
                         </table>
                     </td>
                     <td class="th-width-10p">
-                        <button class="btn btn-danger w-100 font-size-16px p-2 mt-2 mb-2" ng-click="delCombo(combo)">删除套餐</button>
+                        <button class="btn btn-danger w-100 font-size-16px p-2 mt-2 mb-2" ng-click="delCombo(combo)">
+                            删除套餐
+                        </button>
                         <br/>
-                        <button class="btn btn-primary w-100 font-size-16px p-2 mt-2 mb-2" ng-click="clearCombo(combo)">清空套餐</button>
+                        <button class="btn btn-primary w-100 font-size-16px p-2 mt-2 mb-2" ng-click="clearCombo(combo)">
+                            清空套餐
+                        </button>
                     </td>
                 </tr>
                 <tr>
@@ -94,7 +98,8 @@
                         </select>
                     </td>
                     <td>
-                        <button class="btn btn-success w-100 font-size-16px p-2 mt-2 mb-2" ng-click="addCombo(selectCheck)">
+                        <button class="btn btn-success w-100 font-size-16px p-2 mt-2 mb-2"
+                                ng-click="addCombo(selectCheck)">
                             添加套餐
                         </button>
                     </td>
@@ -206,15 +211,30 @@
         };
 
         $scope.submit = function () {
+            toastr.info("正在提交数据……", "提交表单");
+            if ($scope.companyEntity.selectCombo.length == 0) {
+                toastr.error("请添加一个套餐！", "提交表单");
+            } else {
+                for (var i = 0; i < $scope.companyEntity.selectCombo.length; i++) {
+                    if ($scope.companyEntity.selectCombo[i].userList.length == 0) {
+                        toastr.error(`表单中有空的套餐[${$scope.companyEntity.selectCombo[i].comboname}]，请添加相应人员或移除该套餐。`);
+                        return;
+                    }
+                }
+            }
+
             $http.post("/company-check/submit-company-check", $scope.companyEntity)
                 .then(
                     function success(response) {
                         let msg = response.data;
                         if (msg.state == 200) {
                             toastr.success(msg.message, "提交表单");
-                            window.setTimeout(() => {
+                            window.setTimeout(() = > {
                                 window.location.href = msg.data
-                            }, 2000);
+                        },
+                            2000
+                        )
+                            ;
                         } else {
                             toastr.error(msg.message, "提交表单");
                         }
