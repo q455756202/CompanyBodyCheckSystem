@@ -1,6 +1,17 @@
 package team.yingyingmonster.ccbs.web;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
+import com.gargoylesoftware.htmlunit.ScriptException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptEngine;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
+
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @author Juer Whang <br/>
@@ -17,5 +28,42 @@ public class WebUtil {
      */
     public static String getRealPath(HttpSession session, String path) {
         return session.getServletContext().getRealPath(path);
+    }
+
+    public static HtmlPage getAjaxHtml(String url, int timeout, JavaScriptErrorListener listener) throws IOException, InterruptedException {
+        WebClient webClient = new WebClient(BrowserVersion.CHROME);
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setCssEnabled(true);
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
+        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+        webClient.setJavaScriptEngine(new JavaScriptEngine(webClient));
+        if (listener != null)
+            webClient.setJavaScriptErrorListener(listener);
+
+        HtmlPage page = webClient.getPage(url);
+        webClient.waitForBackgroundJavaScript(timeout);
+        Thread.sleep(timeout);
+        webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
+            @Override
+            public void scriptException(HtmlPage htmlPage, ScriptException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void timeoutError(HtmlPage htmlPage, long l, long l1) {
+
+            }
+
+            @Override
+            public void malformedScriptURL(HtmlPage htmlPage, String s, MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void loadScriptError(HtmlPage htmlPage, URL url, Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return page;
     }
 }

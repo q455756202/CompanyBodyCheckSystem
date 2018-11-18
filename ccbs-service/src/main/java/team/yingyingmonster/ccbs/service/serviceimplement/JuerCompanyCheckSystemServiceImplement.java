@@ -1,5 +1,7 @@
 package team.yingyingmonster.ccbs.service.serviceimplement;
 
+import com.google.gson.JsonObject;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yingyingmonster.ccbs.database.bean.*;
@@ -10,10 +12,13 @@ import team.yingyingmonster.ccbs.database.mapper.CompanyMapper;
 import team.yingyingmonster.ccbs.database.mapper.TeamformMapper;
 import team.yingyingmonster.ccbs.database.mapper.juergenie.*;
 import team.yingyingmonster.ccbs.database.bean.juergenie.JuerCompanyCheckEntity;
+import team.yingyingmonster.ccbs.image.QrCodeUtil;
 import team.yingyingmonster.ccbs.json.JsonUtil;
 import team.yingyingmonster.ccbs.service.servicebean.Constant;
 import team.yingyingmonster.ccbs.service.serviceinterface.JuerCompanyCheckSystemService;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,14 +83,11 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
      * @return
      */
     @Override
-    public boolean registerCompanyCheck(JuerCompanyCheckEntity juerCompanyCheckEntity) throws Exception {
+    public boolean registerCompanyCheck(Account account, JuerCompanyCheckEntity juerCompanyCheckEntity) throws Exception {
         Teamform teamform = new Teamform();
         teamform.setCompanyid(juerCompanyCheckEntity.getCompany().getCompanyid());
         teamform.setTeamformstate(Constant.TEAMFORM_UNDONE);
         teamform.setTeamformid(juerTeamformMapper.getNewId());
-
-        if (juerTeamformMapper.insert(teamform)<1)
-            throw new Exception("插入团检数据失败 - juerTeamformMapper.insert");
 
 //        List<TeamformCombocheck> teamformCombocheckList = generatTeamformCombocheckList(juerCompanyCheckEntity.getComboList(), teamform.getTeamformid());
         List<TeamformCombocheck> teamformCombocheckList = new LinkedList<>();
@@ -126,6 +128,12 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             }
         }
 
+        Company company = juerCompanyMapper.selectCompanyByAccountId(account.getAccountid());
+        if (getCompanyCheckPrice(juerCompanyCheckEntity.getSelectCombo()) > company.getCompanyprice().doubleValue())
+            return false;
+
+        if (juerTeamformMapper.insert(teamform)<1)
+            throw new Exception("插入团检数据失败 - juerTeamformMapper.insert");
         // 逐一进行插入，并若插入失败则抛出异常，并执行回滚操作。
         if (juerTeamformCombocheckMapper.insertBatch(teamformCombocheckList)<1)
             throw new Exception("插入团检数据失败 - juerTeamformCombocheckMapper.insertBatch");
@@ -135,6 +143,11 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
             throw new Exception("插入团检数据失败 - juerBillMapper.insertBatch");
 
         return true;
+    }
+
+    @Override
+    public Double getCompanyCheckPrice(List<JuerCombo> juerComboList) {
+        return juerComboMapper.selectAllPriceByJuerComboList(juerComboList);
     }
 
     @Override
@@ -158,7 +171,30 @@ public class JuerCompanyCheckSystemServiceImplement implements JuerCompanyCheckS
     @Override
     public List<JuerUser> getJuerUsersByTeamformId(Long teamformid) {
         List<UserCheck> userCheckList = juerUserCheckMapper.selectUserChecksByTeamformid(teamformid);
-        return juerUserMapper.selectJuerUsersByUserCheckList(userCheckList);
+        List<JuerUser> juerUserList = juerUserMapper.selectJuerUsersByUserCheckList(userCheckList);
+        for (UserCheck userCheck: userCheckList) {
+            for (JuerUser juerUser: juerUserList) {
+                System.out.println(userCheck.getUserid() + ", " + juerUser.getUserid());
+                if (juerUser.getUserid().equals(userCheck.getUserid()))
+                    juerUser.setUsercheckid(userCheck.getUsercheckid());
+            }
+        }
+        return juerUserList;
+    }
+
+    @Override
+    public byte[] getUserQrcodeByteArray(UserCheck userCheck) {
+        JsonObject json = new JsonObject();
+        json.addProperty("userid", userCheck.getUserid());
+        json.addProperty("userCheckId", userCheck.getUsercheckid());
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            if (QrCodeUtil.createQrCode(output, json.toString(), 550, "PNG"))
+                return output.toByteArray();
+        } catch (WriterException|IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private List<TeamformCombocheck> generatTeamformCombocheckList(List<JuerCombo> list, Long teamformid) {
